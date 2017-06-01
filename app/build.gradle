@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-
+apply from: '../config/quality/quality.gradle'
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
@@ -17,6 +17,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions.incremental = false
+
+    lintOptions {
+        abortOnError false
+        disable 'InvalidPackage'
+    }
+
 }
 
 dependencies {
