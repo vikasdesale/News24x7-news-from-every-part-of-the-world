@@ -2,43 +2,72 @@ package com.android.news24x7;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.Toast;
 
-public class HomeActivity extends AppCompatActivity {
+import com.android.news24x7.adapter.ViewPagerAdapter;
+import com.android.news24x7.fragments.NewsFragment;
+
+import static com.android.news24x7.Util.replaceFragment;
+
+
+public class HomeActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener, ViewPager.OnPageChangeListener {
 
     private Toolbar toolbar;
     private DrawerLayout mDrawerLayout;
     private ActionBar ab;
+    private ViewPager viewPager;
+    private NavigationView navigationView;
+    private TabLayout tabLayout;
+    private ViewPagerAdapter viewPagerAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        setupFind();
+        setUpTab();
 
+    }
+
+    private void setUpTab() {
+        viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), this);
+        for (int i = 0; i < viewPagerAdapter.getCount(); i++) {
+            tabLayout.addTab(
+                    tabLayout.newTab()
+                            .setText(viewPagerAdapter.getPageTitle(i)));
+        }
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        viewPager.setAdapter(viewPagerAdapter);
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        viewPager.addOnPageChangeListener(this);
+        tabLayout.addOnTabSelectedListener(this);
+
+    }
+
+    private void setupFind() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         ab = getSupportActionBar();
         ab.setHomeAsUpIndicator(R.drawable.ic_menu);
         ab.setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
         if (navigationView != null) {
-            setupDrawerContent(navigationView);
+            Util.setupDrawerContent(navigationView, mDrawerLayout);
         }
         navigationView.getMenu().getItem(0).setChecked(true);
-
-
-
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -48,29 +77,40 @@ public class HomeActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-    private void setupDrawerContent(NavigationView navigationView) {
-        navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        menuItem.setChecked(true);
-                        switch(menuItem.getItemId()){
-                            case R.id.nav_home : //do what you want to do;
-                                break;
-                            case R.id.nav_channel : //do what you want to do;
-                                Toast.makeText(HomeActivity.this,"Channel",Toast.LENGTH_LONG).show();
-                                break;
-                            case R.id.nav_saved : //do what you want to do;
-                                break;
-                            case R.id.nav_settings : //do what you want to do;
-                                break;
-                            case R.id.nav_help : // etc,
-                        }
-                        mDrawerLayout.closeDrawers();
-                        return true;
-                    }
-                });
+
+
+    @Override
+    public void onTabSelected(TabLayout.Tab tab) {
+        replaceFragment(new NewsFragment("" + tab.getText().toString()), getSupportFragmentManager());
+
     }
 
+    @Override
+    public void onTabUnselected(TabLayout.Tab tab) {
+
+    }
+
+    @Override
+    public void onTabReselected(TabLayout.Tab tab) {
+
+    }
+
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+
+        tabLayout.getTabAt(position).select();
+
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
+    }
 
 }

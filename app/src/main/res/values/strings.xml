@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">News24x7</string>
+    <string-array name="tabs">
+        <item>HEADLINES</item>
+        <item>TRENDING</item>
+        <item>HIGHLIGHT</item>
+        <item>SPORT</item>
+        <item>ENTERTAINMENT</item>
+        <item>TECHNOLOGY</item>
+    </string-array>
 </resources>
