@@ -39,3 +39,11 @@ WEB-INF
 ehthumbs.db
 Thumbs.db
 
+.gradle
+/local.properties
+/.idea/workspace.xml
+/.idea/libraries
+.DS_Store
+/build
+/captures
+*.json
