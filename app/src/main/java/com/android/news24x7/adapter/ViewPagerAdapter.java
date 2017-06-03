@@ -23,12 +23,14 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return new NewsFragment(""+getPageTitle(position));
-    }
 
+             return NewsFragment.newInstance("" +getPageTitle(position), "data");
+
+    }
 
     @Override
     public CharSequence getPageTitle(int position) {
+
         return  mContext.getResources().getStringArray(R.array.tabs)[position];
     }
 
