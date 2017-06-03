@@ -3,18 +3,35 @@ package com.android.news24x7.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.android.news24x7.BuildConfig;
 import com.android.news24x7.R;
 import com.android.news24x7.adapter.NewsRecyclerViewAdapter;
+import com.android.news24x7.parcelable.Article;
+import com.android.news24x7.retrofit.ApiClient;
+import com.android.news24x7.retrofit.ApiInterface;
+import com.android.news24x7.retrofit.NewsResponse;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static android.content.ContentValues.TAG;
 
 
 public class NewsFragment extends Fragment {
 
+    private ArrayList<Article> articlesList;
 
     String tab;
     String[] web;
@@ -26,7 +43,7 @@ public class NewsFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    ListView gridView;
     public NewsFragment() {
         // Required empty public constructor
     }
@@ -67,67 +84,53 @@ public class NewsFragment extends Fragment {
         // Inflate the layout for this fragment
         View v=inflater.inflate(R.layout.fragment_news, container, false);
 
-        ListView gridView=(ListView)v.findViewById(R.id.list);
+         gridView=(ListView)v.findViewById(R.id.list);
         switch (tab){
             case "HEADLINES":
-                Toast.makeText(getContext(), "Tab My" + tab, Toast.LENGTH_SHORT).show();
-                web = new String[]{
-                        "Google",
-                        "Github",
-                        "Instagram",
-                        "Facebook",
-                        "Flickr",
-                };
-                datesd = new String[]{
-                        "12/12/2015",
-                        "15/12/2016",
-                        "Instagram",
-                        "Facebook",
-                        "Flickr",
-                };
-                imageId = new int[]{
-                        R.drawable.titled,
-                        R.drawable.titled,
-                        R.drawable.titled,
-                        R.drawable.titled,
-                        R.drawable.titled,
+               fetchNews("",2);
+                Toast.makeText(getContext(), "Tab My" +articlesList, Toast.LENGTH_SHORT).show();
 
-                };
-               break;
             default:  Toast.makeText(getContext(), "Tab My" + tab, Toast.LENGTH_SHORT).show();
-                web = new String[]{
-                        "Google",
-                        "Github",
-                        "Instagram",
-                        "Facebook",
-                        "Flickr",
-                };
-                datesd = new String[]{
-                        "12/12/2015",
-                        "15/12/2016",
-                        "Instagram",
-                        "Facebook",
-                        "Flickr",
-                };
-                imageId = new int[]{
-                        R.drawable.ic_discuss,
-                        R.drawable.ic_done,
-                        R.drawable.ic_dashboard,
-                        R.drawable.titled,
-                        R.drawable.titled,
 
-                };
         }
 
 
 
-        NewsRecyclerViewAdapter gridAdapter = new NewsRecyclerViewAdapter(getActivity(), R.layout.news_list,web,imageId,datesd);
-        gridView.setAdapter(gridAdapter);
+
 
         return v;
     }
 
+    private void setUpAdapter(ArrayList<Article> articlesList) {
+        NewsRecyclerViewAdapter gridAdapter = new NewsRecyclerViewAdapter(getActivity(), R.layout.news_list,articlesList);
+        gridView.setAdapter(gridAdapter);
+    }
 
+    private void fetchNews(String type, int page) {
+        ApiInterface apiService =
+                ApiClient.getClient().create(ApiInterface.class);
+        Map<String, String> data = new HashMap<>();
+        data.put("source","the-times-of-india");
+       // data.put("sortBy","latest");
+        data.put("apiKey", BuildConfig.NEWS_API_ORG_KEY);
+        Call<NewsResponse> call = null;
+
+            call = apiService.getNews(data);
+        call.enqueue(new Callback<NewsResponse>() {
+            @Override
+            public void onResponse(Call<NewsResponse> call, Response<NewsResponse> response) {
+                articlesList = (ArrayList<Article>) response.body().getArticles();
+                setUpAdapter(articlesList);
+            }
+
+            @Override
+            public void onFailure(Call<NewsResponse> call, Throwable t) {
+                Log.e(TAG, t.toString());
+                Log.d(TAG, "server contacted at: " + call.request().url());
+
+            }
+        });
+    }
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);

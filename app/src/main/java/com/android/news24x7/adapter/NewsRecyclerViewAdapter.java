@@ -13,6 +13,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.news24x7.R;
+import com.android.news24x7.parcelable.Article;
+import com.bumptech.glide.Glide;
+
+import java.util.ArrayList;
 
 /**
  * Created by Dell on 12/19/2016.
@@ -20,25 +24,22 @@ import com.android.news24x7.R;
 
 public class NewsRecyclerViewAdapter extends ArrayAdapter {
 
+    private final ArrayList<Article> articles;
     private Context mContext;
     private int resource;
-    private int imageId[];
-    private String web[];
-    private String datesd[];
 
-    public NewsRecyclerViewAdapter(Context context, int resource, String[] web, int[] imageId,String dates[]) {
+    public NewsRecyclerViewAdapter(Context context, int resource,ArrayList<Article> articlesList) {
         super(context, resource);
         this.resource = resource;
         this.mContext = context;
-        this.imageId = imageId;
-        this.web = web;
-        this.datesd=dates;
+        this.articles=articlesList;
     }
+
 
     @Override
     public int getCount() {
         // TODO Auto-generated method stub
-        return web.length;
+        return articles.size();
     }
 
     @Override
@@ -47,7 +48,6 @@ public class NewsRecyclerViewAdapter extends ArrayAdapter {
         View grid;
         LayoutInflater inflater = (LayoutInflater) mContext
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
         if (convertView == null) {
 
             grid = new View(mContext);
@@ -56,10 +56,15 @@ public class NewsRecyclerViewAdapter extends ArrayAdapter {
             TextView dates = (TextView) grid.findViewById(R.id.news_published_at);
 
             ImageView imageView = (ImageView) grid.findViewById(R.id.news_thumbnail);
-            textView.setText(web[position]);
-            dates.setText(datesd[position]);
 
-            imageView.setImageResource(imageId[position]);
+            textView.setText(articles.get(position).getTitle());
+            dates.setText(articles.get(position).getPublishedAt());
+            //Got Advantages why to use Glide over picasso that's why replaced picasso.
+            Glide.with(mContext).load(articles.get(position).getUrl())
+                    .thumbnail(0.1f)
+                    .error(R.drawable.titled)
+                    .crossFade() //animation
+                    .into(imageView);
         } else {
             grid = (View) convertView;
         }
