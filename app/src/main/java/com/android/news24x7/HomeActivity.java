@@ -12,9 +12,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.android.news24x7.adapter.ViewPagerAdapter;
-import com.android.news24x7.fragments.NewsFragment;
-
-import static com.android.news24x7.Util.replaceFragment;
 
 
 public class HomeActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener, ViewPager.OnPageChangeListener {
@@ -48,7 +45,6 @@ public class HomeActivity extends AppCompatActivity implements TabLayout.OnTabSe
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         viewPager.addOnPageChangeListener(this);
         tabLayout.addOnTabSelectedListener(this);
-
     }
 
     private void setupFind() {
@@ -81,7 +77,7 @@ public class HomeActivity extends AppCompatActivity implements TabLayout.OnTabSe
 
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
-        replaceFragment(new NewsFragment("" + tab.getText().toString()), getSupportFragmentManager());
+        viewPager.setCurrentItem(tab.getPosition());
 
     }
 
@@ -104,8 +100,10 @@ public class HomeActivity extends AppCompatActivity implements TabLayout.OnTabSe
     @Override
     public void onPageSelected(int position) {
 
-        tabLayout.getTabAt(position).select();
-
+        TabLayout.Tab tab = tabLayout.getTabAt(position);
+        if (tab != null) {
+            tab.select();
+        }
     }
 
     @Override
