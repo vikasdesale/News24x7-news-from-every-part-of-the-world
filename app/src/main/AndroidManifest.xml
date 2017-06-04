@@ -16,6 +16,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <provider
+            android:name=".database.generated.NewsProvider"
+            android:authorities="com.android.news24x7"
+            android:exported="false"
+            android:syncable="true" />
+
     </application>
 
 </manifest>
