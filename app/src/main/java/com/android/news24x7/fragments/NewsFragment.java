@@ -3,16 +3,19 @@ package com.android.news24x7.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.android.news24x7.BuildConfig;
 import com.android.news24x7.R;
 import com.android.news24x7.adapter.NewsRecyclerViewAdapter;
+import com.android.news24x7.interfaces.ScrollViewExt;
+import com.android.news24x7.interfaces.ScrollViewListener;
 import com.android.news24x7.parcelable.Article;
 import com.android.news24x7.retrofit.ApiClient;
 import com.android.news24x7.retrofit.ApiInterface;
@@ -29,7 +32,7 @@ import retrofit2.Response;
 import static android.content.ContentValues.TAG;
 
 
-public class NewsFragment extends Fragment {
+public class NewsFragment extends Fragment implements ScrollViewListener {
 
     private ArrayList<Article> articlesList;
 
@@ -39,11 +42,14 @@ public class NewsFragment extends Fragment {
     int[] imageId;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
+     String source[]={"the-times-of-india","the-hindu","usa-today","time","mtv-news"};
     private String mParam1;
     private String mParam2;
-    ListView gridView;
+    RecyclerView mRecyclerView;
+    int i=0;
+    private ScrollViewExt scroll;
+    Map<String, String> data = new HashMap<>();
+
     public NewsFragment() {
         // Required empty public constructor
     }
@@ -84,10 +90,19 @@ public class NewsFragment extends Fragment {
         // Inflate the layout for this fragment
         View v=inflater.inflate(R.layout.fragment_news, container, false);
 
-         gridView=(ListView)v.findViewById(R.id.list);
-        switch (tab){
+         mRecyclerView=(RecyclerView) v.findViewById(R.id.card_recycler_view);
+        scroll = (ScrollViewExt) v.findViewById(R.id.scroll);
+        scroll.setScrollViewListener(this);
+        mRecyclerView.setHasFixedSize(true);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(layoutManager);
+        switch (tab) {
             case "HEADLINES":
-               fetchNews("",2);
+                data.clear();
+                data.put("source", ""+source[i++]);
+                data.put("sortBy", "latest");
+                    fetchNews();
+
                 Toast.makeText(getContext(), "Tab My" +articlesList, Toast.LENGTH_SHORT).show();
 
             default:  Toast.makeText(getContext(), "Tab My" + tab, Toast.LENGTH_SHORT).show();
@@ -103,22 +118,21 @@ public class NewsFragment extends Fragment {
 
     private void setUpAdapter(ArrayList<Article> articlesList) {
         NewsRecyclerViewAdapter gridAdapter = new NewsRecyclerViewAdapter(getActivity(), R.layout.news_list,articlesList);
-        gridView.setAdapter(gridAdapter);
+        mRecyclerView.setAdapter(gridAdapter);
     }
 
-    private void fetchNews(String type, int page) {
+    private void fetchNews() {
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
-        Map<String, String> data = new HashMap<>();
-        data.put("source","the-times-of-india");
-       // data.put("sortBy","latest");
+
         data.put("apiKey", BuildConfig.NEWS_API_ORG_KEY);
         Call<NewsResponse> call = null;
-
             call = apiService.getNews(data);
         call.enqueue(new Callback<NewsResponse>() {
             @Override
             public void onResponse(Call<NewsResponse> call, Response<NewsResponse> response) {
+                ArrayList<Article> articleOld = null;
+
                 articlesList = (ArrayList<Article>) response.body().getArticles();
                 setUpAdapter(articlesList);
             }
@@ -143,4 +157,18 @@ public class NewsFragment extends Fragment {
     }
 
 
+    @Override
+    public void onScrollChanged(ScrollViewExt scrollView, int x, int y, int oldx, int oldy) {
+        View view = (View) scrollView.getChildAt(scrollView.getChildCount() - 1);
+        int diff = (view.getBottom() - (scrollView.getHeight() + scrollView.getScrollY()));
+        // if diff is zero, then the bottom has been reached
+        if (diff == 0 ) {
+            while (i < source.length) {
+                data.clear();
+                data.put("source", "" + source[i++]);
+                data.put("sortBy", "latest");
+                fetchNews();
+            }
+        }
+    }
 }
