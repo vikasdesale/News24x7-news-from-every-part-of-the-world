@@ -1,4 +1,4 @@
-package com.android.news24x7;
+package com.android.news24x7.activities;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.android.news24x7.Util;
 import com.android.news24x7.adapter.ViewPagerAdapter;
 
 
