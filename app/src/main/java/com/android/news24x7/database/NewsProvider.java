@@ -35,7 +35,7 @@ public class NewsProvider {
     public static class MyNews {
         @ContentUri(
                 path = Path.MY_NEWS,
-                type = "vnd.android.cursor.dir/myMovies",
+                type = "vnd.android.cursor.dir/myNews",
                 defaultSort = ColumnsNews._ID + " ASC")
         public static final Uri CONTENT_URI = buildUri(Path.MY_NEWS);
 
@@ -45,7 +45,7 @@ public class NewsProvider {
     public static class NewsFavourite {
         @ContentUri(
                 path = Path.FAVOURITE_NEWS,
-                type = "vnd.android.cursor.dir/myFavourite",
+                type = "vnd.android.cursor.dir/myFavouriteNews",
                 defaultSort = ColumnsNews._ID + " ASC")
         public static final Uri CONTENT_URI_FAVOURITE = buildUri(Path.FAVOURITE_NEWS);
 

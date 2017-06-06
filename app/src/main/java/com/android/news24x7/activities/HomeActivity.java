@@ -1,5 +1,6 @@
 package com.android.news24x7.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -11,11 +12,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.android.news24x7.R;
 import com.android.news24x7.Util;
 import com.android.news24x7.adapter.ViewPagerAdapter;
+import com.android.news24x7.fragments.NewsFragment;
 
 
-public class HomeActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener, ViewPager.OnPageChangeListener {
+public class HomeActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener, ViewPager.OnPageChangeListener, NewsFragment.CallbackDetails {
 
     private Toolbar toolbar;
     private DrawerLayout mDrawerLayout;
@@ -112,4 +115,17 @@ public class HomeActivity extends AppCompatActivity implements TabLayout.OnTabSe
 
     }
 
+    @Override
+    public void onItemSelected( String mTitle,String mAuthor, String mDescription, String mUrl, String mUrlToImage, String mPublishedAt) {
+        //Log.d("GREAT TO SEE","My News:"+ mTitle+mAuthor+mDescription+mUrl+mUrlToImage+mPublishedAt);
+        //Toast.makeText(this,"Clicked"+mTitle,Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, DetailsActivity.class);
+        intent.putExtra("title", mTitle);
+        intent.putExtra("author", mAuthor);
+        intent.putExtra("overview",mDescription);
+        intent.putExtra("url", mUrl);
+        intent.putExtra("url_image", mUrlToImage);
+        intent.putExtra("published", mPublishedAt);
+        startActivity(intent);
+    }
 }

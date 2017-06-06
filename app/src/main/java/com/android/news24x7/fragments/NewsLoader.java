@@ -7,7 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.widget.GridView;
+
 import com.android.news24x7.adapter.NewsRecyclerViewAdapter;
 import com.android.news24x7.database.NewsProvider;
 
