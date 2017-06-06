@@ -16,6 +16,7 @@ import com.android.news24x7.R;
 import com.android.news24x7.Util;
 import com.android.news24x7.adapter.ViewPagerAdapter;
 import com.android.news24x7.fragments.NewsFragment;
+import com.android.news24x7.sync.NewsSyncUtils;
 
 
 public class HomeActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener, ViewPager.OnPageChangeListener, NewsFragment.CallbackDetails {
@@ -34,6 +35,8 @@ public class HomeActivity extends AppCompatActivity implements TabLayout.OnTabSe
         setContentView(R.layout.activity_home);
         setupFind();
         setUpTab();
+//        NewsSyncAdapter.initializeSyncAdapter(this);
+        NewsSyncUtils.initialize(this);
 
     }
 

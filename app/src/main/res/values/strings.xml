@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:xliff="http://schemas.android.com/tools">
     <string name="app_name">News24x7</string>
     <string-array name="tabs">
         <item>HEADLINES</item>
@@ -8,6 +8,33 @@
         <item>ENTERTAINMENT</item>
         <item>TECHNOLOGY</item>
     </string-array>
+    <!-- Strings related to Notification Enabled preference -->
+    <string name="pref_enable_notifications_key" translatable="false">enable_notifications</string>
+    <string name="pref_enable_notifications_label">Weather Notifications</string>
+
+    <string name="pref_enable_notifications_true">Enabled</string>
+    <string name="pref_enable_notifications_false">Not Enabled</string>
+    <string name="pref_enable_notifications_default" translatable="false">true</string>
+
+
+    <!-- SyncAdapter related -->
+    <string name="sync_account_type">news24x7.android.com</string>
+    <string name="content_authority">com.android.news24x7</string>
+
+    <!-- Notification Format -->
+    <string name="format_notification">News: <xliff:g id="title">%1$s</xliff:g></string>
+
+    <!-- Strings related to Notification preference -->
+    <string name="pref_last_notification">last_notification</string>
+
+    <!-- Empty Weather Database -->
+    <string name="empty_news_list">No News Information Available</string>
+    <string name="empty_news_list_no_network">No weather information available. The network is not available to fetch weather data.</string>
+    <string name="empty_news_list_server_down">No weather information available. The server is not returning data.</string>
+    <string name="empty_news_list_server_error">No weather information available. The server is not returning valid data. Please check for an updated version of Sunshine.</string>
+
+    <string name="condition_unknown">Unknown (<xliff:g id="low">%1$s</xliff:g>)</string>
+
 
     <string name="action_refresh">Refresh</string>
     <string name="action_settings">Settings</string>

@@ -52,4 +52,7 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.0.2'
     compile 'com.squareup.retrofit2:converter-gson:2.0.2'
     testCompile 'junit:junit:4.12'
+//firebase job dispatcher
+    compile 'com.firebase:firebase-jobdispatcher:0.6.0'
+
 }
