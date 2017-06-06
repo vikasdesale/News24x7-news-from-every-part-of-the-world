@@ -23,6 +23,7 @@ import com.android.news24x7.retrofit.ApiClient;
 import com.android.news24x7.retrofit.ApiInterface;
 import com.android.news24x7.retrofit.NewsResponse;
 
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -41,7 +42,7 @@ public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.Cl
     String tab;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    String source[]={"the-times-of-india","the-hindu","usa-today","time","mtv-news"};
+    String source[]={"thetimes-of-india","thehindu","usatoday","time","mtv-news"};
     private String mParam1;
     private String mParam2;
     private static int favflag = 2;
@@ -119,7 +120,7 @@ public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.Cl
                 data.clear();
                 data.put("source", ""+source[i++]);
                 data.put("sortBy", "latest");
-                    fetchNews();
+                    fetchNews(data);
 
                 Toast.makeText(getContext(), "Tab My" +articlesList, Toast.LENGTH_SHORT).show();
 
@@ -177,7 +178,7 @@ public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.Cl
             mRecyclerView.setAdapter(gridAdapter);
     }
 
-    private void fetchNews() {
+    private void fetchNews(Map<String, String> data) {
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
 
@@ -187,14 +188,36 @@ public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.Cl
         call.enqueue(new Callback<NewsResponse>() {
             @Override
             public void onResponse(Call<NewsResponse> call, Response<NewsResponse> response) {
-                articlesList = (ArrayList<Article>) response.body().getArticles();
-                mNewsUtil.insertData(getContext(), articlesList, "no");
-                 allNewsWindow();
+                if(response.isSuccessful()) {
+                    articlesList = (ArrayList<Article>) response.body().getArticles();
+                    mNewsUtil.insertData(getContext(), articlesList, "no");
+                    allNewsWindow();
+                }
+                else {
+
+                    int errorCode = response.code();
+
+                    switch (errorCode) {
+                        case HttpURLConnection.HTTP_OK:
+                            break;
+                        case HttpURLConnection.HTTP_NOT_FOUND:
+                            //setNewsStatus(getContext(), NEWS_STATUS_INVALID);
+                            return;
+                        default:
+                            //setNewsStatus(getContext(), NEWS_STATUS_SERVER_DOWN);
+                            return;
+                    }
+                }
+                Log.d("dddddddddd","vvvvvvvv"+response.body().toString());
+                Log.d("dddddddddd","vvvvvvvv"+response.errorBody().toString());
+
             }
 
             @Override
             public void onFailure(Call<NewsResponse> call, Throwable t) {
-                Log.e(TAG, t.toString());
+                t.getLocalizedMessage();
+                Log.e(TAG,"vikas"+t.toString());
+                Log.d(TAG,"vikas"+t.getLocalizedMessage());
                 Log.d(TAG, "server contacted at: " + call.request().url());
 
             }
@@ -236,7 +259,7 @@ public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.Cl
                 data.clear();
                 data.put("source", "" + source[i++]);
                 data.put("sortBy", "latest");
-                fetchNews();
+                fetchNews(data);
             }
         }
     }

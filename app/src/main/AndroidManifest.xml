@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.android.news24x7">
+
+    <!-- Permissions required by the sync adapter -->
+    <uses-permission
+        android:name="android.permission.READ_SYNC_SETTINGS"/>
+    <uses-permission
+        android:name="android.permission.WRITE_SYNC_SETTINGS"/>
+    <uses-permission
+        android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
+
+    <!-- Permissions required to make our UI more friendly -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
@@ -29,6 +39,17 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.android.news24x7.activities.HomeActivity" />
         </activity>
-    </application>
+    <service
+        android:name=".sync.NewsSyncIntentService"
+        android:exported="false" />
 
+    <!-- This is the Service declaration used in conjunction with FirebaseJobDispatcher -->
+    <service
+        android:name=".sync.NewsFirebaseJobService"
+        android:exported="false">
+        <intent-filter>
+            <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE"/>
+        </intent-filter>
+    </service>
+    </application>
 </manifest>
