@@ -190,6 +190,8 @@ public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.Cl
             public void onResponse(Call<NewsResponse> call, Response<NewsResponse> response) {
                 if(response.isSuccessful()) {
                     articlesList = (ArrayList<Article>) response.body().getArticles();
+                    mNewsUtil.insertData(getContext(), articlesList, "no");
+                    allNewsWindow();
                 }
                 else {
 
@@ -208,8 +210,7 @@ public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.Cl
                 }
                 Log.d("dddddddddd","vvvvvvvv"+response.body().toString());
                 Log.d("dddddddddd","vvvvvvvv"+response.errorBody().toString());
-                mNewsUtil.insertData(getContext(), articlesList, "no");
-                allNewsWindow();
+
             }
 
             @Override

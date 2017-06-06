@@ -76,7 +76,9 @@ public class NewsUtil {
             for (Article news : article) {
 
 
-                while (c.moveToNext()) {
+                c.moveToFirst();
+                while (c.isAfterLast() == false)
+                {
                     if (news.getTitle().equalsIgnoreCase(c.getString(c.getColumnIndex(ColumnsNews.TITLE)))) {
                         // Log.d("POPULAR MOVIES","Movie Title Same"+movie.getTitle().toString()+" ="+c.getString(c.getColumnIndex(ColumnsMovies.TITLE)));
                         flag = 0;
@@ -86,6 +88,7 @@ public class NewsUtil {
                         // Log.d("POPULAR MOVIES","Movie Title Difference"+movie.getTitle().toString()+" ="+c.getString(c.getColumnIndex(ColumnsMovies.TITLE)));
 
                     }
+                    c.moveToNext();
                 }
 
 

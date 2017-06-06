@@ -13,7 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.android.news24x7.R;
-import com.android.news24x7.Util;
+import com.android.news24x7.util.Util;
 import com.android.news24x7.adapter.ViewPagerAdapter;
 import com.android.news24x7.fragments.NewsFragment;
 import com.android.news24x7.sync.NewsSyncUtils;
