@@ -1,0 +1,27 @@
+package com.android.news24x7;
+
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+
+/**
+ * Created by Dell on 6/2/2017.
+ */
+
+public class ViewPagerAdapters extends FragmentStatePagerAdapter {
+
+    public ViewPagerAdapters(FragmentManager fm) {
+        super(fm);
+    }
+
+    @Override
+    public Fragment getItem(int position) {
+        return new NewsFragment("latest");
+    }
+
+    @Override
+    public int getCount() {
+        return 5;           // As there are only 3 Tabs
+    }
+
+}
