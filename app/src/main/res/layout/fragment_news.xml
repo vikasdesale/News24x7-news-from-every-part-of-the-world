@@ -1,12 +1,8 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.android.news24x7.fragments.NewsFragment">
-
-    <com.android.news24x7.interfaces.ScrollViewExt
-        android:id="@+id/scroll"
-        style="@style/MyLinearLayout">
+<com.android.news24x7.interfaces.ScrollViewExt android:id="@+id/scroll"
+    style="@style/MyLinearLayout"
+    tools:context="com.android.news24x7.fragments.NewsFragment"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
     <android.support.v7.widget.RecyclerView
         android:id="@+id/card_recycler_view"
         android:scrollbars="vertical"
@@ -14,4 +10,3 @@
         android:layout_height="match_parent"/>
 </com.android.news24x7.interfaces.ScrollViewExt>
 
-</LinearLayout>

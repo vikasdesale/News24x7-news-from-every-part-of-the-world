@@ -13,7 +13,6 @@ public interface ColumnsNews {
     @AutoIncrement String _ID = "_id";
     @DataType(DataType.Type.TEXT) @NotNull String AUTHOR="author";
     @DataType(DataType.Type.TEXT) @NotNull    String TITLE = "title";
-    @DataType(DataType.Type.INTEGER) @NotNull    String ADULT = "adult";
     @DataType(DataType.Type.TEXT) @NotNull    String DESCRIPTION = "description";
     @DataType(DataType.Type.TEXT) @NotNull    String URL = "url";
     @DataType(DataType.Type.TEXT) @NotNull    String URL_TO_IMAGE = "urlToImage";

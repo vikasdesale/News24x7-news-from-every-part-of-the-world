@@ -1,11 +1,12 @@
 
 package com.android.news24x7.parcelable;
 
-import java.io.Serializable;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.os.Parcelable.Creator;
+
 import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
 
 public class Article implements Serializable, Parcelable
 {
@@ -22,31 +23,39 @@ public class Article implements Serializable, Parcelable
     private String urlToImage;
     @SerializedName("publishedAt")
     private String publishedAt;
-    public final static Creator<Article> CREATOR = new Creator<Article>() {
-
-
-        @SuppressWarnings({
-            "unchecked"
-        })
-        public Article createFromParcel(Parcel in) {
-            Article instance = new Article();
-            instance.author = ((String) in.readValue((String.class.getClassLoader())));
-            instance.title = ((String) in.readValue((String.class.getClassLoader())));
-            instance.description = ((String) in.readValue((String.class.getClassLoader())));
-            instance.url = ((String) in.readValue((String.class.getClassLoader())));
-            instance.urlToImage = ((String) in.readValue((String.class.getClassLoader())));
-            instance.publishedAt = ((String) in.readValue((String.class.getClassLoader())));
-            return instance;
+    public final Parcelable.Creator<Article> CREATOR = new Parcelable.Creator<Article>() {
+        @Override
+        public Article createFromParcel(Parcel parcel) {
+            return new Article(parcel);
         }
 
-        public Article[] newArray(int size) {
-            return (new Article[size]);
+        @Override
+        public Article[] newArray(int i) {
+            return new Article[i];
         }
 
-    }
-    ;
+    };
+
     private final static long serialVersionUID = 8755682695955568073L;
 
+    public Article(String mTitle, String mAuthor, String mDescription, String mUrl, String mUrlToImage, String mPublishedAt) {
+       this.title=mTitle;
+        this.author=mAuthor;
+        this.description=mDescription;
+        this.url=mUrl;
+        this.urlToImage=mUrlToImage;
+        this.publishedAt=mPublishedAt;
+    }
+
+
+    private Article(Parcel in) {
+        this.author = in.readString();
+        this.title = in.readString();
+        this.description = in.readString();
+        this.url = in.readString();
+        this.urlToImage = in.readString();
+        this.publishedAt = in.readString();
+    }
     public String getAuthor() {
         return author;
     }

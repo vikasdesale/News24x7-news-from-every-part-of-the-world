@@ -8,4 +8,13 @@
         <item>ENTERTAINMENT</item>
         <item>TECHNOLOGY</item>
     </string-array>
+
+    <string name="action_refresh">Refresh</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_share">Share</string>
+    <string name ="subtitle">%1$s by %2$s</string>
+    <string name="up">Up</string>
+    <string name="ok">Ok</string>
+    <string name="refresh">Refreshed</string>
+    <string name="fab_save">save article</string>
 </resources>

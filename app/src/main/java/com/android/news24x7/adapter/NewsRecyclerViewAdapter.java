@@ -5,6 +5,8 @@ package com.android.news24x7.adapter;
  */
 
 import android.content.Context;
+import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,58 +16,33 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.news24x7.R;
-import com.android.news24x7.parcelable.Article;
+import com.android.news24x7.interfaces.ColumnsNews;
 import com.bumptech.glide.Glide;
-
-import java.util.ArrayList;
 
 /**
  * Created by Dell on 12/19/2016.
  */
 
-public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<NewsRecyclerViewAdapter.ViewHolder>  {
+public class NewsRecyclerViewAdapter extends CursorRecyclerViewAdapter<NewsRecyclerViewAdapter.ViewHolder> {
 
-    private final ArrayList<Article> articles;
     public ClickListener clickListener;
+    Cursor mCursor;
     private Context mContext;
     private View view;
-    private int resource;
 
-
-    public NewsRecyclerViewAdapter(Context context,int resource, ArrayList<Article> articlesList) {
-        this.mContext = context;
-        this.resource=resource;
-        this.articles=articlesList;
+    public NewsRecyclerViewAdapter(Context context, Cursor cursor) {
+        super(context, cursor);
+        mContext = context;
+        mCursor = cursor;
     }
-    @Override
-    public NewsRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        view = LayoutInflater.from(parent.getContext()).inflate(R.layout.news_list, parent, false);
-
-        return new ViewHolder(view);    }
 
     @Override
-    public void onBindViewHolder(NewsRecyclerViewAdapter.ViewHolder holder, int position) {
-        String title = articles.get(position).getTitle();
-        String url = articles.get(position).getUrlToImage();
+    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+        view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.news_list, viewGroup, false);
 
-
-        if (title != null || url != null)
-        {
-            Log.d("URL FOr me:",""+url);
-            holder.textView.setText(title);
-            holder.dates.setText(articles.get(position).getPublishedAt());
-        //Got Advantages why to use Glide over picasso that's why replaced picasso.
-               Glide.with(mContext).load(url)
-                .thumbnail(0.1f)
-                .error(R.drawable.titled)
-                .crossFade() //animation
-                .into(holder.imageView);
-    }else {
-            holder.imageView.setImageDrawable(null);
-            holder.textView.setText("No Title");
-            holder.imageView.setImageResource(R.drawable.titled);
-        }
+        return new ViewHolder(view);
     }
+
     public void setClickListener(ClickListener clickListener) {
 
         this.clickListener = clickListener;
@@ -77,15 +54,38 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<NewsRecyclerVi
         return position;
     }
 
-
     @Override
-    public int getItemCount() {
-        return articles.size();
+    public void onBindViewHolder(ViewHolder viewHolder, Cursor cursor) {
+        DatabaseUtils.dumpCursor(cursor);
+        int viewType = getItemViewType(cursor.getPosition());
+        String title = cursor.getString(cursor.getColumnIndex(ColumnsNews.TITLE));
+        String url = cursor.getString(cursor.getColumnIndex(ColumnsNews.URL_TO_IMAGE));
+        String publishedAt = cursor.getString(cursor.getColumnIndex(ColumnsNews.PUBLISHED_AT));
+        viewHolder.imageView.setImageDrawable(null);
+
+
+        if (title != null || url != null)
+        {
+            Log.d("URL FOr me:",""+url);
+            viewHolder.textView.setText(title);
+            viewHolder.dates.setText(publishedAt);
+            //Got Advantages why to use Glide over picasso that's why replaced picasso.
+            Glide.with(mContext).load(url)
+                    .thumbnail(0.1f)
+                    .error(R.drawable.titled)
+                    .crossFade() //animation
+                    .into(viewHolder.imageView);
+        }else {
+            viewHolder.imageView.setImageDrawable(null);
+            viewHolder.textView.setText("No Title");
+            viewHolder.imageView.setImageResource(R.drawable.titled);
+        }
     }
+
+
     public interface ClickListener {
         public void itemClicked(View view, int position);
     }
-
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView textView;
