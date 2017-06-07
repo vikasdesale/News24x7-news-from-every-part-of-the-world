@@ -8,7 +8,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.android.news24x7.BuildConfig;
-import com.android.news24x7.database.NewsUtil;
+import com.android.news24x7.util.NewsUtil;
 import com.android.news24x7.parcelable.Article;
 import com.android.news24x7.prefs.NewsPreferences;
 import com.android.news24x7.retrofit.ApiClient;

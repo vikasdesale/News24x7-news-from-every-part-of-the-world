@@ -9,8 +9,10 @@
         <item>TECHNOLOGY</item>
     </string-array>
     <!-- Strings related to Notification Enabled preference -->
+    <string name="activity_title_settings">Settings</string>
+
     <string name="pref_enable_notifications_key" translatable="false">enable_notifications</string>
-    <string name="pref_enable_notifications_label">Weather Notifications</string>
+    <string name="pref_enable_notifications_label">News Notifications</string>
 
     <string name="pref_enable_notifications_true">Enabled</string>
     <string name="pref_enable_notifications_false">Not Enabled</string>
@@ -39,9 +41,14 @@
     <string name="action_refresh">Refresh</string>
     <string name="action_settings">Settings</string>
     <string name="action_share">Share</string>
-    <string name ="subtitle">%1$s by %2$s</string>
+    <string name="subtitle">%1$s by %2$s</string>
     <string name="up">Up</string>
     <string name="ok">Ok</string>
     <string name="refresh">Refreshed</string>
     <string name="fab_save">save article</string>
+    <string name="title_activity_settings">Settings</string>
+
+
+
+
 </resources>

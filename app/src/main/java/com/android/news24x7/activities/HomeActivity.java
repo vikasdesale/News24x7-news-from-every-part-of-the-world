@@ -16,7 +16,7 @@ import com.android.news24x7.R;
 import com.android.news24x7.util.Util;
 import com.android.news24x7.adapter.ViewPagerAdapter;
 import com.android.news24x7.fragments.NewsFragment;
-import com.android.news24x7.sync.NewsSyncUtils;
+import com.android.news24x7.util.NewsSyncUtils;
 
 
 public class HomeActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener, ViewPager.OnPageChangeListener, NewsFragment.CallbackDetails {
@@ -66,7 +66,7 @@ public class HomeActivity extends AppCompatActivity implements TabLayout.OnTabSe
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         if (navigationView != null) {
-            Util.setupDrawerContent(navigationView, mDrawerLayout);
+            Util.setupDrawerContent(navigationView, mDrawerLayout,this);
         }
         navigationView.getMenu().getItem(0).setChecked(true);
     }

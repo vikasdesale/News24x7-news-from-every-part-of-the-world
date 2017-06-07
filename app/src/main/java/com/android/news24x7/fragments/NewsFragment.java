@@ -15,7 +15,7 @@ import android.widget.Toast;
 import com.android.news24x7.BuildConfig;
 import com.android.news24x7.R;
 import com.android.news24x7.adapter.NewsRecyclerViewAdapter;
-import com.android.news24x7.database.NewsUtil;
+import com.android.news24x7.util.NewsUtil;
 import com.android.news24x7.interfaces.ScrollViewExt;
 import com.android.news24x7.interfaces.ScrollViewListener;
 import com.android.news24x7.parcelable.Article;
@@ -33,7 +33,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.content.ContentValues.TAG;
-import static com.android.news24x7.database.NewsUtil.CacheDelete;
+import static com.android.news24x7.util.NewsUtil.CacheDelete;
 
 
 public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.ClickListener,ScrollViewListener {
@@ -209,7 +209,6 @@ public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.Cl
                     }
                 }
                 Log.d("dddddddddd","vvvvvvvv"+response.body().toString());
-                Log.d("dddddddddd","vvvvvvvv"+response.errorBody().toString());
 
             }
 
