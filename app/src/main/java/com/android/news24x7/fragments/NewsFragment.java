@@ -10,18 +10,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.android.news24x7.BuildConfig;
 import com.android.news24x7.R;
 import com.android.news24x7.adapter.NewsRecyclerViewAdapter;
-import com.android.news24x7.util.NewsUtil;
 import com.android.news24x7.interfaces.ScrollViewExt;
 import com.android.news24x7.interfaces.ScrollViewListener;
 import com.android.news24x7.parcelable.Article;
 import com.android.news24x7.retrofit.ApiClient;
 import com.android.news24x7.retrofit.ApiInterface;
 import com.android.news24x7.retrofit.NewsResponse;
+import com.android.news24x7.util.NewsUtil;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
@@ -40,9 +39,11 @@ public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.Cl
 
 
     String tab;
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-    String source[]={"thetimes-of-india","thehindu","usatoday","time","mtv-news"};
+    private static final String ARG_PARAM1 = "title";
+    private static final String ARG_PARAM2 = "data";
+    String source[]={"the-times-of-india","the-hindu","usa-today","time","mtv-news"};
+    String sourceSport[]={"bbc-sport","espn-cric-info","talksport"};
+    String sourceEntertainment[]={"mtv-news","the-lad-bible"};
     private String mParam1;
     private String mParam2;
     private static int favflag = 2;
@@ -73,18 +74,6 @@ public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.Cl
         public void onItemSelected(String mTitle,String mAuthor,String mDescription,String mUrl,String mUrlToImage,String mPublishedAt);
     }
 
-    public NewsFragment(String s) {
-        tab=s;
-    }
-    public static NewsFragment newInstance(String param1, String param2) {
-        NewsFragment fragment = new NewsFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -111,30 +100,8 @@ public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.Cl
         mRecyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());;
         mRecyclerView.setLayoutManager(layoutManager);
-        switch (tab) {
-            case "HEADLINES":
-                NewsCheck();
-                if(i==source.length){
-                    i=0;
-                }
-                data.clear();
-                data.put("source", ""+source[i++]);
-                data.put("sortBy", "latest");
-                    fetchNews(data);
-
-                Toast.makeText(getContext(), "Tab My" +articlesList, Toast.LENGTH_SHORT).show();
-
-            default:  Toast.makeText(getContext(), "Tab My" + tab, Toast.LENGTH_SHORT).show();
-
-        }
-
+        TabSelection(tab);
         return v;
-    }
-    private void NewsCheck() {
-        //checking for movies in temporary database
-        if (mNewsUtil.getAllNewsCount(getActivity()) != 0) {
-            allNewsWindow();
-        }
     }
     //Load All Movies from temporary database
     private void allNewsWindow() {
@@ -146,26 +113,8 @@ public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.Cl
         } catch (Exception e) {
             Log.d(TAG, e.toString());
         }
-        /*finally {if (allm != null || !allm.isClosed()) {allm.close(); }}*/
     }
 
-    //Method for loading Favorite Movies from database
-    private void openFavorite() {
-
-        Cursor c2 = null;
-        try {
-            c2 = mNewsUtil.favoriteNewsCursor(getActivity());
-            CacheDelete(getContext());
-            if (c2.getCount() == 0) {
-                Toast.makeText(getContext(), "Currently You have not any Favorite News...Add it!", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(getContext(), "Favorite News", Toast.LENGTH_SHORT).show();
-                setUpAdapter(c2);
-                favflag = 1;
-            }
-        } catch (Exception e) {
-        }//  finally {   if (c2 != null || !c2.isClosed()) {    c2.close(); }}// if comment is out not shows movies
-    }
 
     private void setUpAdapter(Cursor c) {
         NewsRecyclerViewAdapter gridAdapter = new NewsRecyclerViewAdapter(getActivity(),c);
@@ -208,16 +157,11 @@ public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.Cl
                             return;
                     }
                 }
-                Log.d("dddddddddd","vvvvvvvv"+response.body().toString());
-
             }
 
             @Override
             public void onFailure(Call<NewsResponse> call, Throwable t) {
-                t.getLocalizedMessage();
-                Log.e(TAG,"vikas"+t.toString());
-                Log.d(TAG,"vikas"+t.getLocalizedMessage());
-                Log.d(TAG, "server contacted at: " + call.request().url());
+                Log.e(TAG,"Error"+t.toString());
 
             }
         });
@@ -254,13 +198,9 @@ public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.Cl
         int diff = (view.getBottom() - (scrollView.getHeight() + scrollView.getScrollY()));
         // if diff is zero, then the bottom has been reached
         if (diff == 0 ) {
-            while (i < source.length) {
-                data.clear();
-                data.put("source", "" + source[i++]);
-                data.put("sortBy", "latest");
-                fetchNews(data);
+              //TabSelection(tab);
             }
-        }
+
     }
 
     @Override
@@ -280,6 +220,41 @@ public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.Cl
             }
         } catch (Exception e) {
         }/*finally {if (onClick != null || !onClick.isClosed()) {onClick.close();}    }*/
+    }
+    public void check(int i,String s[],String sortBy){
+        if(i==s.length){
+            i=0;
+        }
+        data.clear();
+        data.put("source", ""+s[i++]);
+        data.put("sortBy",""+sortBy);
+        fetchNews(data);
+    }
+    public void TabSelection(String tab){
+        switch (tab) {
+            case "HEADLINES":
+                CacheDelete(getContext());
+                 check(i,source,"latest");
+                 break;
+            case "TRENDING":
+                CacheDelete(getContext());
+                check(i,source,"popular");
+                break;
+            case "SPORT":
+                CacheDelete(getContext());
+                check(i,sourceSport,"latest");
+                break;
+            case "ENTERTAINMENT":
+                CacheDelete(getContext());
+                check(i,sourceEntertainment,"latest");
+                break;
+            case "HIGHLIGHT":
+                CacheDelete(getContext());
+                check(i,source,"top");
+                break;
+
+
+        }
     }
 
 }

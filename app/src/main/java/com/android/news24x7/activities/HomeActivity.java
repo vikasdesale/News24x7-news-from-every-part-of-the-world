@@ -131,4 +131,5 @@ public class HomeActivity extends AppCompatActivity implements TabLayout.OnTabSe
         intent.putExtra("published", mPublishedAt);
         startActivity(intent);
     }
+
 }
