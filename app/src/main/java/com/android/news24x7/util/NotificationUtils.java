@@ -21,7 +21,6 @@ import android.support.v4.content.ContextCompat;
 
 import com.android.news24x7.R;
 import com.android.news24x7.activities.HomeActivity;
-import com.android.news24x7.database.NewsUtil;
 import com.android.news24x7.interfaces.ColumnsNews;
 import com.android.news24x7.prefs.NewsPreferences;
 import com.bumptech.glide.Glide;
@@ -48,7 +47,7 @@ public class NotificationUtils {
         // we'll query our contentProvider, as always
         Cursor cursor = null;
         cursor = mNewsUtil.allNewsCursor(context);
-        int rand=1 + (int)(Math.random() * ((5 - 1) + 5));
+        int rand=1 + (int)(Math.random() * ((3 - 1) + 3));
         if(cursor!=null) {
             cursor.moveToFirst();
 

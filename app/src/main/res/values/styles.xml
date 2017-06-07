@@ -21,4 +21,10 @@
         <item name="android:orientation">vertical</item>
     </style>
 
+    <!-- Settings activity theme. -->
+    <style name="SettingsTheme" parent="AppTheme">
+        <item name="android:textColor">@color/primary_text</item>
+        <item name="android:textColorSecondary">@color/secondary_text</item>
+
+    </style>
 </resources>

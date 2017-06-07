@@ -3,12 +3,9 @@
     package="com.android.news24x7">
 
     <!-- Permissions required by the sync adapter -->
-    <uses-permission
-        android:name="android.permission.READ_SYNC_SETTINGS"/>
-    <uses-permission
-        android:name="android.permission.WRITE_SYNC_SETTINGS"/>
-    <uses-permission
-        android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
 
     <!-- Permissions required to make our UI more friendly -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -27,11 +24,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <provider
             android:name=".database.generated.NewsProvider"
             android:authorities="com.android.news24x7"
             android:exported="false"
             android:syncable="true" />
+
         <activity
             android:name=".activities.DetailsActivity"
             android:parentActivityName=".activities.HomeActivity">
@@ -39,17 +38,23 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.android.news24x7.activities.HomeActivity" />
         </activity>
-    <service
-        android:name=".sync.NewsSyncIntentService"
-        android:exported="false" />
 
-    <!-- This is the Service declaration used in conjunction with FirebaseJobDispatcher -->
-    <service
-        android:name=".sync.NewsFirebaseJobService"
-        android:exported="false">
-        <intent-filter>
-            <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE"/>
-        </intent-filter>
-    </service>
+        <service
+            android:name=".sync.NewsSyncIntentService"
+            android:exported="false" />
+
+        <!-- This is the Service declaration used in conjunction with FirebaseJobDispatcher -->
+        <service
+            android:name=".sync.NewsFirebaseJobService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />
+            </intent-filter>
+        </service>
+        <activity
+            android:name=".activities.SettingsActivity"
+            android:label="@string/activity_title_settings"
+            android:theme="@style/SettingsTheme" />
     </application>
+
 </manifest>

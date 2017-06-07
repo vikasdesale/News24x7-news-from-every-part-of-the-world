@@ -7,7 +7,6 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ShareCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -18,8 +17,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.news24x7.R;
-import com.android.news24x7.database.NewsUtil;
 import com.android.news24x7.parcelable.Article;
+import com.android.news24x7.util.NewsUtil;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
@@ -73,9 +72,6 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
            myFavoriteNews=(ImageView)rootView.findViewById(R.id.save);
            myFavoriteNews.setOnClickListener(this);
         toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setHomeButtonEnabled(true);
         mCollapsingToolbar =
                 (CollapsingToolbarLayout) rootView.findViewById(R.id.collapsing_toolbar);
 
@@ -99,7 +95,12 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
         });
         setData();
         Toast.makeText(getContext(), "News Inserted in Favourite", Toast.LENGTH_SHORT).show();
-
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               getActivity().finish();
+            }
+        });
         return rootView;
 
     }
