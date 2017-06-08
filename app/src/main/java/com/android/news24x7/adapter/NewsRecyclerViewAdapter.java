@@ -6,9 +6,7 @@ package com.android.news24x7.adapter;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.database.DatabaseUtils;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,8 +54,7 @@ public class NewsRecyclerViewAdapter extends CursorRecyclerViewAdapter<NewsRecyc
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, Cursor cursor) {
-        DatabaseUtils.dumpCursor(cursor);
-        int viewType = getItemViewType(cursor.getPosition());
+       int viewType = getItemViewType(cursor.getPosition());
         String title = cursor.getString(cursor.getColumnIndex(ColumnsNews.TITLE));
         String url = cursor.getString(cursor.getColumnIndex(ColumnsNews.URL_TO_IMAGE));
         String publishedAt = cursor.getString(cursor.getColumnIndex(ColumnsNews.PUBLISHED_AT));
@@ -66,7 +63,6 @@ public class NewsRecyclerViewAdapter extends CursorRecyclerViewAdapter<NewsRecyc
 
         if (title != null || url != null)
         {
-            Log.d("URL FOr me:",""+url);
             viewHolder.textView.setText(title);
             viewHolder.dates.setText(publishedAt);
             //Got Advantages why to use Glide over picasso that's why replaced picasso.
@@ -93,9 +89,9 @@ public class NewsRecyclerViewAdapter extends CursorRecyclerViewAdapter<NewsRecyc
         ImageView imageView;
         public ViewHolder(View itemView) {
             super(itemView);
-             textView = (TextView)itemView.findViewById(R.id.news_article_title);
-             dates = (TextView)itemView.findViewById(R.id.news_published_at);
-             imageView = (ImageView)itemView.findViewById(R.id.news_thumbnail);
+            textView = (TextView)itemView.findViewById(R.id.news_article_title);
+            dates = (TextView)itemView.findViewById(R.id.news_published_at);
+            imageView = (ImageView)itemView.findViewById(R.id.news_thumbnail);
             itemView.setOnClickListener(this);
 
         }

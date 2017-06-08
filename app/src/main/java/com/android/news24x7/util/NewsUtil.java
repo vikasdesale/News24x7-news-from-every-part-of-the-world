@@ -3,7 +3,6 @@ package com.android.news24x7.util;
 import android.content.ContentProviderOperation;
 import android.content.Context;
 import android.database.Cursor;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.android.news24x7.database.NewsProvider;
@@ -116,7 +115,7 @@ public class NewsUtil {
             Toast.makeText(context,""+NewsProvider.AUTHORITY,Toast.LENGTH_SHORT).show();
             context.getContentResolver().applyBatch(NewsProvider.AUTHORITY, batchOperations);
         } catch (Exception e) {
-            Log.e("News24X7", "Error applying batch insert", e);
+            //Log.e("News24X7", "Error applying batch insert", e);
 
         }
         try

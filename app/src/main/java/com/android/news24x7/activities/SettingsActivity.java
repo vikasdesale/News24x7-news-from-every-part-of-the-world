@@ -2,14 +2,12 @@ package com.android.news24x7.activities;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.SwitchPreference;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 
 import com.android.news24x7.R;
@@ -17,17 +15,17 @@ import com.android.news24x7.R;
 /**
  * Created by Dell on 6/7/2017.
  */
-public class SettingsActivity  extends AppCompatActivity
+public class SettingsActivity extends AppCompatActivity
         implements Preference.OnPreferenceChangeListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
-    private final String LOG_TAG = SettingsActivity.class.getSimpleName();
     private static final String KEY_SWITCH_PREFERENCE = "enable_notifications";
+    private final String LOG_TAG = SettingsActivity.class.getSimpleName();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_activity);
-        Toolbar bar = (Toolbar)findViewById(R.id.toolbar);
+        Toolbar bar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(bar);
         bar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,21 +56,9 @@ public class SettingsActivity  extends AppCompatActivity
 
     private void setPreferenceSummary(Preference preference, Object value) {
         String stringValue = value.toString();
-        String key = preference.getKey();
-
-        if (preference instanceof ListPreference) {
-            // For list preferences, look up the correct display value in
-            // the preference's 'entries' list (since they have separate labels/values).
-            ListPreference listPreference = (ListPreference) preference;
-            int prefIndex = listPreference.findIndexOfValue(stringValue);
-            if (prefIndex >= 0) {
-                preference.setSummary(listPreference.getEntries()[prefIndex]);
-            }
-        } else {
             // For other preferences, set the summary to the value's simple string representation.
             preference.setSummary(stringValue);
-            Log.i(LOG_TAG, "setPreferenceSummary: " + stringValue);
-        }
+
 
     }
 
@@ -80,7 +66,6 @@ public class SettingsActivity  extends AppCompatActivity
     @Override
     public boolean onPreferenceChange(Preference preference, Object value) {
         setPreferenceSummary(preference, value);
-        Log.i(LOG_TAG, "onPreferenceChange: " + value.toString());
         return true;
     }
 
@@ -88,22 +73,13 @@ public class SettingsActivity  extends AppCompatActivity
     // start our synchronization here
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (key.equals(KEY_SWITCH_PREFERENCE)) {
-            boolean bool = sharedPreferences.getBoolean(key, true);
-           /* if (bool == Boolean.FALSE) {
-                NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                manager.cancelAll();
-            }*/
-        }
+
     }
 
 
-
-
-    public  class SettingsPreferenceFragment extends PreferenceFragment {
+    public class SettingsPreferenceFragment extends PreferenceFragment {
         @Override
-        public void onCreate(final Bundle savedInstanceState)
-        {
+        public void onCreate(final Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
 
             addPreferencesFromResource(R.xml.pref_general);

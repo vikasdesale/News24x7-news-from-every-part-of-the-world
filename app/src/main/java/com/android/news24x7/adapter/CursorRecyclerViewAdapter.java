@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.DataSetObserver;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 
 /**
  * Created by Dell on 1/22/2017.
@@ -28,7 +27,6 @@ public abstract class CursorRecyclerViewAdapter<VH extends RecyclerView.ViewHold
         if (mDataIsValid) {
             mCursor.registerDataSetObserver(mDataSetObserver);
         }
-        Log.d(LOG_TAG, "in super");
     }
 
     public Cursor getCursor() {

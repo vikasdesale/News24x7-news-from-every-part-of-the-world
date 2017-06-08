@@ -129,6 +129,14 @@ public class NotificationUtils {
 
 
         }
+        try
+        {
+
+            if (cursor != null || !cursor.isClosed()) {
+                cursor.close();
+            }
+        }catch(Exception e){}
+
 
     }
 
