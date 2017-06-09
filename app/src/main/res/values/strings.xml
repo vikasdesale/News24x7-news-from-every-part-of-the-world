@@ -8,6 +8,11 @@
         <item>ENTERTAINMENT</item>
         <item>TECHNOLOGY</item>
     </string-array>
+    <string name="action_highlights">HIGHLIGHTS</string>
+    <string name="action_headlines">HEADLINES</string>
+    <string name="action_trending">TRENDING</string>
+
+
     <!-- Strings related to Notification Enabled preference -->
     <string name="activity_title_settings">Settings</string>
 
@@ -47,8 +52,7 @@
     <string name="refresh">Refreshed</string>
     <string name="fab_save">save article</string>
     <string name="title_activity_settings">Settings</string>
-
-
+    <string name="action_sport">sport</string>
 
 
 </resources>

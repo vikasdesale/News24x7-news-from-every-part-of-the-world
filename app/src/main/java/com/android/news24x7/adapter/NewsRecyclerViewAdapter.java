@@ -26,10 +26,16 @@ public class NewsRecyclerViewAdapter extends CursorRecyclerViewAdapter<NewsRecyc
     public ClickListener clickListener;
     Cursor mCursor;
     private Context mContext;
+
+
+    @Override
+    public int getItemCount() {
+        return mCursor.getCount();
+    }
     private View view;
 
     public NewsRecyclerViewAdapter(Context context, Cursor cursor) {
-        super(context, cursor);
+        super(cursor);
         mContext = context;
         mCursor = cursor;
     }
@@ -53,7 +59,7 @@ public class NewsRecyclerViewAdapter extends CursorRecyclerViewAdapter<NewsRecyc
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, Cursor cursor) {
+    public void onBindViewHolderCursor(ViewHolder viewHolder, Cursor cursor) {
        int viewType = getItemViewType(cursor.getPosition());
         String title = cursor.getString(cursor.getColumnIndex(ColumnsNews.TITLE));
         String url = cursor.getString(cursor.getColumnIndex(ColumnsNews.URL_TO_IMAGE));
