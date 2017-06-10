@@ -21,7 +21,18 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:orientation">vertical</item>
     </style>
+    <style name="MyLinearLayout2">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
 
+    </style>
+    <style name="ErrorLayout">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+
+    </style>
     <!-- Settings activity theme. -->
     <style name="SettingsTheme" parent="AppTheme">
         <item name="android:textColor">@color/primary_text</item>

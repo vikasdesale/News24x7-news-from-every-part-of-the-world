@@ -17,6 +17,7 @@ import com.android.news24x7.fragments.NewsFragment;
 import com.android.news24x7.util.NewsSyncUtils;
 import com.android.news24x7.util.Util;
 import com.android.news24x7.widget.NewsWidgetProvider;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 
 public class HomeActivity extends AppCompatActivity implements NewsFragment.CallbackDetails {
@@ -25,12 +26,19 @@ public class HomeActivity extends AppCompatActivity implements NewsFragment.Call
     private DrawerLayout mDrawerLayout;
     private ActionBar ab;
     private NavigationView navigationView;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         setupFind();
+
+             // Obtain the FirebaseAnalytics instance.
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        //Sets whether analytics collection is enabled for this app on this device.
+        mFirebaseAnalytics.setAnalyticsCollectionEnabled(true);
+
         if (savedInstanceState == null) {
 
             NewsFragment fragment = new NewsFragment();

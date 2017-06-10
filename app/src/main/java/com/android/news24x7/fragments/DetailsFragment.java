@@ -26,6 +26,8 @@ import com.google.android.gms.ads.AdView;
 
 import java.util.ArrayList;
 
+import static com.android.news24x7.R.drawable.placeholder;
+
 public class DetailsFragment extends Fragment implements View.OnClickListener {
     public static final String ID = "ID";
     private static final String NEWS_SHARE_HASHTAG = " #MyNEWS";
@@ -164,7 +166,7 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
         //Got Advantages why to use Glide over picasso that's why replaced picasso.
         Glide.with(this).load(mUrlToImage)
                 .thumbnail(0.1f)
-                .error(R.drawable.titled)
+                .error(placeholder)
                 .crossFade() //animation
                 .into(mToolbarImage);
             mTitleText.setText(mTitle);
