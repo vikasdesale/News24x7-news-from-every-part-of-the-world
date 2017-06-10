@@ -4,10 +4,11 @@
     <dimen name="detail_body_text_size">22sp</dimen>
     <item name="detail_body_line_spacing_multiplier" format="float" type="fraction">1.25</item>
     <dimen name="notification_large_icon_default">48dp</dimen>
-
+    <dimen name="overPadding">5dp</dimen>
     <dimen name="appbar_elevation">4dp</dimen>
     <dimen name="refresh">3dp</dimen>
-
+    <dimen name="textSize">35dp</dimen>
+    <dimen name="textSizeError">20sp</dimen>
     <dimen name="fab_elevation">6dp</dimen>
     <dimen name="fab_press_translation_z">6dp</dimen>
     <dimen name="fab_margin">24dp</dimen>

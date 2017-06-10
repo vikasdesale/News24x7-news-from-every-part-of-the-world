@@ -1,9 +1,58 @@
-<com.android.news24x7.interfaces.ScrollViewExt android:id="@+id/scroll"
-    style="@style/MyLinearLayout"
+<LinearLayout
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"    >
+    <LinearLayout
+        android:id="@+id/error"
+        style="@style/MyLinearLayout2"
+        android:layout_marginTop="@dimen/textSize"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/errorcloud"
+            style="@style/ErrorLayout"
+            android:src="@drawable/error_view_cloud" />
+
+        <TextView
+            android:id="@+id/errortext"
+            style="@style/ErrorLayout"
+            android:text="No Internet Connection"
+            android:textColor="@color/accent"
+            android:textSize="@dimen/textSizeError" />
+    </LinearLayout>
+
+
+<LinearLayout android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/fragment_news_content"
     xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <fr.castorflex.android.smoothprogressbar.SmoothProgressBar
+        android:id="@+id/progressbar"
+        style="@style/GNowProgressBar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/overPadding"
+        android:layout_weight="0.1"
+        android:indeterminate="true" />
+    <com.android.news24x7.interfaces.ScrollViewExt
+        android:id="@+id/scroll"
+        style="@style/MyLinearLayout">
     <android.support.v7.widget.RecyclerView
         android:id="@+id/card_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
-</com.android.news24x7.interfaces.ScrollViewExt>
+    </com.android.news24x7.interfaces.ScrollViewExt>
+    <fr.castorflex.android.smoothprogressbar.SmoothProgressBar
+        android:id="@+id/progressbar2"
+        style="@style/GNowProgressBar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/overPadding"
+        android:layout_gravity="bottom"
+        android:layout_weight="0.1"
+        android:indeterminate="true" />
 
+</LinearLayout>
+</LinearLayout>

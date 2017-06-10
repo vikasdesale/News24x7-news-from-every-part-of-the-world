@@ -45,8 +45,7 @@ dependencies {
     compile "com.android.support:cardview-v7:$androidSupportVersion"
     compile 'com.android.support:support-v4:25.3.1'
 
-    compile 'it.neokree:MaterialTabs:0.11'
-
+//content provider
     annotationProcessor 'net.simonvt.schematic:schematic-compiler:0.7.0'
     compile 'net.simonvt.schematic:schematic:0.7.0'
     //image loader
@@ -58,7 +57,16 @@ dependencies {
     testCompile 'junit:junit:4.12'
 //firebase job dispatcher
     compile 'com.firebase:firebase-jobdispatcher:0.6.0'
-
+// Goolge ads
     compile 'com.google.android.gms:play-services-ads:10.2.6'
+// Firebase analytics
+       compile 'com.google.firebase:firebase-core:10.2.6'
+    //smooth progress bar
+    compile 'com.github.castorflex.smoothprogressbar:library:1.0.0'
+
+    //butter knief dependency injection
+    compile 'com.jakewharton:butterknife:8.4.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
 
 }
+apply plugin: 'com.google.gms.google-services'

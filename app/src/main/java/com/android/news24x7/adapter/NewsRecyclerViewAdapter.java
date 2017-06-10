@@ -17,6 +17,8 @@ import com.android.news24x7.R;
 import com.android.news24x7.interfaces.ColumnsNews;
 import com.bumptech.glide.Glide;
 
+import static com.android.news24x7.R.drawable.placeholder;
+
 /**
  * Created by Dell on 12/19/2016.
  */
@@ -45,13 +47,13 @@ public class NewsRecyclerViewAdapter extends CursorRecyclerViewAdapter<NewsRecyc
                 //Got Advantages why to use Glide over picasso that's why replaced picasso.
                 Glide.with(mContext).load(url)
                         .thumbnail(0.1f)
-                        .error(R.drawable.titled)
+                        .error(placeholder)
                         .crossFade() //animation
                         .into(viewHolder.imageView);
             }else {
                 viewHolder.imageView.setImageDrawable(null);
                 viewHolder.textView.setText("No Title");
-                viewHolder.imageView.setImageResource(R.drawable.titled);
+                viewHolder.imageView.setImageResource(R.drawable.placeholder);
             }
 
 

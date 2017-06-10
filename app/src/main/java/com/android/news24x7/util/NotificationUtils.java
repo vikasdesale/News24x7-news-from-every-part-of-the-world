@@ -27,7 +27,7 @@ import com.bumptech.glide.Glide;
 
 import java.util.concurrent.ExecutionException;
 
-import static com.android.news24x7.R.drawable.titled;
+import static com.android.news24x7.R.drawable.placeholder;
 
 
 public class NotificationUtils {
@@ -71,12 +71,12 @@ public class NotificationUtils {
                         largeIcon = Glide.with(context)
                                 .load(cursor.getString(cursor.getColumnIndex(ColumnsNews.URL_TO_IMAGE)))
                                 .asBitmap()
-                                .error(titled)
+                                .error(placeholder)
                                 .fitCenter()
                                 .into(largeIconWidth, largeIconHeight).get();
                     } catch (InterruptedException | ExecutionException e) {
                         //  Log.e(LOG_TAG, "Error retrieving large icon from " +cursor.getString(cursor.getColumnIndex(ColumnsNews.URL_TO_IMAGE)) , e);
-                        largeIcon = BitmapFactory.decodeResource(resources, titled);
+                        largeIcon = BitmapFactory.decodeResource(resources, placeholder);
                     }
                     String title = cursor.getString(cursor.getColumnIndex(ColumnsNews.TITLE));
 
@@ -101,7 +101,7 @@ public class NotificationUtils {
 //          COMPLETED (2) Use NotificationCompat.Builder to begin building the notification
                     NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context)
                             .setColor(ContextCompat.getColor(context, R.color.accent))
-                            .setSmallIcon(titled)
+                            .setSmallIcon(placeholder)
                             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                             .setLargeIcon(largeIcon)
                             .setContentTitle(title)
