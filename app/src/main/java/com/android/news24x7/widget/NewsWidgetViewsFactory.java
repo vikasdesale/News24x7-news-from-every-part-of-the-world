@@ -84,7 +84,7 @@ public class NewsWidgetViewsFactory implements RemoteViewsService.RemoteViewsFac
          mPublishedAt = cursor.getString(cursor.getColumnIndex(ColumnsNews.PUBLISHED_AT));
 
 
-        final RemoteViews row = new RemoteViews(context.getPackageName(), R.layout.list_tem_news);
+        final RemoteViews row = new RemoteViews(context.getPackageName(), R.layout.list_item_news);
 
        Bitmap bitmap = null;
         try {

@@ -3,6 +3,8 @@ package com.android.news24x7.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -50,7 +52,7 @@ public class HomeActivity extends AppCompatActivity implements NewsFragment.Call
         ab.setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         if (navigationView != null) {
             Util.setupDrawerContent(navigationView, mDrawerLayout, this);
         }
@@ -81,6 +83,9 @@ public class HomeActivity extends AppCompatActivity implements NewsFragment.Call
         extras.putString(NewsWidgetProvider.EXTRA_URL, mUrl);
         extras.putString(NewsWidgetProvider.EXTRA_DATE, mPublishedAt);
         intent.putExtras(extras);
+        ActivityOptionsCompat activityOptions =
+                                    ActivityOptionsCompat.makeSceneTransitionAnimation(this);
+        ActivityCompat.startActivity(this, intent, activityOptions.toBundle());
         startActivity(intent);
     }
 

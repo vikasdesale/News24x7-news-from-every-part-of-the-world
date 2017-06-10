@@ -24,13 +24,14 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <ImageView
-                android:id="@+id/backdrop"
+                android:id="@+id/news_thumbnail"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
                 android:scaleType="centerCrop"
                 app:layout_collapseMode="parallax"
-                tools:ignore="ContentDescription" />
+                tools:ignore="ContentDescription"
+                android:transitionName="@string/accept"/>
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -50,6 +51,7 @@
         app:layout_behavior="com.android.news24x7.interfaces.FABAwareScrollingViewBehavior">
 
         <LinearLayout
+            android:id="@+id/detail_pane"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
