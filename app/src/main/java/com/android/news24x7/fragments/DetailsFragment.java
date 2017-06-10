@@ -20,6 +20,8 @@ import com.android.news24x7.R;
 import com.android.news24x7.parcelable.Article;
 import com.android.news24x7.util.NewsUtil;
 import com.bumptech.glide.Glide;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import java.util.ArrayList;
 
@@ -44,6 +46,7 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
     private ImageView myFavoriteNews;
     ImageView mToolbarImage;
     NewsUtil mNewsUtil;
+    AdView adView;
     private CollapsingToolbarLayout mCollapsingToolbar;
     private Toolbar toolbar;
     public DetailsFragment() {
@@ -70,7 +73,17 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
            mArticleReadMore=(TextView)  rootView.findViewById(R.id.article_read_more);
            mToolbarImage = (ImageView) rootView.findViewById(R.id.backdrop);
            myFavoriteNews=(ImageView)rootView.findViewById(R.id.save);
-           myFavoriteNews.setOnClickListener(this);
+           adView = (AdView) rootView.findViewById(R.id.adView);
+        // Create an ad request. Check logcat output for the hashed device ID to
+        // get test ads on a physical device. e.g.
+        // "Use AdRequest.Builder.addTestDevice("ABCDEF012345") to get test ads on this device."
+        AdView adView = (AdView)rootView.findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .addTestDevice("0123456789ABCDEF")
+                .build();
+        adView.loadAd(adRequest);
+        myFavoriteNews.setOnClickListener(this);
         toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
         mCollapsingToolbar =
                 (CollapsingToolbarLayout) rootView.findViewById(R.id.collapsing_toolbar);
@@ -104,6 +117,9 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
         return rootView;
 
     }
+    private void setUp() {
+
+            }
 
     //this is on direct call
     private void initalizeInt() {

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -12,60 +11,38 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.android.news24x7.R;
-import com.android.news24x7.adapter.ViewPagerAdapter;
 import com.android.news24x7.fragments.NewsFragment;
 import com.android.news24x7.util.NewsSyncUtils;
 import com.android.news24x7.util.Util;
 
-import it.neokree.materialtabs.MaterialTab;
-import it.neokree.materialtabs.MaterialTabHost;
-import it.neokree.materialtabs.MaterialTabListener;
 
-
-public class HomeActivity extends AppCompatActivity implements MaterialTabListener, ViewPager.OnPageChangeListener, NewsFragment.CallbackDetails {
+public class HomeActivity extends AppCompatActivity implements NewsFragment.CallbackDetails {
 
     private Toolbar toolbar;
     private DrawerLayout mDrawerLayout;
     private ActionBar ab;
-    //private ViewPager viewPager;
     private NavigationView navigationView;
-    //private TabLayout tabLayout;
-    //private ViewPagerAdapter viewPagerAdapter;
-    private MaterialTabHost mTabHost;
-    private ViewPager mPager;
-    private ViewPagerAdapter mAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         setupFind();
-        setUpTab();
+        if (savedInstanceState == null) {
+
+            NewsFragment fragment = new NewsFragment();
+            fragment.setArguments(null);
+
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.container, fragment, "")
+                    .commit();
+        }
         NewsSyncUtils.initialize(this);
 
     }
 
-    private void setUpTab() {
 
-            mTabHost = (MaterialTabHost) findViewById(R.id.materialTabHost);
-            mPager = (ViewPager) findViewById(R.id.viewPager);
-            mAdapter = new ViewPagerAdapter(getSupportFragmentManager(),this);
-            mPager.setAdapter(mAdapter);
-            //when the page changes in the ViewPager, update the Tabs accordingly
-            mPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-                @Override
-                public void onPageSelected(int position) {
-                    mTabHost.setSelectedNavigationItem(position);
-                    mAdapter.notifyDataSetChanged();
-                }
-            });
-            //Add all the Tabs to the TabHost
-            for (int i = 0; i < mAdapter.getCount(); i++) {
-                mTabHost.addTab(
-                        mTabHost.newTab()
-                                .setText(mAdapter.getPageTitle(i))
-                                .setTabListener(this));
-            }
-    }
+
 
     private void setupFind() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -91,36 +68,7 @@ public class HomeActivity extends AppCompatActivity implements MaterialTabListen
         }
         return super.onOptionsItemSelected(item);
     }
-    @Override
-    public void onTabSelected(MaterialTab materialTab) {
-        //when a Tab is selected, update the ViewPager to reflect the changes
-        mPager.setCurrentItem(materialTab.getPosition());
 
-
-    }
-
-    @Override
-    public void onTabReselected(MaterialTab materialTab) {
-    }
-
-    @Override
-    public void onTabUnselected(MaterialTab materialTab) {
-    }
-    @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-    }
-
-    @Override
-    public void onPageSelected(int position) {
-       mTabHost.setSelectedNavigationItem(position);
-
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int state) {
-
-    }
 
     @Override
     public void onItemSelected(String mTitle, String mAuthor, String mDescription, String mUrl, String mUrlToImage, String mPublishedAt) {

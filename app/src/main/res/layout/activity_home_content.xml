@@ -20,8 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
             app:navigationIcon="@mipmap/ic_launcher"
-            app:popupTheme="@style/AppTheme.PopupOverlay"
-            app:layout_scrollFlags="scroll|enterAlways|snap" >
+            app:popupTheme="@style/AppTheme.PopupOverlay">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -44,21 +43,11 @@
                 android:textColor="@color/background"
                 android:fontFamily="cursive"/>
         </android.support.v7.widget.Toolbar>
-        <!-- for Text Tabs -->
-        <it.neokree.materialtabs.MaterialTabHost
-            android:id="@+id/materialTabHost"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            app:accentColor="@color/accent"
-            app:primaryColor="@color/primary"
-            app:textColor="@color/background"
-            app:tabMode="scrollable"
-            app:tabContentStart="72dp" />
     </android.support.design.widget.AppBarLayout>
 
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewPager"
+    <FrameLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />

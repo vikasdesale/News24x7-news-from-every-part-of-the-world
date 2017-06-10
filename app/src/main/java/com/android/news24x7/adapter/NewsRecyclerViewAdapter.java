@@ -26,17 +26,55 @@ public class NewsRecyclerViewAdapter extends CursorRecyclerViewAdapter<NewsRecyc
     public ClickListener clickListener;
     Cursor mCursor;
     private Context mContext;
+
+
+    @Override
+    public void onBindViewHolderCursor(ViewHolder viewHolder, Cursor cursor) {
+        int viewType = getItemViewType(cursor.getPosition());
+
+            String title = cursor.getString(cursor.getColumnIndex(ColumnsNews.TITLE));
+            String url = cursor.getString(cursor.getColumnIndex(ColumnsNews.URL_TO_IMAGE));
+            String publishedAt = cursor.getString(cursor.getColumnIndex(ColumnsNews.PUBLISHED_AT));
+            viewHolder.imageView.setImageDrawable(null);
+
+
+            if (title != null || url != null)
+            {
+                viewHolder.textView.setText(title);
+                viewHolder.dates.setText(publishedAt);
+                //Got Advantages why to use Glide over picasso that's why replaced picasso.
+                Glide.with(mContext).load(url)
+                        .thumbnail(0.1f)
+                        .error(R.drawable.titled)
+                        .crossFade() //animation
+                        .into(viewHolder.imageView);
+            }else {
+                viewHolder.imageView.setImageDrawable(null);
+                viewHolder.textView.setText("No Title");
+                viewHolder.imageView.setImageResource(R.drawable.titled);
+            }
+
+
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return mCursor.getCount();
+    }
     private View view;
 
     public NewsRecyclerViewAdapter(Context context, Cursor cursor) {
-        super(context, cursor);
+        super(cursor);
         mContext = context;
         mCursor = cursor;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.news_list, viewGroup, false);
+
+            view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.news_list, null);
+
 
         return new ViewHolder(view);
     }
@@ -52,41 +90,18 @@ public class NewsRecyclerViewAdapter extends CursorRecyclerViewAdapter<NewsRecyc
         return position;
     }
 
-    @Override
-    public void onBindViewHolder(ViewHolder viewHolder, Cursor cursor) {
-       int viewType = getItemViewType(cursor.getPosition());
-        String title = cursor.getString(cursor.getColumnIndex(ColumnsNews.TITLE));
-        String url = cursor.getString(cursor.getColumnIndex(ColumnsNews.URL_TO_IMAGE));
-        String publishedAt = cursor.getString(cursor.getColumnIndex(ColumnsNews.PUBLISHED_AT));
-        viewHolder.imageView.setImageDrawable(null);
-
-
-        if (title != null || url != null)
-        {
-            viewHolder.textView.setText(title);
-            viewHolder.dates.setText(publishedAt);
-            //Got Advantages why to use Glide over picasso that's why replaced picasso.
-            Glide.with(mContext).load(url)
-                    .thumbnail(0.1f)
-                    .error(R.drawable.titled)
-                    .crossFade() //animation
-                    .into(viewHolder.imageView);
-        }else {
-            viewHolder.imageView.setImageDrawable(null);
-            viewHolder.textView.setText("No Title");
-            viewHolder.imageView.setImageResource(R.drawable.titled);
-        }
-    }
 
 
     public interface ClickListener {
         public void itemClicked(View view, int position);
     }
+
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView textView;
         TextView dates;
         ImageView imageView;
+
         public ViewHolder(View itemView) {
             super(itemView);
             textView = (TextView)itemView.findViewById(R.id.news_article_title);

@@ -8,6 +8,14 @@
         <item>ENTERTAINMENT</item>
         <item>TECHNOLOGY</item>
     </string-array>
+    <string name="deviceId">01234567890ABCDEF</string>
+    <string name="banner_ad_unit_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="interstitial_ad_unit_id" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="action_latest">Latest Articles</string>
+    <string name="action_top">Top Articles</string>
+    <string name="action_save">Favorite Articles</string>
+
+
     <!-- Strings related to Notification Enabled preference -->
     <string name="activity_title_settings">Settings</string>
 
@@ -47,8 +55,7 @@
     <string name="refresh">Refreshed</string>
     <string name="fab_save">save article</string>
     <string name="title_activity_settings">Settings</string>
-
-
+    <string name="action_sport">sport</string>
 
 
 </resources>

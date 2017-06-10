@@ -5,48 +5,47 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
-import com.android.news24x7.BuildConfig;
 import com.android.news24x7.R;
 import com.android.news24x7.adapter.NewsRecyclerViewAdapter;
 import com.android.news24x7.interfaces.ScrollViewExt;
 import com.android.news24x7.interfaces.ScrollViewListener;
 import com.android.news24x7.parcelable.Article;
-import com.android.news24x7.retrofit.ApiClient;
-import com.android.news24x7.retrofit.ApiInterface;
-import com.android.news24x7.retrofit.NewsResponse;
 import com.android.news24x7.util.NewsUtil;
 
-import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-import static android.content.ContentValues.TAG;
 import static com.android.news24x7.util.NewsUtil.CacheDelete;
 
 
 public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.ClickListener,ScrollViewListener {
 
 
-    String tab;
+    String nav_menu=null;
     private static final String ARG_PARAM1 = "title";
     private static final String ARG_PARAM2 = "data";
-    String source[]={"the-times-of-india","the-hindu","usa-today","time","mtv-news"};
-    String sourceSport[]={"bbc-sport","espn-cric-info","talksport"};
-    String sourceEntertainment[]={"mtv-news","the-lad-bible"};
+    String source[]=null;
+    String sourceTopL[]={"mtv-news","the-lad-bible","bbc-sport","time","mtv-news"};
+    String sourceSport[]={"espn-cric-info","talksport"};
+    String sourceBusiness[]={"business-insider","bloomberg","cnbc"};
+    String sourceEntertainment[]={"business-insider","bloomberg","cnbc"};
+    String sourceMusic[]={"business-insider","bloomberg","cnbc"};
+    String sourceScience[]={"business-insider","bloomberg","cnbc"};
+    String sourceTechnology[]={"business-insider","bloomberg","cnbc"};
+    String sourcePolitics[]={"business-insider","bloomberg","cnbc"};
     private String mParam1;
     private String mParam2;
-    private static int favflag = 2;
+    private static int favflag = 0;
     RecyclerView mRecyclerView;
     int i=0;
     private ScrollViewExt scroll;
@@ -56,9 +55,8 @@ public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.Cl
     private NewsLoader mNewsLoader;
     private int mPosition = ListView.INVALID_POSITION;
     private static final String SELECTED_KEY = "selected_position";
-
-
-
+    Cursor cursor;
+    NewsRecyclerViewAdapter gridAdapter;
     public NewsFragment() {
         // Required empty public constructor
     }
@@ -90,10 +88,9 @@ public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.Cl
         setRetainInstance(true);
         setHasOptionsMenu(true);
         if (getArguments() != null) {
-            tab = getArguments().getString(ARG_PARAM1);
+            nav_menu = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
     }
 
     @Override
@@ -101,81 +98,108 @@ public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.Cl
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v=inflater.inflate(R.layout.fragment_news, container, false);
-
          mRecyclerView=(RecyclerView) v.findViewById(R.id.card_recycler_view);
         scroll = (ScrollViewExt) v.findViewById(R.id.scroll);
         scroll.setScrollViewListener(this);
-        mRecyclerView.setHasFixedSize(true);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());;
-        mRecyclerView.setLayoutManager(layoutManager);
-
-            TabSelection(tab);
-
+          NewsCheck();
+        RetrofitCall.onRetrofit(new RetrofitCall.RetrofitCallback() {
+            @Override
+            public void onRetrofitCall() {
+                allNewsWindow();
+            }
+        });
         return v;
     }
+
+    private void NewsCheck() {
+       if(nav_menu==null) {
+           if (mNewsUtil.getAllNewsCount(getActivity()) != 0) {
+               allNewsWindow();
+
+           } else {
+               i = 0;
+               data.clear();
+               source=sourceTopL;
+               data.put("source", "" + source[i++]);
+               data.put("sortBy", "top");
+               RetrofitCall r = new RetrofitCall();
+               r.fetchNews(getContext(), data);
+           }
+
+       }else{
+           onNavSelection(nav_menu);
+       }
+    }
+
+    private void onNavSelection(String nav_menu) {
+        favflag = 0;
+        i=0;
+        switch (nav_menu)
+        {
+            case "Business":
+                CacheDelete(getContext());
+                source=sourceBusiness;
+                check(i,sourceBusiness,"latest");
+                break;
+            case "Technology":
+                CacheDelete(getContext());
+                source=sourceTechnology;
+                check(i,sourceBusiness,"latest");
+                break;
+            case "Science-and-nature":
+                CacheDelete(getContext());
+                source=sourceScience;
+                check(i,sourceScience,"latest");
+                break;
+            case "Sport":
+                CacheDelete(getContext());
+                source=sourceSport;
+                check(i,sourceSport,"latest");
+                break;
+            case "Politics":
+                CacheDelete(getContext());
+                source=sourcePolitics;
+                check(i,sourcePolitics,"latest");
+                break;
+            case "Music":
+                CacheDelete(getContext());
+                source=sourceMusic;
+                check(i,sourceMusic,"latest");
+                break;
+            case "Entertainment":
+                CacheDelete(getContext());
+                source=sourceEntertainment;
+                check(i,sourceEntertainment,"latest");
+                break;
+        }
+    }
+
     //Load All Movies from temporary database
     private void allNewsWindow() {
-        favflag = 0;
-        Cursor allm = null;
         try {
-            allm = mNewsUtil.allNewsCursor(getActivity());
-            setUpAdapter(allm);
+            cursor = mNewsUtil.allNewsCursor(getActivity());
+            setUpAdapter(cursor);
         } catch (Exception e) {
+
         }
+
     }
 
 
     private void setUpAdapter(Cursor c) {
-        NewsRecyclerViewAdapter gridAdapter = new NewsRecyclerViewAdapter(getActivity(),c);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());;
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setHasFixedSize(true);
+        gridAdapter = new NewsRecyclerViewAdapter(getActivity(),c);
         mNewsLoader = mNewsLoader.newInstance(favflag, this, gridAdapter);
         gridAdapter = new NewsRecyclerViewAdapter(getActivity(),c);
         mNewsLoader.initLoader();
         gridAdapter.setClickListener(this);
-
         if (mRecyclerView != null)
             mRecyclerView.setAdapter(gridAdapter);
-      //  mRecyclerView.swapAdapter(gridAdapter,true);
     }
 
-    private void fetchNews(Map<String, String> data) {
-        ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
 
-        data.put("apiKey", BuildConfig.NEWS_API_ORG_KEY);
-        Call<NewsResponse> call = null;
-            call = apiService.getNews(data);
-        call.enqueue(new Callback<NewsResponse>() {
-            @Override
-            public void onResponse(Call<NewsResponse> call, Response<NewsResponse> response) {
-                if(response.isSuccessful()) {
-                    articlesList = (ArrayList<Article>) response.body().getArticles();
-                    mNewsUtil.insertData(getContext(), articlesList, "no");
-                    allNewsWindow();
-                }
-                else {
-
-                    int errorCode = response.code();
-
-                    switch (errorCode) {
-                        case HttpURLConnection.HTTP_OK:
-                            break;
-                        case HttpURLConnection.HTTP_NOT_FOUND:
-                            //setNewsStatus(getContext(), NEWS_STATUS_INVALID);
-                            return;
-                        default:
-                            //setNewsStatus(getContext(), NEWS_STATUS_SERVER_DOWN);
-                            return;
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<NewsResponse> call, Throwable t) {
-                Log.e(TAG,"Error"+t.toString());
-
-            }
-        });
-    }
     @Override
     public void onResume() {
         super.onResume();
@@ -207,24 +231,34 @@ public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.Cl
         View view = (View) scrollView.getChildAt(scrollView.getChildCount() - 1);
         int diff = (view.getBottom() - (scrollView.getHeight() + scrollView.getScrollY()));
         // if diff is zero, then the bottom has been reached
-        if (diff == 0 ) {
-              //TabSelection(tab);
-            }
+        if (diff == 0 && favflag == 0 ) {
+            if (i < source.length)
+            {      data.remove("source");
+            data.put("source", source[i++]);
+            RetrofitCall r = new RetrofitCall();
+            r.fetchNews(getContext(), data);
+        }
+        }
 
     }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.moviefragment, menu);
 
+    }
     @Override
     public void itemClicked(View view, int position) {
-        Cursor onClick = null;
+         cursor = null;
         try {
             if (favflag == 1) {
-                onClick = mNewsUtil.favoriteNewsCursor(getActivity());
+                cursor = mNewsUtil.favoriteNewsCursor(getActivity());
             } else {
-                onClick = mNewsUtil.allNewsCursor(getActivity());
+                cursor = mNewsUtil.allNewsCursor(getActivity());
             }
-            boolean cursor = onClick.moveToPosition(position);
-            if (cursor) {
-                String args[]=mNewsUtil.getData(onClick);
+            boolean cursorBoolean = cursor.moveToPosition(position);
+            if (cursorBoolean) {
+                String args[]=mNewsUtil.getData(cursor);
                 ((CallbackDetails) getActivity())
                         .onItemSelected(args[0],args[1],args[2],args[3],args[4],args[5]);
             }
@@ -238,30 +272,63 @@ public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.Cl
         data.clear();
         data.put("source", ""+s[i++]);
         data.put("sortBy",""+sortBy);
-        fetchNews(data);
+        RetrofitCall r=new RetrofitCall();
+        r.fetchNews(getContext(),data);
+
     }
-    public void TabSelection(String tab){
-        switch (tab) {
-            case "HEADLINES":
-                CacheDelete(getContext());
-                check(i,source,"latest");
-                break;
-            case "ENTERTAINMENT":
-                CacheDelete(getContext());
-                check(i,sourceEntertainment,"latest");
-                break;
-            case "HIGHLIGHT":
-                CacheDelete(getContext());
-                check(i,source,"top");
-                break;
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
 
-
+        if (id == R.id.action_top) {
+            favflag = 0;
+            i=0;
+            CacheDelete(getContext());
+            source=sourceTopL;
+            check(i,sourceTopL,"top");
+            return true;
+        }
+        if (id == R.id.action_latest) {
+            i = 0;
+            favflag = 0;
+            CacheDelete(getContext());
+            source=sourceTopL;
+            check(i,sourceTopL,"latest");
+            return true;
+        }
+        if (id == R.id.action_save) {
+            openFavorite();
+            return true;
         }
 
 
-        }
-
-
+        return super.onOptionsItemSelected(item);
     }
+
+
+    //Method for loading Favorite Movies from database
+    private void openFavorite() {
+        cursor= null;
+        try {
+            cursor = mNewsUtil.favoriteNewsCursor(getActivity());
+            CacheDelete(getContext());
+            if (cursor.getCount() == 0) {
+                Toast.makeText(getContext(), "Currently You have not any Favorite News...Add it!", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getContext(), "Favorite News", Toast.LENGTH_SHORT).show();
+               // errorLayout.setVisibility(View.GONE);
+               // contLayout.setVisibility(View.VISIBLE);
+                setUpAdapter(cursor);
+                favflag = 1;
+            }
+        } catch (Exception e) {
+        }
+    }
+
+
+
+
+
+}
 
 
