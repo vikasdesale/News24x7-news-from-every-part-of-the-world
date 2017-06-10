@@ -3,9 +3,6 @@ package com.android.news24x7.util;
 import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
 
@@ -43,9 +40,5 @@ public class Util {
                 });
     }
 
-    public static void replaceFragment(Fragment fragment, FragmentManager fragmentManager) {
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.viewpager, fragment);
-        transaction.commit();
-    }
+
 }

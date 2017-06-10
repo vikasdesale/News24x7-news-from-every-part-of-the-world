@@ -58,6 +58,7 @@ public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.Cl
     private static final String SELECTED_KEY = "selected_position";
 
 
+
     public NewsFragment() {
         // Required empty public constructor
     }
@@ -73,7 +74,14 @@ public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.Cl
 
         public void onItemSelected(String mTitle,String mAuthor,String mDescription,String mUrl,String mUrlToImage,String mPublishedAt);
     }
-
+    public static NewsFragment newInstance(String param1, String param2) {
+        NewsFragment fragment = new NewsFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -100,7 +108,9 @@ public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.Cl
         mRecyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());;
         mRecyclerView.setLayoutManager(layoutManager);
-        TabSelection(tab);
+
+            TabSelection(tab);
+
         return v;
     }
     //Load All Movies from temporary database
@@ -111,7 +121,6 @@ public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.Cl
             allm = mNewsUtil.allNewsCursor(getActivity());
             setUpAdapter(allm);
         } catch (Exception e) {
-            Log.d(TAG, e.toString());
         }
     }
 
@@ -125,6 +134,7 @@ public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.Cl
 
         if (mRecyclerView != null)
             mRecyclerView.setAdapter(gridAdapter);
+      //  mRecyclerView.swapAdapter(gridAdapter,true);
     }
 
     private void fetchNews(Map<String, String> data) {
@@ -234,15 +244,7 @@ public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.Cl
         switch (tab) {
             case "HEADLINES":
                 CacheDelete(getContext());
-                 check(i,source,"latest");
-                 break;
-            case "TRENDING":
-                CacheDelete(getContext());
-                check(i,source,"popular");
-                break;
-            case "SPORT":
-                CacheDelete(getContext());
-                check(i,sourceSport,"latest");
+                check(i,source,"latest");
                 break;
             case "ENTERTAINMENT":
                 CacheDelete(getContext());
@@ -255,6 +257,11 @@ public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.Cl
 
 
         }
+
+
+        }
+
+
     }
 
-}
+
