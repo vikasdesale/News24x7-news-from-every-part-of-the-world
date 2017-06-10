@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.android.news24x7.R;
 import com.android.news24x7.parcelable.Article;
 import com.android.news24x7.util.NewsUtil;
+import com.android.news24x7.widget.NewsWidgetProvider;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -123,16 +124,18 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
 
     //this is on direct call
     private void initalizeInt() {
-        intent = getActivity().getIntent();
         mNewsUtil=new NewsUtil();
-        if (intent != null) {
-                mTitle = intent.getStringExtra("title");
-                mAuthor = intent.getStringExtra("author");
-                mDescription = intent.getStringExtra("overview");
-                mUrl = intent.getStringExtra("url");
-                mUrlToImage = intent.getStringExtra("url_image");
-                mPublishedAt= intent.getStringExtra("published");
+        Bundle arguments = getArguments();
+        if (arguments != null) {
+            mTitle=arguments.getString(NewsWidgetProvider.EXTRA_TITLE);
+            mAuthor=arguments.getString(NewsWidgetProvider.EXTRA_AUTHOR);
+            mDescription=arguments.getString(NewsWidgetProvider.EXTRA_DESCRIPTION);
+            mUrl=arguments.getString(NewsWidgetProvider.EXTRA_URL);
+            mUrlToImage=arguments.getString(NewsWidgetProvider.EXTRA_IMAGE_URL);
+            mPublishedAt=arguments.getString(NewsWidgetProvider.EXTRA_DATE);
         }
+
+
     }
 
     @Override

@@ -36,7 +36,7 @@ public class NewsSyncTask {
         Map<String, String> data = new HashMap<>();
         data.put("source", "the-hindu");
         data.put("sortBy", "latest");
-       fetchData(context,data);
+        fetchData(context,data);
 
         boolean notificationsEnabled = NewsPreferences.areNotificationsEnabled(context);
 

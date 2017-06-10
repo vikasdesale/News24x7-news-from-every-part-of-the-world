@@ -76,6 +76,7 @@ public class NewsLoader implements LoaderManager.LoaderCallbacks<Cursor> {
         if (gridAdapter != null) {
             gridAdapter.swapCursor(cursor);
         }
+
     }
 
     @Override
