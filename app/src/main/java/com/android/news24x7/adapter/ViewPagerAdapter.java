@@ -1,6 +1,7 @@
 package com.android.news24x7.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -23,8 +24,12 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-
-             return NewsFragment.newInstance("" +getPageTitle(position), "data");
+        NewsFragment fragment = new NewsFragment();
+        Bundle args = new Bundle();
+        args.putString("title", String.valueOf(getPageTitle(position)));
+        args.putString("data", "data");
+        fragment.setArguments(args);
+        return fragment;
 
     }
 
