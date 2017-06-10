@@ -106,7 +106,7 @@ public class NewsRecyclerViewAdapter extends CursorRecyclerViewAdapter<NewsRecyc
             super(itemView);
             textView = (TextView)itemView.findViewById(R.id.news_article_title);
             dates = (TextView)itemView.findViewById(R.id.news_published_at);
-            imageView = (ImageView)itemView.findViewById(R.id.news_thumbnail);
+            imageView = (ImageView)itemView.findViewById(R.id.backdrop);
             itemView.setOnClickListener(this);
 
         }

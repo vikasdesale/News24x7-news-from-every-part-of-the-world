@@ -59,7 +59,6 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         initalizeInt();
 
-
     }
 
 
@@ -68,11 +67,12 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_article_detail, container, false);
+
            mTitleText= (TextView) rootView.findViewById(R.id.article_title);
            mByText= (TextView) rootView.findViewById(R.id.article_byline);
            mArticleBody=(TextView) rootView.findViewById(R.id.article_body);
            mArticleReadMore=(TextView)  rootView.findViewById(R.id.article_read_more);
-           mToolbarImage = (ImageView) rootView.findViewById(R.id.backdrop);
+           mToolbarImage = (ImageView) rootView.findViewById(R.id.news_thumbnail);
            myFavoriteNews=(ImageView)rootView.findViewById(R.id.save);
            adView = (AdView) rootView.findViewById(R.id.adView);
         // Create an ad request. Check logcat output for the hashed device ID to
@@ -124,7 +124,6 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
 
     //this is on direct call
     private void initalizeInt() {
-        mNewsUtil=new NewsUtil();
         Bundle arguments = getArguments();
         if (arguments != null) {
             mTitle=arguments.getString(NewsWidgetProvider.EXTRA_TITLE);
@@ -135,7 +134,15 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
             mPublishedAt=arguments.getString(NewsWidgetProvider.EXTRA_DATE);
         }
 
-
+        mNewsUtil=new NewsUtil();
+        if (intent != null) {
+                mTitle = intent.getStringExtra("title");
+                mAuthor = intent.getStringExtra("author");
+                mDescription = intent.getStringExtra("overview");
+                mUrl = intent.getStringExtra("url");
+                mUrlToImage = intent.getStringExtra("url_image");
+                mPublishedAt= intent.getStringExtra("published");
+        }
     }
 
     @Override

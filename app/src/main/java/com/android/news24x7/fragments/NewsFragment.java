@@ -36,7 +36,7 @@ public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.Cl
     private static final String ARG_PARAM1 = "title";
     private static final String ARG_PARAM2 = "data";
     String source[]=null;
-    String sourceTopL[]={"mtv-news","the-lad-bible","bbc-sport","time","mtv-news"};
+    String sourceTopL[]={"business-insider","bbc-sport","time"};
     String sourceSport[]={"espn-cric-info","talksport"};
     String sourceBusiness[]={"business-insider","bloomberg","cnbc"};
     String sourceEntertainment[]={"business-insider","bloomberg","cnbc"};
@@ -73,14 +73,6 @@ public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.Cl
 
         public void onItemSelected(String mTitle,String mAuthor,String mDescription,String mUrl,String mUrlToImage,String mPublishedAt);
     }
-    public static NewsFragment newInstance(String param1, String param2) {
-        NewsFragment fragment = new NewsFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -102,7 +94,9 @@ public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.Cl
          mRecyclerView=(RecyclerView) v.findViewById(R.id.card_recycler_view);
         scroll = (ScrollViewExt) v.findViewById(R.id.scroll);
         scroll.setScrollViewListener(this);
+
           NewsCheck();
+
         RetrofitCall.onRetrofit(new RetrofitCall.RetrofitCallback() {
             @Override
             public void onRetrofitCall() {
