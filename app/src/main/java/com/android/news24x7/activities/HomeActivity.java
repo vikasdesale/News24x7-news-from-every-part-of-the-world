@@ -1,15 +1,17 @@
 package com.android.news24x7.activities;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.transition.Fade;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
 import android.view.MenuItem;
 
 import com.android.news24x7.R;
@@ -31,6 +33,13 @@ public class HomeActivity extends AppCompatActivity implements NewsFragment.Call
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (Build.VERSION.SDK_INT >= 21) {
+
+            TransitionInflater inflater = TransitionInflater.from(this);
+            Transition transition = inflater.inflateTransition(R.transition.details_window_enter_transition);
+            getWindow().setExitTransition(transition);
+        }
+       // setUpWindowAnimations();
         setContentView(R.layout.activity_home);
         setupFind();
 
@@ -77,7 +86,13 @@ public class HomeActivity extends AppCompatActivity implements NewsFragment.Call
         return super.onOptionsItemSelected(item);
     }
 
-
+    private void setUpWindowAnimations() {
+        if (android.os.Build.VERSION.SDK_INT >= 21) {
+            Fade fade = new Fade(2);
+            fade.setDuration(3000);
+            getWindow().setExitTransition(fade);
+        }
+    }
     @Override
     public void onItemSelected(String mTitle, String mAuthor, String mDescription, String mUrl, String mUrlToImage, String mPublishedAt) {
         //Log.d("GREAT TO SEE","My News:"+ mTitle+mAuthor+mDescription+mUrl+mUrlToImage+mPublishedAt);
@@ -91,10 +106,7 @@ public class HomeActivity extends AppCompatActivity implements NewsFragment.Call
         extras.putString(NewsWidgetProvider.EXTRA_URL, mUrl);
         extras.putString(NewsWidgetProvider.EXTRA_DATE, mPublishedAt);
         intent.putExtras(extras);
-        ActivityOptionsCompat activityOptions =
-                                    ActivityOptionsCompat.makeSceneTransitionAnimation(this);
-        ActivityCompat.startActivity(this, intent, activityOptions.toBundle());
-        startActivity(intent);
+       startActivity(intent);
     }
 
 }

@@ -10,7 +10,6 @@ import com.android.news24x7.retrofit.ApiInterface;
 import com.android.news24x7.retrofit.NewsResponse;
 import com.android.news24x7.util.NewsUtil;
 
-import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -28,7 +27,7 @@ public class RetrofitCall {
     static ArrayList<Article> articlesList;
     public static RetrofitCallback callBack;
     public interface RetrofitCallback {
-        public void  onRetrofitCall();
+        public void  onRetrofitCall(int articlesList);
     }
     public static void onRetrofit(RetrofitCallback call) {
 
@@ -48,31 +47,17 @@ public class RetrofitCall {
                 if(response.isSuccessful()) {
                     articlesList = (ArrayList<Article>) response.body().getArticles();
                     mNewsUtil.insertData(context, articlesList, "no");
-                    Log.e("vikas Fragment 2:",""+articlesList.size());
                 }
-                else {
 
-                    int errorCode = response.code();
-
-                    switch (errorCode) {
-                        case HttpURLConnection.HTTP_OK:
-                            break;
-                        case HttpURLConnection.HTTP_NOT_FOUND:
-                            //setNewsStatus(getContext(), NEWS_STATUS_INVALID);
-                            return;
-                        default:
-                            //setNewsStatus(getContext(), NEWS_STATUS_SERVER_DOWN);
-                            return;
-                    }
-                }
-                callBack.onRetrofitCall();
+                callBack.onRetrofitCall(0);
 
             }
 
             @Override
             public void onFailure(Call<NewsResponse> call, Throwable t) {
                 Log.e(TAG,"Error"+t.toString());
-
+               int i=1;
+                callBack.onRetrofitCall(i);
             }
         });
     }

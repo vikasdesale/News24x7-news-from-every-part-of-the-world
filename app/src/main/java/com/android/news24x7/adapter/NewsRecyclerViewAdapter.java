@@ -75,7 +75,8 @@ public class NewsRecyclerViewAdapter extends CursorRecyclerViewAdapter<NewsRecyc
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
 
-            view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.news_list, null);
+            view = LayoutInflater.from(viewGroup.getContext())
+                    .inflate(R.layout.news_list, viewGroup, false);
 
 
         return new ViewHolder(view);

@@ -3,6 +3,7 @@ package com.android.news24x7.fragments;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,19 +13,25 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.ProgressBar;
 
 import com.android.news24x7.R;
 import com.android.news24x7.adapter.NewsRecyclerViewAdapter;
 import com.android.news24x7.interfaces.ScrollViewExt;
 import com.android.news24x7.interfaces.ScrollViewListener;
 import com.android.news24x7.parcelable.Article;
+import com.android.news24x7.util.NetworkUtil;
 import com.android.news24x7.util.NewsUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 import static com.android.news24x7.util.NewsUtil.CacheDelete;
 
@@ -46,8 +53,17 @@ public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.Cl
     String sourcePolitics[]={"business-insider","bloomberg","cnbc"};
     private String mParam1;
     private String mParam2;
-    private static int favflag = 0;
+    @BindView(R.id.progressbar)
+    ProgressBar progressBar;
+    @BindView(R.id.progressbar2)
+    ProgressBar progressBar2;
+    @BindView(R.id.error)
+    LinearLayout errorLayout;
+    @BindView(R.id.fragment_news_content)
+    LinearLayout contLayout;
+    @BindView(R.id.card_recycler_view)
     RecyclerView mRecyclerView;
+    private static int favflag = 0;
     int i=0;
     private ScrollViewExt scroll;
     Map<String, String> data = new HashMap<>();
@@ -56,7 +72,9 @@ public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.Cl
     private NewsLoader mNewsLoader;
     private int mPosition = ListView.INVALID_POSITION;
     private static final String SELECTED_KEY = "selected_position";
-    Cursor cursor;
+    private Cursor cursor;
+    private Unbinder unbinder;
+
     NewsRecyclerViewAdapter gridAdapter;
     public NewsFragment() {
         // Required empty public constructor
@@ -89,22 +107,36 @@ public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.Cl
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View v=inflater.inflate(R.layout.fragment_news, container, false);
-         mRecyclerView=(RecyclerView) v.findViewById(R.id.card_recycler_view);
-        scroll = (ScrollViewExt) v.findViewById(R.id.scroll);
+        unbinder = ButterKnife.bind(this, v);
+        scroll= (ScrollViewExt) v.findViewById(R.id.scroll);
         scroll.setScrollViewListener(this);
+        if (!NetworkUtil.isNetworkConnected(getActivity())) {
+            progressBar.setVisibility(View.GONE);
+            progressBar2.setVisibility(View.GONE);
+            errorLayout.setVisibility(View.VISIBLE);
+            contLayout.setVisibility(View.GONE);
+        } else {
+            progressBar2.setVisibility(View.GONE);
+            progressBar.setVisibility(View.VISIBLE);
+            NewsCheck();
+            RetrofitCall.onRetrofit(new RetrofitCall.RetrofitCallback() {
+                @Override
+                public void onRetrofitCall(int article) {
+                    // Send update broadcast to update the widget
+                    getContext().sendBroadcast(new Intent("android.appwidget.action.APPWIDGET_UPDATE"));
+                    allNewsWindow();
+                    progressBar.setVisibility(View.GONE);
+                    if(article==1) {
+                        progressBar.setVisibility(View.GONE);
+                        Snackbar snackbar = Snackbar
+                                .make(contLayout, "Data not available", Snackbar.LENGTH_LONG);
 
-          NewsCheck();
-
-        RetrofitCall.onRetrofit(new RetrofitCall.RetrofitCallback() {
-            @Override
-            public void onRetrofitCall() {
-                // Send update broadcast to update the widget
-                getContext().sendBroadcast(new Intent("android.appwidget.action.APPWIDGET_UPDATE"));
-                allNewsWindow();
-            }
-        });
+                        snackbar.show();
+                    }
+                }
+            });
+        }
         return v;
     }
 
@@ -116,6 +148,7 @@ public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.Cl
                // Send update broadcast to update the widget
                getContext().sendBroadcast(new Intent("android.appwidget.action.APPWIDGET_UPDATE"));
                allNewsWindow();
+               progressBar.setVisibility(View.GONE);
 
            } else {
                i = 0;
@@ -219,6 +252,7 @@ public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.Cl
 
     @Override
     public void onDestroyView() {
+        unbinder.unbind();
         super.onDestroyView();
     }
 
@@ -234,14 +268,46 @@ public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.Cl
         int diff = (view.getBottom() - (scrollView.getHeight() + scrollView.getScrollY()));
         // if diff is zero, then the bottom has been reached
         if (diff == 0 && favflag == 0 ) {
-            if (i < source.length)
-            {      data.remove("source");
-            data.put("source", source[i++]);
-            RetrofitCall r = new RetrofitCall();
-            r.fetchNews(getContext(), data);
-        }
-        }
+            {
+                if (NetworkUtil.isNetworkConnected(getActivity())) {
+                    if (errorLayout != null || progressBar != null || contLayout != null || progressBar2 != null) {
+                        errorLayout.setVisibility(View.GONE);
+                        contLayout.setVisibility(View.VISIBLE);
+                        try {
+                            if (i < source.length) {
+                                if (progressBar != null) {
+                                    progressBar.setVisibility(View.GONE);
+                                }
+                                progressBar2.setVisibility(View.VISIBLE);
+                                data.remove("source");
+                                data.put("source", source[i++]);
+                                RetrofitCall r = new RetrofitCall();
+                                r.fetchNews(getContext(), data);
+                            } else {
+                                progressBar2.setVisibility(View.GONE);
+                                Snackbar snackbar = Snackbar
+                                        .make(contLayout, "More News Articles Not Available", Snackbar.LENGTH_LONG);
 
+                                snackbar.show();
+                            }
+
+
+                        } catch (Exception e) {
+                        }
+                        if(source==null){
+                            Snackbar snackbar = Snackbar
+                                    .make(contLayout, "More News Articles Not Available", Snackbar.LENGTH_LONG);
+
+                            snackbar.show();
+                        }
+                    }
+                    } else {
+                        errorLayout.setVisibility(View.VISIBLE);
+                        contLayout.setVisibility(View.GONE);
+                    }
+
+            }
+        }
     }
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -274,24 +340,31 @@ public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.Cl
         data.clear();
         data.put("source", ""+s[i++]);
         data.put("sortBy",""+sortBy);
-        RetrofitCall r=new RetrofitCall();
-        r.fetchNews(getContext(),data);
+        if (!NetworkUtil.isNetworkConnected(getActivity())) {
+            progressBar.setVisibility(View.GONE);
+            progressBar2.setVisibility(View.GONE);
+            errorLayout.setVisibility(View.VISIBLE);
+            contLayout.setVisibility(View.GONE);
+        } else {
+            progressBar2.setVisibility(View.GONE);
+            progressBar.setVisibility(View.VISIBLE);
+            RetrofitCall r = new RetrofitCall();
+            r.fetchNews(getContext(), data);
+        }
 
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
+        i=0;
+        CacheDelete(getContext());
         if (id == R.id.action_top) {
             favflag = 0;
-            i=0;
-            CacheDelete(getContext());
             source=sourceTopL;
             check(i,sourceTopL,"top");
             return true;
         }
         if (id == R.id.action_latest) {
-            i = 0;
             favflag = 0;
             CacheDelete(getContext());
             source=sourceTopL;
@@ -315,18 +388,20 @@ public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.Cl
             cursor = mNewsUtil.favoriteNewsCursor(getActivity());
             CacheDelete(getContext());
             if (cursor.getCount() == 0) {
-                Toast.makeText(getContext(), "Currently You have not any Favorite News...Add it!", Toast.LENGTH_SHORT).show();
+                Snackbar snackbar = Snackbar
+                        .make(contLayout, "Favorite articles not available", Snackbar.LENGTH_LONG);
+
+                snackbar.show();
             } else {
-                Toast.makeText(getContext(), "Favorite News", Toast.LENGTH_SHORT).show();
-               // errorLayout.setVisibility(View.GONE);
-               // contLayout.setVisibility(View.VISIBLE);
+                Snackbar snackbar = Snackbar
+                        .make(contLayout, "Your favorite articles are here", Snackbar.LENGTH_LONG);
+                snackbar.show();
                 setUpAdapter(cursor);
                 favflag = 1;
             }
         } catch (Exception e) {
         }
     }
-
 
 
 
