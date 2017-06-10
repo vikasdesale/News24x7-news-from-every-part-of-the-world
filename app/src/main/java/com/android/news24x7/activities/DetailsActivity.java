@@ -15,22 +15,15 @@ public class DetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article_detail);
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new DetailsFragment())
-                    .commit();
-        }
-        if (savedInstanceState == null) {
-            // Create the detail fragment and add it to the activity
-            // using a fragment transaction.
+        Bundle extras = getIntent().getExtras();
 
-            DetailsFragment fragment = new DetailsFragment();
-            fragment.setArguments(null);
+        DetailsFragment fragment = new DetailsFragment();
 
-            getSupportFragmentManager().beginTransaction()
+        fragment.setArguments(extras);
+        getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, fragment)
                     .commit();
-        }
+
 
     }
 

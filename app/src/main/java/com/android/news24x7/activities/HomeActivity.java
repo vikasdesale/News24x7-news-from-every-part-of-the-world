@@ -14,6 +14,7 @@ import com.android.news24x7.R;
 import com.android.news24x7.fragments.NewsFragment;
 import com.android.news24x7.util.NewsSyncUtils;
 import com.android.news24x7.util.Util;
+import com.android.news24x7.widget.NewsWidgetProvider;
 
 
 public class HomeActivity extends AppCompatActivity implements NewsFragment.CallbackDetails {
@@ -40,9 +41,6 @@ public class HomeActivity extends AppCompatActivity implements NewsFragment.Call
         NewsSyncUtils.initialize(this);
 
     }
-
-
-
 
     private void setupFind() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -75,12 +73,14 @@ public class HomeActivity extends AppCompatActivity implements NewsFragment.Call
         //Log.d("GREAT TO SEE","My News:"+ mTitle+mAuthor+mDescription+mUrl+mUrlToImage+mPublishedAt);
         //Toast.makeText(this,"Clicked"+mTitle,Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, DetailsActivity.class);
-        intent.putExtra("title", mTitle);
-        intent.putExtra("author", mAuthor);
-        intent.putExtra("overview", mDescription);
-        intent.putExtra("url", mUrl);
-        intent.putExtra("url_image", mUrlToImage);
-        intent.putExtra("published", mPublishedAt);
+        Bundle extras = new Bundle();
+        extras.putString(NewsWidgetProvider.EXTRA_TITLE, mTitle);
+        extras.putString(NewsWidgetProvider.EXTRA_AUTHOR, mAuthor);
+        extras.putString(NewsWidgetProvider.EXTRA_DESCRIPTION, mDescription);
+        extras.putString(NewsWidgetProvider.EXTRA_IMAGE_URL, mUrlToImage);
+        extras.putString(NewsWidgetProvider.EXTRA_URL, mUrl);
+        extras.putString(NewsWidgetProvider.EXTRA_DATE, mPublishedAt);
+        intent.putExtras(extras);
         startActivity(intent);
     }
 

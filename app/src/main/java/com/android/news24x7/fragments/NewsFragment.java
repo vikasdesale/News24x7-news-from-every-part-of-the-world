@@ -1,5 +1,6 @@
 package com.android.news24x7.fragments;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -105,15 +106,21 @@ public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.Cl
         RetrofitCall.onRetrofit(new RetrofitCall.RetrofitCallback() {
             @Override
             public void onRetrofitCall() {
+                // Send update broadcast to update the widget
+                getContext().sendBroadcast(new Intent("android.appwidget.action.APPWIDGET_UPDATE"));
                 allNewsWindow();
             }
         });
         return v;
     }
 
+
+
     private void NewsCheck() {
        if(nav_menu==null) {
            if (mNewsUtil.getAllNewsCount(getActivity()) != 0) {
+               // Send update broadcast to update the widget
+               getContext().sendBroadcast(new Intent("android.appwidget.action.APPWIDGET_UPDATE"));
                allNewsWindow();
 
            } else {
@@ -197,6 +204,7 @@ public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.Cl
         gridAdapter.setClickListener(this);
         if (mRecyclerView != null)
             mRecyclerView.setAdapter(gridAdapter);
+        // Send update broadcast to update the widget
     }
 
 

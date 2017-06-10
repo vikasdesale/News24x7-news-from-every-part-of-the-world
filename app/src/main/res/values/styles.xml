@@ -27,4 +27,10 @@
         <item name="android:textColorSecondary">@color/secondary_text</item>
 
     </style>
+    <style name="NewsWidget">
+        <item name="android:background">@color/background</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/primary_text</item>
+        <item name="android:padding">3dp</item>
+    </style>
 </resources>

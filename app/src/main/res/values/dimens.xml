@@ -13,5 +13,9 @@
     <dimen name="fab_margin">24dp</dimen>
     <dimen name="detail_back_height">256dp</dimen>
 
+    <dimen name="widget_margin">3dp</dimen>
+    <dimen name="widget_min_width">180dp</dimen>
+    <dimen name="widget_min_height">60dp</dimen>
+    <string name="widget_no_news">No News added</string>
 
 </resources>
