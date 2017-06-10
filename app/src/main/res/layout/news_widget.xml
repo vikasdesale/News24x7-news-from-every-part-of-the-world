@@ -32,6 +32,7 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:layout_gravity="center"
+        android:background="@color/primary"
         android:text="@string/widget_no_news"
         android:visibility="gone"
         tools:text="Empty list" />

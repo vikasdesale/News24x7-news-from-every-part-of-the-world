@@ -117,16 +117,23 @@ public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.Cl
             errorLayout.setVisibility(View.VISIBLE);
             contLayout.setVisibility(View.GONE);
         } else {
+            progressBar2.setVisibility(View.GONE);
             progressBar.setVisibility(View.VISIBLE);
             NewsCheck();
             RetrofitCall.onRetrofit(new RetrofitCall.RetrofitCallback() {
                 @Override
-                public void onRetrofitCall() {
+                public void onRetrofitCall(int article) {
                     // Send update broadcast to update the widget
                     getContext().sendBroadcast(new Intent("android.appwidget.action.APPWIDGET_UPDATE"));
                     allNewsWindow();
                     progressBar.setVisibility(View.GONE);
+                    if(article==1) {
+                        progressBar.setVisibility(View.GONE);
+                        Snackbar snackbar = Snackbar
+                                .make(contLayout, "Data not available", Snackbar.LENGTH_LONG);
 
+                        snackbar.show();
+                    }
                 }
             });
         }
@@ -141,6 +148,7 @@ public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.Cl
                // Send update broadcast to update the widget
                getContext().sendBroadcast(new Intent("android.appwidget.action.APPWIDGET_UPDATE"));
                allNewsWindow();
+               progressBar.setVisibility(View.GONE);
 
            } else {
                i = 0;
@@ -265,28 +273,39 @@ public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.Cl
                     if (errorLayout != null || progressBar != null || contLayout != null || progressBar2 != null) {
                         errorLayout.setVisibility(View.GONE);
                         contLayout.setVisibility(View.VISIBLE);
-                       try {
-                           if (i < source.length) {
-                               if (progressBar != null) {
-                                   progressBar.setVisibility(View.GONE);
-                               }
-                               progressBar2.setVisibility(View.VISIBLE);
-                               data.remove("source");
-                               data.put("source", source[i++]);
-                               RetrofitCall r = new RetrofitCall();
-                               r.fetchNews(getContext(), data);
-                           }
-                       }catch (Exception e){}
-                        } else {
+                        try {
+                            if (i < source.length) {
+                                if (progressBar != null) {
+                                    progressBar.setVisibility(View.GONE);
+                                }
+                                progressBar2.setVisibility(View.VISIBLE);
+                                data.remove("source");
+                                data.put("source", source[i++]);
+                                RetrofitCall r = new RetrofitCall();
+                                r.fetchNews(getContext(), data);
+                            } else {
+                                progressBar2.setVisibility(View.GONE);
+                                Snackbar snackbar = Snackbar
+                                        .make(contLayout, "More News Articles Not Available", Snackbar.LENGTH_LONG);
+
+                                snackbar.show();
+                            }
+
+
+                        } catch (Exception e) {
+                        }
+                        if(source==null){
                             Snackbar snackbar = Snackbar
                                     .make(contLayout, "More News Articles Not Available", Snackbar.LENGTH_LONG);
 
                             snackbar.show();
                         }
-                    } else{
-                    errorLayout.setVisibility(View.VISIBLE);
-                    contLayout.setVisibility(View.GONE);
-                }
+                    }
+                    } else {
+                        errorLayout.setVisibility(View.VISIBLE);
+                        contLayout.setVisibility(View.GONE);
+                    }
+
             }
         }
     }
@@ -321,8 +340,17 @@ public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.Cl
         data.clear();
         data.put("source", ""+s[i++]);
         data.put("sortBy",""+sortBy);
-        RetrofitCall r=new RetrofitCall();
-        r.fetchNews(getContext(),data);
+        if (!NetworkUtil.isNetworkConnected(getActivity())) {
+            progressBar.setVisibility(View.GONE);
+            progressBar2.setVisibility(View.GONE);
+            errorLayout.setVisibility(View.VISIBLE);
+            contLayout.setVisibility(View.GONE);
+        } else {
+            progressBar2.setVisibility(View.GONE);
+            progressBar.setVisibility(View.VISIBLE);
+            RetrofitCall r = new RetrofitCall();
+            r.fetchNews(getContext(), data);
+        }
 
     }
     @Override
@@ -374,7 +402,6 @@ public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.Cl
         } catch (Exception e) {
         }
     }
-
 
 
 
