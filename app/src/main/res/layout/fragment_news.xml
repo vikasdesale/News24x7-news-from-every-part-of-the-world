@@ -39,6 +39,9 @@
         android:indeterminate="true" />
     <com.android.news24x7.interfaces.ScrollViewExt
         android:id="@+id/scroll"
+        android:layout_marginTop="@dimen/fab_elevation"
+        android:layout_marginBottom="@dimen/fab_elevation"
+
         style="@style/MyLinearLayout">
     <android.support.v7.widget.RecyclerView
         android:id="@+id/card_recycler_view"

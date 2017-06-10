@@ -94,7 +94,7 @@ public class HomeActivity extends AppCompatActivity implements NewsFragment.Call
         ActivityOptionsCompat activityOptions =
                                     ActivityOptionsCompat.makeSceneTransitionAnimation(this);
         ActivityCompat.startActivity(this, intent, activityOptions.toBundle());
-        startActivity(intent);
+      //  startActivity(intent);
     }
 
 }
