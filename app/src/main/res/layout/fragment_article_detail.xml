@@ -1,4 +1,5 @@
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_content"
@@ -120,15 +121,26 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/detail_inner_horiz_margin"
                 android:layout_marginRight="@dimen/detail_inner_horiz_margin"
+                android:layout_marginBottom="@dimen/detail_inner_horiz_margin"
                 android:text="Read More..."
                 android:autoLink="all"
                 android:textStyle="bold"
                 android:clickable="true"
                 android:textColor="@color/accent" />
+
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
-
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        ads:adSize="BANNER"
+        ads:adUnitId="@string/banner_ad_unit_id"
+        xmlns:ads="http://schemas.android.com/apk/res-auto"></com.google.android.gms.ads.AdView>
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_save"
         android:layout_width="wrap_content"

@@ -11,7 +11,7 @@ import net.simonvt.schematic.annotation.Table;
 
 @Database(version = NewsDatabase.VERSION)
 public class NewsDatabase {
-    public static final int VERSION = 1;
+    public static final int VERSION = 2;
 
     //temporary table
     @Table(ColumnsNews.class)

@@ -14,21 +14,43 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    >
 
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_dashboard"
+
             android:title="Home" />
         <item
-            android:id="@+id/nav_channel"
+            android:id="@+id/nav_business"
             android:icon="@drawable/ic_event"
-            android:title="Channel" />
+            android:title="Business" />
         <item
-            android:id="@+id/nav_saved"
+            android:id="@+id/nav_entertainment"
             android:icon="@drawable/ic_headset"
-            android:title="Saved" />
+            android:title="Entertainment" />
+        <item
+            android:id="@+id/nav_sport"
+            android:icon="@drawable/ic_event"
+            android:title="Sport" />
+        <item
+            android:id="@+id/nav_technology"
+            android:icon="@drawable/ic_headset"
+            android:title="Technology" />
+        <item
+            android:id="@+id/nav_politics"
+            android:icon="@drawable/ic_event"
+            android:title="Politics" />
+        <item
+            android:id="@+id/nav_music"
+            android:icon="@drawable/ic_headset"
+            android:title="Music" />
+        <item
+            android:id="@+id/nav_science_and_nature"
+            android:icon="@drawable/ic_headset"
+            android:title="Science and Nature" />
         <item
             android:id="@+id/nav_settings"
             android:icon="@drawable/ic_forum"
