@@ -1,14 +1,6 @@
 <resources xmlns:xliff="http://schemas.android.com/tools">
     <string name="app_name">News24x7</string>
-    <string-array name="tabs">
-        <item>HEADLINES</item>
-        <item>TRENDING</item>
-        <item>HIGHLIGHT</item>
-        <item>SPORT</item>
-        <item>ENTERTAINMENT</item>
-        <item>TECHNOLOGY</item>
-    </string-array>
-    <string name="deviceId">01234567890ABCDEF</string>
+    <string name="deviceId" translatable="false">01234567890ABCDEF</string>
     <string name="banner_ad_unit_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
     <string name="interstitial_ad_unit_id" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
     <string name="action_latest">Latest Articles</string>
@@ -28,8 +20,8 @@
 
 
     <!-- SyncAdapter related -->
-    <string name="sync_account_type">news24x7.android.com</string>
-    <string name="content_authority">com.android.news24x7</string>
+    <string name="sync_account_type" translatable="false">news24x7.android.com</string>
+    <string name="content_authority" translatable="false">com.android.news24x7</string>
 
     <!-- Notification Format -->
     <string name="format_notification">News: <xliff:g id="title">%1$s</xliff:g></string>
@@ -37,31 +29,23 @@
     <!-- Strings related to Notification preference -->
     <string name="pref_last_notification">last_notification</string>
 
-    <!-- Empty Weather Database -->
-    <string name="empty_news_list">No News Information Available</string>
-    <string name="empty_news_list_no_network">No weather information available. The network is not available to fetch weather data.</string>
-    <string name="empty_news_list_server_down">No weather information available. The server is not returning data.</string>
-    <string name="empty_news_list_server_error">No weather information available. The server is not returning valid data. Please check for an updated version of Sunshine.</string>
 
     <string name="condition_unknown">Unknown (<xliff:g id="low">%1$s</xliff:g>)</string>
 
-
-    <string name="action_refresh">Refresh</string>
     <string name="action_settings">Settings</string>
     <string name="action_share">Share</string>
     <string name="subtitle">%1$s by %2$s</string>
     <string name="up">Up</string>
     <string name="ok">Ok</string>
-    <string name="refresh">Refreshed</string>
     <string name="fab_save">save article</string>
     <string name="title_activity_settings">Settings</string>
     <string name="action_sport">sport</string>
-    <string name="widget_action">android.appwidget.action.APPWIDGET_UPDATE</string>
+    <string name="widget_action" translatable="false">android.appwidget.action.APPWIDGET_UPDATE</string>
     <string name="network_data_not_found">Data not available</string>
     <string name="more_articles_not_available">More News Articles Not Available</string>
     <string name="favorite_not_available">Favorite articles not available</string>
     <string name="favorite_available">Your favorite articles are here</string>
-    <string name="setType">text/plain</string>
+    <string name="setType" translatable="false">text/plain</string>
     <string name="title_share">"Title: "</string>
     <string name="by_share">"\n By "</string>
     <string name="description_share">\n\nDescription: \n</string>
@@ -81,6 +65,8 @@
     <string name="content_desc_article">the Overview of article is</string>
     <string name="cotent_desc_read_more">To Read More Click here</string>
     <string name="content_desc_share_article">Share article with your friend</string>
-
+    <string name="no_internet_connection">No Internet Connection</string>
+    <!-- For Shared Element Transitions -->
+      <string name="detail_icon_transition_name" translatable="false">TN_DetailIcon</string>
 
 </resources>

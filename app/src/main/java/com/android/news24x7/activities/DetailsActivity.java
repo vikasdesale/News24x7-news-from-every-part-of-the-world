@@ -34,6 +34,7 @@ public class DetailsActivity extends AppCompatActivity {
             Bundle extras = getIntent().getExtras();
 
             DetailsFragment fragment = new DetailsFragment();
+             extras.putBoolean(DetailsFragment.DETAIL_TRANSITION_ANIMATION, true);
 
             fragment.setArguments(extras);
             getSupportFragmentManager().beginTransaction()

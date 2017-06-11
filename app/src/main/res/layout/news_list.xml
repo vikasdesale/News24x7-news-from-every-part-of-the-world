@@ -25,7 +25,8 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/news_list_height"
             android:contentDescription="@string/article_image"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"
+            android:transitionName="@string/detail_icon_transition_name"/>
 
 
 

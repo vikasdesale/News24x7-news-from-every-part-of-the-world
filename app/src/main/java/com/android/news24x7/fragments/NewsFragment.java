@@ -1,18 +1,23 @@
 package com.android.news24x7.fragments;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.widget.AbsListView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -51,6 +56,7 @@ public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.Cl
     private static final String ARG_PARAM2 = "data";
     private static final String SELECTED_KEY = "selected_position";
     private static final String TOP = "top";
+    private boolean mHoldForTransition;
 
     private static int favflag = 0;
     String nav_menu = null;
@@ -82,6 +88,8 @@ public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.Cl
     private int mPosition = ListView.INVALID_POSITION;
     private Cursor cursor;
     private Unbinder unbinder;
+    private boolean mAutoSelectView;
+    private int mChoiceMode;
 
     public NewsFragment() {
         // Required empty public constructor
@@ -131,7 +139,38 @@ public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.Cl
                 }
             });
         }
+
+
+            mRecyclerView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+                @Override
+                public boolean onPreDraw() {
+                    // Since we know we're going to get items, we keep the listener around until
+                    // we see Children.
+                    if (mRecyclerView.getChildCount() > 0) {
+                        mRecyclerView.getViewTreeObserver().removeOnPreDrawListener(this);
+                        RecyclerView.ViewHolder vh = mRecyclerView.findViewHolderForAdapterPosition(mPosition);
+                        if ( null != vh && mAutoSelectView ) {
+                        }
+                        if ( mHoldForTransition ) {
+                            getActivity().supportStartPostponedEnterTransition();
+                        }
+                        return true;
+                    }
+                    return false;
+                }
+            });
+
         return v;
+    }
+    @Override
+    public void onInflate(Activity activity, AttributeSet attrs, Bundle savedInstanceState) {
+        super.onInflate(activity, attrs, savedInstanceState);
+        TypedArray a = activity.obtainStyledAttributes(attrs, R.styleable.ForecastFragment,
+                0, 0);
+        mChoiceMode = a.getInt(R.styleable.ForecastFragment_android_choiceMode, AbsListView.CHOICE_MODE_NONE);
+        mAutoSelectView = a.getBoolean(R.styleable.ForecastFragment_autoSelectView, false);
+        mHoldForTransition = a.getBoolean(R.styleable.ForecastFragment_sharedElementTransitions, false);
+        a.recycle();
     }
 
     private void NewsCheck() {
@@ -307,7 +346,7 @@ public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.Cl
     }
 
     @Override
-    public void itemClicked(View view, int position) {
+    public void itemClicked(View view, int position,NewsRecyclerViewAdapter.ViewHolder vh) {
         cursor = null;
         try {
             if (favflag == 1) {
@@ -319,12 +358,25 @@ public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.Cl
             if (cursorBoolean) {
                 String args[] = mNewsUtil.getData(cursor);
                 ((CallbackDetails) getActivity())
-                        .onItemSelected(args[0], args[1], args[2], args[3], args[4], args[5]);
+                        .onItemSelected(args[0], args[1], args[2], args[3], args[4], args[5],vh);
             }
         } catch (Exception e) {
         }/*finally {if (onClick != null || !onClick.isClosed()) {onClick.close();}    }*/
+        mPosition = vh.getAdapterPosition();
     }
 
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        // We hold for transition here just in-case the activity
+        // needs to be re-created. In a standard return transition,
+        // this doesn't actually make a difference.
+        if ( mHoldForTransition ) {
+            getActivity().supportPostponeEnterTransition();
+        }
+
+        // getLoaderManager().initLoader(FORECAST_LOADER, null, this);
+        super.onActivityCreated(savedInstanceState);
+    }
     public void check(int i, String s[], String sortBy) {
         if (i == s.length) {
             i = 0;
@@ -406,7 +458,7 @@ public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.Cl
          * DetailFragmentCallback for when an item has been selected.
          */
 
-        public void onItemSelected(String mTitle, String mAuthor, String mDescription, String mUrl, String mUrlToImage, String mPublishedAt);
+        public void onItemSelected(String mTitle, String mAuthor, String mDescription, String mUrl, String mUrlToImage, String mPublishedAt,NewsRecyclerViewAdapter.ViewHolder vh);
     }
 
 

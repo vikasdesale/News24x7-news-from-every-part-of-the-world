@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -13,21 +16,30 @@ import android.transition.Fade;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.android.news24x7.R;
+import com.android.news24x7.adapter.NewsRecyclerViewAdapter;
 import com.android.news24x7.fragments.NewsFragment;
 import com.android.news24x7.util.NewsSyncUtils;
 import com.android.news24x7.util.Util;
 import com.android.news24x7.widget.NewsWidgetProvider;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 
 public class HomeActivity extends AppCompatActivity implements NewsFragment.CallbackDetails {
 
-    private Toolbar toolbar;
-    private DrawerLayout mDrawerLayout;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.drawer_layout)
+    DrawerLayout mDrawerLayout;
+    @BindView(R.id.nav_view)
+    NavigationView navigationView;
     private ActionBar ab;
-    private NavigationView navigationView;
+
     private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
@@ -41,6 +53,7 @@ public class HomeActivity extends AppCompatActivity implements NewsFragment.Call
         }
         // setUpWindowAnimations();
         setContentView(R.layout.activity_home);
+        ButterKnife.bind(this);
         setupFind();
 
         // Obtain the FirebaseAnalytics instance.
@@ -63,14 +76,11 @@ public class HomeActivity extends AppCompatActivity implements NewsFragment.Call
     }
 
     private void setupFind() {
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ab = getSupportActionBar();
         ab.setHomeAsUpIndicator(R.drawable.ic_menu);
         ab.setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
         if (navigationView != null) {
             Util.setupDrawerContent(navigationView, mDrawerLayout, this);
         }
@@ -96,7 +106,7 @@ public class HomeActivity extends AppCompatActivity implements NewsFragment.Call
     }
 
     @Override
-    public void onItemSelected(String mTitle, String mAuthor, String mDescription, String mUrl, String mUrlToImage, String mPublishedAt) {
+    public void onItemSelected(String mTitle, String mAuthor, String mDescription, String mUrl, String mUrlToImage, String mPublishedAt, NewsRecyclerViewAdapter.ViewHolder vh) {
         Intent intent = new Intent(this, DetailsActivity.class);
         Bundle extras = new Bundle();
         extras.putString(NewsWidgetProvider.EXTRA_TITLE, mTitle);
@@ -106,7 +116,9 @@ public class HomeActivity extends AppCompatActivity implements NewsFragment.Call
         extras.putString(NewsWidgetProvider.EXTRA_URL, mUrl);
         extras.putString(NewsWidgetProvider.EXTRA_DATE, mPublishedAt);
         intent.putExtras(extras);
-        startActivity(intent);
-    }
+        ActivityOptionsCompat activityOptions =
+                ActivityOptionsCompat.makeSceneTransitionAnimation(this,new Pair<View, String>(vh.imageView, getString(R.string.detail_icon_transition_name)));
+
+        ActivityCompat.startActivity(this, intent, activityOptions.toBundle());    }
 
 }

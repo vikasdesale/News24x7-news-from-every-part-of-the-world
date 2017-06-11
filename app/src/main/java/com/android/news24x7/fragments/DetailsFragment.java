@@ -8,13 +8,13 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ShareCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.news24x7.R;
 import com.android.news24x7.parcelable.Article;
@@ -65,7 +65,8 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
     CoordinatorLayout contLayout;
     private Intent intent;
     private Unbinder unbinder;
-
+    public static final String DETAIL_TRANSITION_ANIMATION = "DTA";
+    private boolean mTransitionAnimation;
 
     public DetailsFragment() {
         setHasOptionsMenu(true);
@@ -136,6 +137,7 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
             mUrl = arguments.getString(NewsWidgetProvider.EXTRA_URL);
             mUrlToImage = arguments.getString(NewsWidgetProvider.EXTRA_IMAGE_URL);
             mPublishedAt = arguments.getString(NewsWidgetProvider.EXTRA_DATE);
+            mTransitionAnimation = arguments.getBoolean(DetailsFragment.DETAIL_TRANSITION_ANIMATION, false);
         }
     }
 
@@ -169,6 +171,19 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
         mTitleText.setContentDescription(getString(R.string.content_desc_title)+mTitle);
         mByText.setContentDescription(getString(R.string.content_desc_author)+mAuthor);
         mArticleBody.setContentDescription(getString(R.string.content_desc_article)+mDescription);
+        AppCompatActivity activity = (AppCompatActivity)getActivity();
+        // We need to start the enter transition after the data has loaded
+        if ( mTransitionAnimation ) {
+            activity.supportStartPostponedEnterTransition();
+
+            if ( null != toolbar ) {
+                activity.setSupportActionBar(toolbar);
+
+                activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
+                activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            }
+        }
+
     }
 
 
@@ -195,7 +210,9 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
             n = 1;
             myFavoriteNews.setImageResource(android.R.drawable.btn_star_big_off);
             NewsUtil.FavouriteDelete(getActivity(), mTitle);
-            Toast.makeText(getActivity(), R.string.article_deleted, Toast.LENGTH_SHORT).show();
+            Snackbar snackbar = Snackbar
+                    .make(contLayout, R.string.article_deleted, Snackbar.LENGTH_LONG);
+            snackbar.show();
         }
     }
 
