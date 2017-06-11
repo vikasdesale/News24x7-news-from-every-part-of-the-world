@@ -17,6 +17,25 @@
     <dimen name="widget_margin">3dp</dimen>
     <dimen name="widget_min_width">180dp</dimen>
     <dimen name="widget_min_height">60dp</dimen>
+    <dimen name="text_news_title">30dp</dimen>
+    <dimen name="overview_text">22sp</dimen>
+    <dimen name="expand_margin_start">48dp</dimen>
+    <dimen name="expand_margin_end">64dp</dimen>
+    <dimen name="article_title_margin_top">8dp</dimen>
+    <dimen name="view_and_margin_bottom">2dp</dimen>
+    <dimen name="widget_layout_height">150dp</dimen>
+    <dimen name="padding_bottom">2dp</dimen>
+    <dimen name="padding_left">8dp</dimen>
+    <dimen name="padding_right">8dp</dimen>
+    <dimen name="padding_top">4dp</dimen>
+    <dimen name="padding_bottom_published">8dp</dimen>
+    <dimen name="layout_nav_header">192dp</dimen>
+    <dimen name="padding_nav">16dp</dimen>
+    <dimen name="margin_left_list">4dp</dimen>
+    <dimen name="cardview_elevation">2dp</dimen>
+    <dimen name="news_list_height">250dp</dimen>
+    <dimen name="text_news_article_title">16sp</dimen>
     <string name="widget_no_news">No News added</string>
+    <dimen name="detail_inner_horiz_margin">16dp</dimen>
 
 </resources>

@@ -56,6 +56,22 @@
     <string name="fab_save">save article</string>
     <string name="title_activity_settings">Settings</string>
     <string name="action_sport">sport</string>
+    <string name="widget_action">android.appwidget.action.APPWIDGET_UPDATE</string>
+    <string name="network_data_not_found">Data not available</string>
+    <string name="more_articles_not_available">More News Articles Not Available</string>
+    <string name="favorite_not_available">Favorite articles not available</string>
+    <string name="favorite_available">Your favorite articles are here</string>
+    <string name="setType">text/plain</string>
+    <string name="title_share">"Title: "</string>
+    <string name="by_share">"\n By "</string>
+    <string name="description_share">\n\nDescription: \n</string>
+    <string name="article_saved">Article Saved</string>
+    <string name="article_deleted">Article deleted</string>
+    <string name="news_app_title">News</string>
+    <string name="news_title_x">24X7</string>
+    <string name="read_more">Read More...</string>
+    <string name="overview_text">Overview</string>
+    <string name="powered_by_newsapi_org">Powered By NewsAPI.org</string>
 
 
 </resources>

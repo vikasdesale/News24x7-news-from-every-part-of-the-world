@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="192dp"
+    android:layout_height="@dimen/layout_nav_header"
     android:background="?attr/colorPrimaryDark"
-    android:padding="16dp"
+    android:padding="@dimen/padding_nav"
     android:theme="@style/ThemeOverlay.AppCompat.Light"
     android:orientation="vertical"
     android:gravity="bottom">
@@ -17,9 +17,9 @@
         android:layout_width="wrap_content"
         android:layout_height="?actionBarSize"
         android:contentDescription="@string/app_name"
-        android:text="News"
+        android:text="@string/news_app_title"
         android:gravity="center"
-        android:textSize="30dp"
+        android:textSize="@dimen/text_news_title"
         android:textStyle="bold"
         android:textColor="@color/background"
         android:fontFamily="sans-serif-monospace"/>
@@ -27,16 +27,16 @@
         android:layout_width="wrap_content"
         android:layout_height="?actionBarSize"
         android:contentDescription="@string/app_name"
-        android:text="24X7"
+        android:text="@string/news_title_x"
         android:gravity="center"
-        android:textSize="30dp"
+        android:textSize="@dimen/text_news_title"
         android:textStyle="bold"
         android:textColor="@color/background"
         android:fontFamily="cursive"/>
         </LinearLayout>
 
     <TextView
-        android:text="Powered By NewsAPI.org"
+        android:text="@string/powered_by_newsapi_org"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"

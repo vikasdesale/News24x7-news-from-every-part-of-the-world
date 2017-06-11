@@ -27,10 +27,9 @@ public class NewsSyncUtils {
     private static final int REMINDER_INTERVAL_MINUTES = 1;
     private static final int REMINDER_INTERVAL_SECONDS = (int) (TimeUnit.MINUTES.toSeconds(REMINDER_INTERVAL_MINUTES));
     private static final int SYNC_FLEXTIME_SECONDS = REMINDER_INTERVAL_SECONDS;
-
-    private static boolean sInitialized;
-    static NewsUtil mNewsUtil;
     private static final String NEWS_SYNC_TAG = "news-sync";
+    static NewsUtil mNewsUtil;
+    private static boolean sInitialized;
 
     static void scheduleFirebaseJobDispatcherSync(@NonNull final Context context) {
 
@@ -63,7 +62,7 @@ public class NewsSyncUtils {
             @Override
             public void run() {
                 Cursor cursor = null;
-                 mNewsUtil=new NewsUtil();
+                mNewsUtil = new NewsUtil();
                 cursor = mNewsUtil.allNewsCursor(context);
                 if (null == cursor || cursor.getCount() == 0) {
                     startImmediateSync(context);

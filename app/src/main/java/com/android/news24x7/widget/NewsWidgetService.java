@@ -10,6 +10,6 @@ import android.widget.RemoteViewsService;
 public class NewsWidgetService extends RemoteViewsService {
     @Override
     public RemoteViewsService.RemoteViewsFactory onGetViewFactory(Intent intent) {
-        return( new NewsWidgetViewsFactory( this.getApplicationContext(), intent ) );
+        return (new NewsWidgetViewsFactory(this.getApplicationContext(), intent));
     }
 }

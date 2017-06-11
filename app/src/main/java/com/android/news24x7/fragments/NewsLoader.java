@@ -18,7 +18,6 @@ import com.android.news24x7.database.NewsProvider;
 
 public class NewsLoader implements LoaderManager.LoaderCallbacks<Cursor> {
     private static final int NEWS_LOADER = 0;
-    private static final String SELECTED_KEY = "selected_position";
     private static int favflag = -1;
     private Fragment mAttachedFragment;
     private NewsRecyclerViewAdapter gridAdapter;

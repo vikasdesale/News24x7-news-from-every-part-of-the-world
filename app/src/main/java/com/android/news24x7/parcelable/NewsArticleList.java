@@ -1,4 +1,3 @@
-
 package com.android.news24x7.parcelable;
 
 import android.os.Parcel;
@@ -9,22 +8,13 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.List;
 
-public class NewsArticleList implements Serializable, Parcelable
-{
+public class NewsArticleList implements Serializable, Parcelable {
 
-    @SerializedName("status")
-    private String status;
-    @SerializedName("source")
-    private String source;
-    @SerializedName("sortBy")
-    private String sortBy;
-    @SerializedName("articles")
-    private List<Article> articles = null;
     public final static Creator<NewsArticleList> CREATOR = new Creator<NewsArticleList>() {
 
 
         @SuppressWarnings({
-            "unchecked"
+                "unchecked"
         })
         public NewsArticleList createFromParcel(Parcel in) {
             NewsArticleList instance = new NewsArticleList();
@@ -39,9 +29,16 @@ public class NewsArticleList implements Serializable, Parcelable
             return (new NewsArticleList[size]);
         }
 
-    }
-    ;
+    };
     private final static long serialVersionUID = -7795469478313085510L;
+    @SerializedName("status")
+    private String status;
+    @SerializedName("source")
+    private String source;
+    @SerializedName("sortBy")
+    private String sortBy;
+    @SerializedName("articles")
+    private List<Article> articles = null;
 
     public String getStatus() {
         return status;
@@ -83,7 +80,7 @@ public class NewsArticleList implements Serializable, Parcelable
     }
 
     public int describeContents() {
-        return  0;
+        return 0;
     }
 
 }

@@ -9,6 +9,7 @@
     <color name="icons">#212121</color>
     <color name="divider">#BDBDBD</color>
     <color name="background">#FFFFFF</color>
+    <color name="tintNav">#2196f3</color>
     <integer-array name="gplus_colors">
         <item>@color/gplus_color_1</item>
         <item>@color/gplus_color_2</item>
