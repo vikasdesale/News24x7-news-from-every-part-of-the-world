@@ -8,12 +8,12 @@ import android.content.Context;
 import android.util.Log;
 
 import com.android.news24x7.BuildConfig;
-import com.android.news24x7.util.NewsUtil;
 import com.android.news24x7.parcelable.Article;
 import com.android.news24x7.prefs.NewsPreferences;
 import com.android.news24x7.retrofit.ApiClient;
 import com.android.news24x7.retrofit.ApiInterface;
 import com.android.news24x7.retrofit.NewsResponse;
+import com.android.news24x7.util.NewsUtil;
 import com.android.news24x7.util.NotificationUtils;
 
 import java.util.ArrayList;
@@ -25,6 +25,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.content.ContentValues.TAG;
+import static com.android.news24x7.fragments.NewsFragment.LATEST;
+import static com.android.news24x7.fragments.NewsFragment.SORTBY;
+import static com.android.news24x7.fragments.NewsFragment.SOURCE;
+import static com.android.news24x7.fragments.RetrofitCall.APIKEY;
+import static com.android.news24x7.fragments.RetrofitCall.NO_SAVE;
 
 public class NewsSyncTask {
 
@@ -32,11 +37,11 @@ public class NewsSyncTask {
     static ArrayList<Article> articlesList;
 
     synchronized public static void syncNews(final Context context) {
-        mNewsUtil=new NewsUtil();
+        mNewsUtil = new NewsUtil();
         Map<String, String> data = new HashMap<>();
-        data.put("source", "the-hindu");
-        data.put("sortBy", "latest");
-        fetchData(context,data);
+        data.put(SOURCE, "the-hindu");
+        data.put(SORTBY, LATEST);
+        fetchData(context, data);
 
         boolean notificationsEnabled = NewsPreferences.areNotificationsEnabled(context);
 
@@ -46,35 +51,32 @@ public class NewsSyncTask {
 
     }
 
-   public static void fetchData(final Context context, Map<String, String> data ){
-       ApiInterface apiService =
-               ApiClient.getClient().create(ApiInterface.class);
+    public static void fetchData(final Context context, Map<String, String> data) {
+        ApiInterface apiService =
+                ApiClient.getClient().create(ApiInterface.class);
 
-       data.put("apiKey", BuildConfig.NEWS_API_ORG_KEY);
-       Call<NewsResponse> call = null;
-       call = apiService.getNews(data);
-       call.enqueue(new Callback<NewsResponse>() {
-           @Override
-           public void onResponse(Call<NewsResponse> call, Response<NewsResponse> response) {
-               if(response.isSuccessful()) {
-                   articlesList = (ArrayList<Article>) response.body().getArticles();
-               }
-               else{
-                   Log.d("error",""+response.body());
-               }
-               mNewsUtil.insertData(context, articlesList, "no");
+        data.put(APIKEY, BuildConfig.NEWS_API_ORG_KEY);
+        Call<NewsResponse> call = null;
+        call = apiService.getNews(data);
+        call.enqueue(new Callback<NewsResponse>() {
+            @Override
+            public void onResponse(Call<NewsResponse> call, Response<NewsResponse> response) {
+                if (response.isSuccessful()) {
+                    articlesList = (ArrayList<Article>) response.body().getArticles();
+                }
 
-           }
+                mNewsUtil.insertData(context, articlesList, NO_SAVE);
 
-           @Override
-           public void onFailure(Call<NewsResponse> call, Throwable t) {
-               Log.e(TAG, t.toString());
-               Log.d(TAG, "server contacted at: " + call.request().url());
+            }
 
-           }
-       });
+            @Override
+            public void onFailure(Call<NewsResponse> call, Throwable t) {
+                Log.e(TAG, t.toString());
+
+            }
+        });
 
 
-   }
+    }
 
 }

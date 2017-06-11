@@ -39,12 +39,13 @@ public class HomeActivity extends AppCompatActivity implements NewsFragment.Call
             Transition transition = inflater.inflateTransition(R.transition.details_window_enter_transition);
             getWindow().setExitTransition(transition);
         }
-       // setUpWindowAnimations();
+        // setUpWindowAnimations();
         setContentView(R.layout.activity_home);
         setupFind();
 
-             // Obtain the FirebaseAnalytics instance.
+        // Obtain the FirebaseAnalytics instance.
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
         //Sets whether analytics collection is enabled for this app on this device.
         mFirebaseAnalytics.setAnalyticsCollectionEnabled(true);
 
@@ -93,10 +94,9 @@ public class HomeActivity extends AppCompatActivity implements NewsFragment.Call
             getWindow().setExitTransition(fade);
         }
     }
+
     @Override
     public void onItemSelected(String mTitle, String mAuthor, String mDescription, String mUrl, String mUrlToImage, String mPublishedAt) {
-        //Log.d("GREAT TO SEE","My News:"+ mTitle+mAuthor+mDescription+mUrl+mUrlToImage+mPublishedAt);
-        //Toast.makeText(this,"Clicked"+mTitle,Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, DetailsActivity.class);
         Bundle extras = new Bundle();
         extras.putString(NewsWidgetProvider.EXTRA_TITLE, mTitle);
@@ -106,7 +106,7 @@ public class HomeActivity extends AppCompatActivity implements NewsFragment.Call
         extras.putString(NewsWidgetProvider.EXTRA_URL, mUrl);
         extras.putString(NewsWidgetProvider.EXTRA_DATE, mPublishedAt);
         intent.putExtras(extras);
-       startActivity(intent);
+        startActivity(intent);
     }
 
 }

@@ -5,11 +5,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.transition.Slide;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.transition.Transition;
-import android.transition.TransitionInflater;
+
 import com.android.news24x7.R;
 import com.android.news24x7.fragments.DetailsFragment;
 
@@ -44,6 +45,7 @@ public class DetailsActivity extends AppCompatActivity {
             supportPostponeEnterTransition();
         }
     }
+
     private void setUpWindowAnimations() {
         if (android.os.Build.VERSION.SDK_INT >= 21) {
             Slide slide = new Slide(Gravity.LEFT);
@@ -51,6 +53,7 @@ public class DetailsActivity extends AppCompatActivity {
             getWindow().setEnterTransition(slide);
         }
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.drawer_view, menu);

@@ -24,29 +24,30 @@ import static android.content.ContentValues.TAG;
  */
 
 public class RetrofitCall {
-    static ArrayList<Article> articlesList;
+    public static final String APIKEY = "apiKey";
+    public static final String NO_SAVE = "no";
     public static RetrofitCallback callBack;
-    public interface RetrofitCallback {
-        public void  onRetrofitCall(int articlesList);
-    }
+    static ArrayList<Article> articlesList;
+
     public static void onRetrofit(RetrofitCallback call) {
 
         callBack = call;
     }
+
     public void fetchNews(final Context context, Map<String, String> data) {
-        final NewsUtil mNewsUtil=new NewsUtil();
+        final NewsUtil mNewsUtil = new NewsUtil();
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
 
-        data.put("apiKey", BuildConfig.NEWS_API_ORG_KEY);
+        data.put(APIKEY, BuildConfig.NEWS_API_ORG_KEY);
         Call<NewsResponse> call = null;
         call = apiService.getNews(data);
         call.enqueue(new Callback<NewsResponse>() {
             @Override
             public void onResponse(Call<NewsResponse> call, Response<NewsResponse> response) {
-                if(response.isSuccessful()) {
+                if (response.isSuccessful()) {
                     articlesList = (ArrayList<Article>) response.body().getArticles();
-                    mNewsUtil.insertData(context, articlesList, "no");
+                    mNewsUtil.insertData(context, articlesList, NO_SAVE);
                 }
 
                 callBack.onRetrofitCall(0);
@@ -55,11 +56,15 @@ public class RetrofitCall {
 
             @Override
             public void onFailure(Call<NewsResponse> call, Throwable t) {
-                Log.e(TAG,"Error"+t.toString());
-               int i=1;
+                Log.e(TAG, "Error" + t.toString());
+                int i = 1;
                 callBack.onRetrofitCall(i);
             }
         });
+    }
+
+    public interface RetrofitCallback {
+        public void onRetrofitCall(int articlesList);
     }
 
 }

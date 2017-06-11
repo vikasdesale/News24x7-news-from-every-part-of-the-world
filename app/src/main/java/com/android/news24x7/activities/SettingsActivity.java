@@ -12,6 +12,9 @@ import android.view.View;
 
 import com.android.news24x7.R;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by Dell on 6/7/2017.
  */
@@ -19,15 +22,18 @@ public class SettingsActivity extends AppCompatActivity
         implements Preference.OnPreferenceChangeListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final String KEY_SWITCH_PREFERENCE = "enable_notifications";
-    private final String LOG_TAG = SettingsActivity.class.getSimpleName();
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_activity);
-        Toolbar bar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(bar);
-        bar.setNavigationOnClickListener(new View.OnClickListener() {
+        ButterKnife.bind(this);
+
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
@@ -37,6 +43,7 @@ public class SettingsActivity extends AppCompatActivity
 
 
     }
+
 
     // Registers a shared preference change listener that gets notified when preferences change
     @Override
@@ -56,8 +63,8 @@ public class SettingsActivity extends AppCompatActivity
 
     private void setPreferenceSummary(Preference preference, Object value) {
         String stringValue = value.toString();
-            // For other preferences, set the summary to the value's simple string representation.
-            preference.setSummary(stringValue);
+        // For other preferences, set the summary to the value's simple string representation.
+        preference.setSummary(stringValue);
 
 
     }

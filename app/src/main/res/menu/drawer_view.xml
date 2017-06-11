@@ -20,44 +20,44 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:icon="@drawable/ic_dashboard"
+            android:icon="@drawable/ic_point"
 
             android:title="Home" />
         <item
             android:id="@+id/nav_business"
-            android:icon="@drawable/ic_event"
+            android:icon="@drawable/ic_point"
             android:title="Business" />
         <item
             android:id="@+id/nav_entertainment"
-            android:icon="@drawable/ic_headset"
+            android:icon="@drawable/ic_point"
             android:title="Entertainment" />
         <item
             android:id="@+id/nav_sport"
-            android:icon="@drawable/ic_event"
+            android:icon="@drawable/ic_point"
             android:title="Sport" />
         <item
             android:id="@+id/nav_technology"
-            android:icon="@drawable/ic_headset"
+            android:icon="@drawable/ic_point"
             android:title="Technology" />
         <item
             android:id="@+id/nav_politics"
-            android:icon="@drawable/ic_event"
+            android:icon="@drawable/ic_point"
             android:title="Politics" />
         <item
             android:id="@+id/nav_music"
-            android:icon="@drawable/ic_headset"
+            android:icon="@drawable/ic_point"
             android:title="Music" />
         <item
             android:id="@+id/nav_science_and_nature"
-            android:icon="@drawable/ic_headset"
+            android:icon="@drawable/ic_point"
             android:title="Science and Nature" />
         <item
             android:id="@+id/nav_settings"
-            android:icon="@drawable/ic_forum"
+            android:icon="@drawable/ic_point"
             android:title="Settings" />
         <item
             android:id="@+id/nav_help"
-            android:icon="@drawable/ic_forum"
+            android:icon="@drawable/ic_point"
             android:title="Help" />
     </group>
 

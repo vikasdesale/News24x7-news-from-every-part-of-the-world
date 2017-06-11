@@ -2,9 +2,9 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/list_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/list_content"
     tools:context=".activities.HomeActivity">
 
 
@@ -21,14 +21,13 @@
             android:layout_height="?actionBarSize"
             app:navigationIcon="@mipmap/ic_launcher"
             app:popupTheme="@style/AppTheme.PopupOverlay">
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="?actionBarSize"
                 android:contentDescription="@string/app_name"
-                android:text="News"
+                android:text="@string/news_app_title"
                 android:gravity="center"
-                android:textSize="30dp"
+                android:textSize="@dimen/text_news_title"
                 android:textStyle="bold"
                 android:textColor="@color/background"
                 android:fontFamily="sans-serif-monospace"/>
@@ -36,9 +35,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="?actionBarSize"
                 android:contentDescription="@string/app_name"
-                android:text="24X7"
                 android:gravity="center"
-                android:textSize="30dp"
+                android:text="@string/news_title_x"
+                android:textSize="@dimen/text_news_title"
                 android:textStyle="bold"
                 android:textColor="@color/background"
                 android:fontFamily="cursive"/>

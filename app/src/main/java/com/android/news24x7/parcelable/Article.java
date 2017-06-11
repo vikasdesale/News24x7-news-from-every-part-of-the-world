@@ -1,4 +1,3 @@
-
 package com.android.news24x7.parcelable;
 
 import android.os.Parcel;
@@ -8,21 +7,9 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class Article implements Serializable, Parcelable
-{
+public class Article implements Serializable, Parcelable {
 
-    @SerializedName("author")
-    private String author;
-    @SerializedName("title")
-    private String title;
-    @SerializedName("description")
-    private String description;
-    @SerializedName("url")
-    private String url;
-    @SerializedName("urlToImage")
-    private String urlToImage;
-    @SerializedName("publishedAt")
-    private String publishedAt;
+    private final static long serialVersionUID = 8755682695955568073L;
     public final Parcelable.Creator<Article> CREATOR = new Parcelable.Creator<Article>() {
         @Override
         public Article createFromParcel(Parcel parcel) {
@@ -35,16 +22,26 @@ public class Article implements Serializable, Parcelable
         }
 
     };
-
-    private final static long serialVersionUID = 8755682695955568073L;
+    @SerializedName("author")
+    private String author;
+    @SerializedName("title")
+    private String title;
+    @SerializedName("description")
+    private String description;
+    @SerializedName("url")
+    private String url;
+    @SerializedName("urlToImage")
+    private String urlToImage;
+    @SerializedName("publishedAt")
+    private String publishedAt;
 
     public Article(String mTitle, String mAuthor, String mDescription, String mUrl, String mUrlToImage, String mPublishedAt) {
-       this.title=mTitle;
-        this.author=mAuthor;
-        this.description=mDescription;
-        this.url=mUrl;
-        this.urlToImage=mUrlToImage;
-        this.publishedAt=mPublishedAt;
+        this.title = mTitle;
+        this.author = mAuthor;
+        this.description = mDescription;
+        this.url = mUrl;
+        this.urlToImage = mUrlToImage;
+        this.publishedAt = mPublishedAt;
     }
 
 
@@ -56,6 +53,7 @@ public class Article implements Serializable, Parcelable
         this.urlToImage = in.readString();
         this.publishedAt = in.readString();
     }
+
     public String getAuthor() {
         return author;
     }
@@ -114,7 +112,7 @@ public class Article implements Serializable, Parcelable
     }
 
     public int describeContents() {
-        return  0;
+        return 0;
     }
 
 }

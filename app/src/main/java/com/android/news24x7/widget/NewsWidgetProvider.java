@@ -32,9 +32,9 @@ public class NewsWidgetProvider extends AppWidgetProvider {
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
         int[] appWidgetIDs;
-        if ( intent.getAction().equals(ACTION_UPDATE) ) {
+        if (intent.getAction().equals(ACTION_UPDATE)) {
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-            appWidgetIDs = appWidgetManager.getAppWidgetIds( new ComponentName( context, getClass() ) );
+            appWidgetIDs = appWidgetManager.getAppWidgetIds(new ComponentName(context, getClass()));
             appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIDs, R.id.newsList);
         }
     }
@@ -57,7 +57,7 @@ public class NewsWidgetProvider extends AppWidgetProvider {
             Intent clickIntent = new Intent(context, DetailsActivity.class);
             PendingIntent appPI = PendingIntent.getActivity(context, 0, clickAppIntent, PendingIntent.FLAG_UPDATE_CURRENT);
             PendingIntent clickPI = PendingIntent.getActivity(context, 0, clickIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-            widgetViews.setOnClickPendingIntent(R.id.newsTitle,appPI);
+            widgetViews.setOnClickPendingIntent(R.id.newsTitle, appPI);
             widgetViews.setPendingIntentTemplate(R.id.newsList, clickPI);
 
             appWidgetManager.updateAppWidget(appWidgetId, widgetViews);

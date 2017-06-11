@@ -9,8 +9,7 @@ import java.util.List;
  * Created by Dell on 6/3/2017.
  */
 
-public class NewsResponse
-{
+public class NewsResponse {
 
     @SerializedName("status")
     private String status;

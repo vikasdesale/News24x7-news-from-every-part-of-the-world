@@ -13,7 +13,6 @@ import retrofit2.http.QueryMap;
 public interface ApiInterface {
 
 
-
     @GET("articles")
     Call<NewsResponse> getNews(@QueryMap Map<String, String> options);
 

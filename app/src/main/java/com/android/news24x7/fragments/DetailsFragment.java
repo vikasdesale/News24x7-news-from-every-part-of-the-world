@@ -3,11 +3,11 @@ package com.android.news24x7.fragments;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ShareCompat;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,11 +26,14 @@ import com.google.android.gms.ads.AdView;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 import static com.android.news24x7.R.drawable.placeholder;
+import static com.android.news24x7.util.NewsUtil.FAVORITE;
 
 public class DetailsFragment extends Fragment implements View.OnClickListener {
-    public static final String ID = "ID";
-    private static final String NEWS_SHARE_HASHTAG = " #MyNEWS";
     String mTitle;
     String mAuthor;
     String mDescription;
@@ -39,19 +42,31 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
     String mPublishedAt;
     View rootView;
     int n = -1;
-    int i = 0;
-    private LinearLayoutManager mLinearLayoutManager;
-    private Intent intent;
-    private TextView mTitleText;
-    private TextView mByText;
-    private TextView mArticleReadMore;
-    private TextView mArticleBody;
-    private ImageView myFavoriteNews;
+    @BindView(R.id.news_thumbnail)
     ImageView mToolbarImage;
     NewsUtil mNewsUtil;
+    @BindView(R.id.adView)
     AdView adView;
-    private CollapsingToolbarLayout mCollapsingToolbar;
-    private Toolbar toolbar;
+    @BindView(R.id.article_title)
+    TextView mTitleText;
+    @BindView(R.id.article_byline)
+    TextView mByText;
+    @BindView(R.id.article_read_more)
+    TextView mArticleReadMore;
+    @BindView(R.id.article_body)
+    TextView mArticleBody;
+    @BindView(R.id.save)
+    ImageView myFavoriteNews;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.fab_save)
+    FloatingActionButton fab;
+    @BindView(R.id.main_content)
+    CoordinatorLayout contLayout;
+    private Intent intent;
+    private Unbinder unbinder;
+
+
     public DetailsFragment() {
         setHasOptionsMenu(true);
     }
@@ -64,40 +79,27 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
     }
 
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_article_detail, container, false);
+        unbinder = ButterKnife.bind(this, rootView);
 
-           mTitleText= (TextView) rootView.findViewById(R.id.article_title);
-           mByText= (TextView) rootView.findViewById(R.id.article_byline);
-           mArticleBody=(TextView) rootView.findViewById(R.id.article_body);
-           mArticleReadMore=(TextView)  rootView.findViewById(R.id.article_read_more);
-           mToolbarImage = (ImageView) rootView.findViewById(R.id.news_thumbnail);
-           myFavoriteNews=(ImageView)rootView.findViewById(R.id.save);
-           adView = (AdView) rootView.findViewById(R.id.adView);
         // Create an ad request. Check logcat output for the hashed device ID to
         // get test ads on a physical device. e.g.
         // "Use AdRequest.Builder.addTestDevice("ABCDEF012345") to get test ads on this device."
-        AdView adView = (AdView)rootView.findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder()
                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-                .addTestDevice("0123456789ABCDEF")
+                //  .addTestDevice(R.string.deviceId)   Add you device id
                 .build();
         adView.loadAd(adRequest);
         myFavoriteNews.setOnClickListener(this);
-        toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
-        mCollapsingToolbar =
-                (CollapsingToolbarLayout) rootView.findViewById(R.id.collapsing_toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab_save);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(Intent.createChooser(ShareCompat.IntentBuilder.from(getActivity())
-                        .setType("text/plain")
-                        .setText("Title: " + mTitle + "\n By " + mAuthor+"\n\nDescription: \n"+mDescription)
+                        .setType(getString(R.string.setType))
+                        .setText(getString(R.string.title_share) + mTitle + getString(R.string.by_share) + mAuthor + getString(R.string.description_share) + mDescription)
                         .getIntent(), getString(R.string.action_share)));
             }
         });
@@ -110,46 +112,35 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
             }
         });
         setData();
-        Toast.makeText(getContext(), "News Inserted in Favourite", Toast.LENGTH_SHORT).show();
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               getActivity().finish();
+                getActivity().finish();
             }
         });
         return rootView;
 
     }
-    private void setUp() {
 
-            }
 
     //this is on direct call
     private void initalizeInt() {
+        mNewsUtil = new NewsUtil();
         Bundle arguments = getArguments();
         if (arguments != null) {
-            mTitle=arguments.getString(NewsWidgetProvider.EXTRA_TITLE);
-            mAuthor=arguments.getString(NewsWidgetProvider.EXTRA_AUTHOR);
-            mDescription=arguments.getString(NewsWidgetProvider.EXTRA_DESCRIPTION);
-            mUrl=arguments.getString(NewsWidgetProvider.EXTRA_URL);
-            mUrlToImage=arguments.getString(NewsWidgetProvider.EXTRA_IMAGE_URL);
-            mPublishedAt=arguments.getString(NewsWidgetProvider.EXTRA_DATE);
-        }
-
-        mNewsUtil=new NewsUtil();
-        if (intent != null) {
-                mTitle = intent.getStringExtra("title");
-                mAuthor = intent.getStringExtra("author");
-                mDescription = intent.getStringExtra("overview");
-                mUrl = intent.getStringExtra("url");
-                mUrlToImage = intent.getStringExtra("url_image");
-                mPublishedAt= intent.getStringExtra("published");
+            mTitle = arguments.getString(NewsWidgetProvider.EXTRA_TITLE);
+            mAuthor = arguments.getString(NewsWidgetProvider.EXTRA_AUTHOR);
+            mDescription = arguments.getString(NewsWidgetProvider.EXTRA_DESCRIPTION);
+            mUrl = arguments.getString(NewsWidgetProvider.EXTRA_URL);
+            mUrlToImage = arguments.getString(NewsWidgetProvider.EXTRA_IMAGE_URL);
+            mPublishedAt = arguments.getString(NewsWidgetProvider.EXTRA_DATE);
         }
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        unbinder.unbind();
     }
 
     public void setData() {
@@ -157,8 +148,8 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
         if (n == 1) {
             n = 0;
             myFavoriteNews.setImageResource(android.R.drawable.btn_star_big_on);
-        }
-           else{ n = 1;
+        } else {
+            n = 1;
             myFavoriteNews.setImageResource(android.R.drawable.btn_star_big_off);
 
         }
@@ -169,13 +160,11 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
                 .error(placeholder)
                 .crossFade() //animation
                 .into(mToolbarImage);
-            mTitleText.setText(mTitle);
-            mByText.setText(mAuthor);
-            mArticleBody.setText(mDescription);
+        mTitleText.setText(mTitle);
+        mByText.setText(mAuthor);
+        mArticleBody.setText(mDescription);
 
-        }
-
-
+    }
 
 
     //on favorite click
@@ -185,24 +174,25 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
             n = 0;
             try {
                 Article article;
-                article = new Article(mTitle, mAuthor, mDescription, mUrl, mUrlToImage,mPublishedAt);
+                article = new Article(mTitle, mAuthor, mDescription, mUrl, mUrlToImage, mPublishedAt);
 
                 ArrayList<Article> m = new ArrayList<Article>();
                 m.add(0, article);
-                mNewsUtil.insertData(getActivity(), m, "favourite");
+                mNewsUtil.insertData(getActivity(), m, FAVORITE);
                 myFavoriteNews.setImageResource(android.R.drawable.btn_star_big_on);
-                Toast.makeText(getContext(), "News Inserted in Favourite", Toast.LENGTH_SHORT).show();
+                Snackbar snackbar = Snackbar
+                        .make(contLayout, R.string.article_saved, Snackbar.LENGTH_LONG);
+                snackbar.show();
+
             } catch (Exception e) {
             }
         } else {
             n = 1;
             myFavoriteNews.setImageResource(android.R.drawable.btn_star_big_off);
             NewsUtil.FavouriteDelete(getActivity(), mTitle);
-            Toast.makeText(getActivity(), "News deleted from  favourite", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.article_deleted, Toast.LENGTH_SHORT).show();
         }
     }
-
-
 
 
 }

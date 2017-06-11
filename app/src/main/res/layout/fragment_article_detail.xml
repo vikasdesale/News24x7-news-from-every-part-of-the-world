@@ -1,26 +1,25 @@
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_content"
-    android:fitsSystemWindows="true"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/detail_back_height"
-        app:elevation="@dimen/appbar_elevation"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:elevation="@dimen/appbar_elevation">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:contentScrim="?attr/colorPrimary"
-            app:expandedTitleMarginEnd="64dp"
-            app:expandedTitleMarginStart="48dp"
+            app:expandedTitleMarginEnd="@dimen/expand_margin_end"
+            app:expandedTitleMarginStart="@dimen/expand_margin_start"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <ImageView
@@ -30,15 +29,14 @@
                 android:fitsSystemWindows="true"
                 android:scaleType="centerCrop"
                 app:layout_collapseMode="parallax"
-                tools:ignore="ContentDescription"
-                android:transitionName="@string/accept"/>
+                tools:ignore="ContentDescription" />
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:navigationIcon="?attr/homeAsUpIndicator"
-                app:layout_collapseMode="pin" />
+                app:layout_collapseMode="pin"
+                app:navigationIcon="?attr/homeAsUpIndicator" />
 
         </android.support.design.widget.CollapsingToolbarLayout>
 
@@ -55,6 +53,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <TextView
                 android:id="@+id/article_title"
                 style="@style/TextAppearance.AppCompat.Title"
@@ -62,9 +61,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/detail_inner_horiz_margin"
                 android:layout_marginRight="@dimen/detail_inner_horiz_margin"
-                android:layout_marginTop="8dp"
-                tools:text="The byline"
-                android:textColor="@color/primary_text"/>
+                android:layout_marginTop="@dimen/article_title_margin_top"
+                android:textColor="@color/primary_text" />
+
             <TextView
                 android:id="@+id/article_byline"
                 style="@style/TextAppearance.AppCompat.Small"
@@ -72,21 +71,22 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/detail_inner_horiz_margin"
                 android:layout_marginRight="@dimen/detail_inner_horiz_margin"
-                tools:text="The byline"
-                android:textColor="@color/secondary_text"/>
+                android:textColor="@color/secondary_text" />
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <TextView
                     android:id="@+id/overview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Overview"
-                    android:layout_marginTop="8dp"
-                    android:textSize="22sp"
                     android:layout_marginLeft="@dimen/detail_inner_horiz_margin"
-                    android:textStyle="bold"
-                    android:textColor="@color/secondary_text"/>
+                    android:layout_marginTop="@dimen/article_title_margin_top"
+                    android:text="@string/overview_text"
+                    android:textColor="@color/secondary_text"
+                    android:textSize="@dimen/overview_text"
+                    android:textStyle="bold" />
 
                 <ImageView
                     android:id="@+id/save"
@@ -95,54 +95,57 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="@dimen/detail_inner_horiz_margin"
                     android:layout_toRightOf="@id/overview"
-                    android:src="@android:drawable/btn_star_big_off"
-                    />
+                    android:src="@android:drawable/btn_star_big_off" />
             </RelativeLayout>
+
             <View
                 android:layout_width="match_parent"
-                android:layout_height="2dp"
+                android:layout_height="@dimen/view_and_margin_bottom"
                 android:layout_marginLeft="@dimen/detail_inner_horiz_margin"
                 android:layout_marginRight="@dimen/detail_inner_horiz_margin"
-                android:layout_marginTop="8dp"
-                android:background="@color/accent"/>
+                android:layout_marginTop="@dimen/article_title_margin_top"
+                android:background="@color/accent" />
+
             <TextView
                 android:id="@+id/article_body"
                 style="@style/TextAppearance.AppCompat.Body1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/view_and_margin_bottom"
                 android:layout_marginLeft="@dimen/detail_inner_horiz_margin"
                 android:layout_marginRight="@dimen/detail_inner_horiz_margin"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="2dp"
+                android:layout_marginTop="@dimen/article_title_margin_top"
                 android:lineSpacingMultiplier="@fraction/detail_body_line_spacing_multiplier"
-                tools:text="The body"
-                android:textColor="@color/primary_text"/>
+                android:textColor="@color/primary_text" />
+
             <TextView
                 android:id="@+id/article_read_more"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/read_more"
+                android:layout_marginBottom="@dimen/detail_inner_horiz_margin"
                 android:layout_marginLeft="@dimen/detail_inner_horiz_margin"
                 android:layout_marginRight="@dimen/detail_inner_horiz_margin"
-                android:layout_marginBottom="@dimen/detail_inner_horiz_margin"
-                android:text="Read More..."
                 android:autoLink="all"
-                android:textStyle="bold"
                 android:clickable="true"
-                android:textColor="@color/accent" />
+                android:text="@string/read_more"
+                android:textColor="@color/accent"
+                android:textStyle="bold" />
 
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
-    <com.google.android.gms.ads.AdView
+
+    <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
         android:id="@+id/adView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:layout_gravity="bottom|center"
         ads:adSize="BANNER"
-        ads:adUnitId="@string/banner_ad_unit_id"
-        xmlns:ads="http://schemas.android.com/apk/res-auto"></com.google.android.gms.ads.AdView>
+        ads:adUnitId="@string/banner_ad_unit_id"></com.google.android.gms.ads.AdView>
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_save"
         android:layout_width="wrap_content"
@@ -156,7 +159,6 @@
         android:src="@drawable/ic_share"
         app:borderWidth="0dp"
         app:fabSize="normal"
-        app:pressedTranslationZ="@dimen/fab_press_translation_z"
-        />
+        app:pressedTranslationZ="@dimen/fab_press_translation_z" />
 
 </android.support.design.widget.CoordinatorLayout>

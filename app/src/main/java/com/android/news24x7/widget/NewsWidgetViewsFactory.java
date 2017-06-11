@@ -23,9 +23,6 @@ import java.util.concurrent.ExecutionException;
  */
 
 public class NewsWidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
-    private Cursor cursor;
-    private Context context = null;
-    private int appWidgetId;
     long token;
     String mTitle;
     String mAuthor;
@@ -33,6 +30,10 @@ public class NewsWidgetViewsFactory implements RemoteViewsService.RemoteViewsFac
     String mUrl;
     String mUrlToImage;
     String mPublishedAt;
+    private Cursor cursor;
+    private Context context = null;
+    private int appWidgetId;
+
     public NewsWidgetViewsFactory(Context context, Intent intent) {
         this.context = context;
         this.appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
@@ -50,7 +51,7 @@ public class NewsWidgetViewsFactory implements RemoteViewsService.RemoteViewsFac
 
     public void query() {
         token = Binder.clearCallingIdentity();
-        cursor =context.getContentResolver().query(NewsProvider.MyNews.CONTENT_URI,
+        cursor = context.getContentResolver().query(NewsProvider.MyNews.CONTENT_URI,
                 null, null, null, null);
         Binder.restoreCallingIdentity(token);
     }
@@ -58,7 +59,7 @@ public class NewsWidgetViewsFactory implements RemoteViewsService.RemoteViewsFac
     @Override
     public void onDestroy() {
         // Releases the cursor when we are done with it
-        if ( cursor != null ) {
+        if (cursor != null) {
             cursor.close();
             cursor = null;
         }
@@ -72,23 +73,23 @@ public class NewsWidgetViewsFactory implements RemoteViewsService.RemoteViewsFac
 
     @Override
     public RemoteViews getViewAt(int position) {
-        
+
         // Check we have data at this view position - If we don't then exit with null
-        if ( !cursor.moveToPosition(position) )
+        if (!cursor.moveToPosition(position))
             return null;
-         mTitle=cursor.getString(cursor.getColumnIndex(ColumnsNews.TITLE));
-         mAuthor=cursor.getString(cursor.getColumnIndex(ColumnsNews.AUTHOR));
-         mDescription=cursor.getString(cursor.getColumnIndex(ColumnsNews.DESCRIPTION));
-         mUrl = cursor.getString(cursor.getColumnIndex(ColumnsNews.URL));
-         mUrlToImage = cursor.getString(cursor.getColumnIndex(ColumnsNews.URL_TO_IMAGE));
-         mPublishedAt = cursor.getString(cursor.getColumnIndex(ColumnsNews.PUBLISHED_AT));
+        mTitle = cursor.getString(cursor.getColumnIndex(ColumnsNews.TITLE));
+        mAuthor = cursor.getString(cursor.getColumnIndex(ColumnsNews.AUTHOR));
+        mDescription = cursor.getString(cursor.getColumnIndex(ColumnsNews.DESCRIPTION));
+        mUrl = cursor.getString(cursor.getColumnIndex(ColumnsNews.URL));
+        mUrlToImage = cursor.getString(cursor.getColumnIndex(ColumnsNews.URL_TO_IMAGE));
+        mPublishedAt = cursor.getString(cursor.getColumnIndex(ColumnsNews.PUBLISHED_AT));
 
 
         final RemoteViews row = new RemoteViews(context.getPackageName(), R.layout.list_item_news);
 
-       Bitmap bitmap = null;
+        Bitmap bitmap = null;
         try {
-            bitmap=
+            bitmap =
                     Glide.
                             with(context).
                             load(mUrlToImage).
@@ -101,11 +102,11 @@ public class NewsWidgetViewsFactory implements RemoteViewsService.RemoteViewsFac
             e.printStackTrace();
         }
 
-        if(bitmap!=null) {
-        row.setImageViewBitmap(R.id.news_thumbnail, bitmap);
+        if (bitmap != null) {
+            row.setImageViewBitmap(R.id.news_thumbnail, bitmap);
 
         }
-        row.setTextViewText(R.id.news_article_title,mTitle);
+        row.setTextViewText(R.id.news_article_title, mTitle);
         row.setTextViewText(R.id.news_published_at, mPublishedAt);
 
         Intent intent = new Intent();

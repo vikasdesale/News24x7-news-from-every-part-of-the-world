@@ -19,6 +19,15 @@ import com.android.news24x7.fragments.NewsFragment;
  */
 public class Util {
 
+    public static final String BUSINESS = "Business";
+    public static final String TITLE = "title";
+    public static final String ENTERTAINMENT = "Entertainment";
+    public static final String MUSIC = "Music";
+    public static final String SPORT = "Sport";
+    public static final String SCIENCE = "Science-and-nature";
+    public static final String POLITICS = "Politics";
+    public static final String TECHNOLOGY = "Technology";
+
     public static void setupDrawerContent(NavigationView navigationView, final DrawerLayout mDrawerLayout, final Context context) {
         navigationView.setNavigationItemSelectedListener(
 
@@ -27,63 +36,61 @@ public class Util {
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
                         menuItem.setChecked(true);
                         Bundle args = new Bundle();
-                        Fragment fragment=null;
+                        Fragment fragment = null;
                         switch (menuItem.getItemId()) {
                             case R.id.nav_home: //do what you want to do;
                                 break;
                             case R.id.nav_business: //do what you want to do;
                                 args = new Bundle();
-                                args.putString("title","Business");
+                                args.putString(TITLE, BUSINESS);
                                 fragment = new NewsFragment();
                                 fragment.setArguments(args);
 
                                 break;
                             case R.id.nav_entertainment: //do what you want to do;
-                                args.putString("title","Entertainment");
+                                args.putString(TITLE, ENTERTAINMENT);
                                 fragment = new NewsFragment();
                                 fragment.setArguments(args);
                                 break;
                             case R.id.nav_music: //do what you want to do;
                                 args = new Bundle();
-                                args.putString("title","Music");
+                                args.putString(TITLE, MUSIC);
                                 fragment = new NewsFragment();
                                 fragment.setArguments(args);
                                 break;
                             case R.id.nav_politics: //do what you want to do;
                                 args = new Bundle();
-                                args.putString("title","Politics");
+                                args.putString(TITLE, POLITICS);
                                 fragment = new NewsFragment();
                                 fragment.setArguments(args);
                                 break;
                             case R.id.nav_sport: //do what you want to do;
                                 args = new Bundle();
-                                args.putString("title","Sport");
+                                args.putString(TITLE, SPORT);
                                 fragment = new NewsFragment();
                                 fragment.setArguments(args);
                                 break;
                             case R.id.nav_science_and_nature: //do what you want to do;
                                 args = new Bundle();
-                                args.putString("title","Science-and-nature");
+                                args.putString(TITLE, SCIENCE);
                                 fragment = new NewsFragment();
                                 fragment.setArguments(args);
                                 break;
                             case R.id.nav_technology: //do what you want to do;
                                 args = new Bundle();
-                                args.putString("title","Technology");
+                                args.putString(TITLE, TECHNOLOGY);
                                 fragment = new NewsFragment();
                                 fragment.setArguments(args);
                                 break;
                             case R.id.nav_settings: //do what you want to do;
                                 context.startActivity(new Intent(context, SettingsActivity.class));
-                                // fragment = AboutFragment.newInstance("About", "arg2");
-                                // Snackbar.make(rootLayout, "HU AM I?!", Snackbar.LENGTH_SHORT).show();
                                 break;
                             case R.id.nav_help: // etc,
                                 break;
                         }
                         //replacing the fragment
                         if (fragment != null) {
-                            FragmentTransaction ft = ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction();
+                            FragmentTransaction ft = ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction();
                             ft.replace(R.id.container, fragment);
                             ft.addToBackStack(null);
                             ft.commit();
