@@ -74,6 +74,13 @@
     <string name="powered_by_newsapi_org">Powered By NewsAPI.org</string>
     <string name="article_image">Article Image is here</string>
     <string name="this_is_ad">This is Ad</string>
+    <string name="content_desc_title">The title of Article is</string>
+    <string name="content_description_dates">This article is published at</string>
+    <string name="my_favorite_save">This is button to save news article</string>
+    <string name="content_desc_author">Author of Article is</string>
+    <string name="content_desc_article">the Overview of article is</string>
+    <string name="cotent_desc_read_more">To Read More Click here</string>
+    <string name="content_desc_share_article">Share article with your friend</string>
 
 
 </resources>

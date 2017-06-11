@@ -118,6 +118,8 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
                 getActivity().finish();
             }
         });
+        mArticleReadMore.setContentDescription(getString(R.string.cotent_desc_read_more));
+        fab.setContentDescription(getString(R.string.content_desc_share_article));
         return rootView;
 
     }
@@ -163,7 +165,10 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
         mTitleText.setText(mTitle);
         mByText.setText(mAuthor);
         mArticleBody.setText(mDescription);
-
+        myFavoriteNews.setContentDescription(getString(R.string.my_favorite_save));
+        mTitleText.setContentDescription(getString(R.string.content_desc_title)+mTitle);
+        mByText.setContentDescription(getString(R.string.content_desc_author)+mAuthor);
+        mArticleBody.setContentDescription(getString(R.string.content_desc_article)+mDescription);
     }
 
 
