@@ -2,6 +2,7 @@ package com.android.news24x7.adapter;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,6 +61,10 @@ public class NewsRecyclerViewAdapter extends CursorRecyclerViewAdapter<NewsRecyc
             viewHolder.imageView.setImageDrawable(null);
             viewHolder.textView.setText("No Title");
             viewHolder.imageView.setImageResource(R.drawable.placeholder);
+            // this enables better animations. even if we lose state due to a device rotation,
+            // the animator can use this to re-find the original view
+            ViewCompat.setTransitionName(viewHolder.imageView, "iconView" +cursor.getPosition());
+
         }
 
 
@@ -93,7 +98,7 @@ public class NewsRecyclerViewAdapter extends CursorRecyclerViewAdapter<NewsRecyc
 
 
     public interface ClickListener {
-        public void itemClicked(View view, int position);
+        public void itemClicked(View view, int position,NewsRecyclerViewAdapter.ViewHolder vh);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -103,6 +108,7 @@ public class NewsRecyclerViewAdapter extends CursorRecyclerViewAdapter<NewsRecyc
         @BindView(R.id.news_published_at)
         TextView dates;
         @BindView(R.id.backdrop)
+        public
         ImageView imageView;
 
         public ViewHolder(View itemView) {
@@ -114,9 +120,9 @@ public class NewsRecyclerViewAdapter extends CursorRecyclerViewAdapter<NewsRecyc
 
         @Override
         public void onClick(View v) {
-
+           ViewHolder vh=new ViewHolder(v);
             if (clickListener != null) {
-                clickListener.itemClicked(v, getPosition());
+                clickListener.itemClicked(v, getPosition(), vh);
             }
         }
     }

@@ -5,7 +5,7 @@
 
     <LinearLayout
         android:id="@+id/error"
-        android:contentDescription="@string/empty_news_list_no_network"
+        android:contentDescription="@string/no_internet_connection"
         style="@style/MyLinearLayout2"
         android:layout_marginTop="@dimen/textSize"
         android:gravity="center"
@@ -19,7 +19,7 @@
         <TextView
             android:id="@+id/errortext"
             style="@style/ErrorLayout"
-            android:text="No Internet Connection"
+            android:text="@string/no_internet_connection"
             android:textColor="@color/accent"
             android:textSize="@dimen/textSizeError" />
     </LinearLayout>
