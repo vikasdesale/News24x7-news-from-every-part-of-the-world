@@ -144,7 +144,7 @@ public class NewsUtil {
 
 
                 if (flag == 1 || c.getCount() == 0) {
-                    if (news.getTitle() != null && news.getDescription() != null && storeF.equals("favourite")) {
+                    if (news.getTitle() != null && news.getDescription() != null && storeF.equals(FAVORITE)) {
                         builder = ContentProviderOperation.newInsert(
                                 NewsProvider.NewsFavourite.CONTENT_URI_FAVOURITE);
                     } else if (news.getTitle() != null && news.getDescription() != null) {

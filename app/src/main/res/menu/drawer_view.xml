@@ -22,43 +22,43 @@
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_point"
 
-            android:title="Home" />
+            android:title="@string/home_nav" />
         <item
             android:id="@+id/nav_business"
             android:icon="@drawable/ic_point"
-            android:title="Business" />
+            android:title="@string/business_nav" />
         <item
             android:id="@+id/nav_entertainment"
             android:icon="@drawable/ic_point"
-            android:title="Entertainment" />
+            android:title="@string/entertainment_nav" />
         <item
             android:id="@+id/nav_sport"
             android:icon="@drawable/ic_point"
-            android:title="Sport" />
+            android:title="@string/sport_nav" />
         <item
             android:id="@+id/nav_technology"
             android:icon="@drawable/ic_point"
-            android:title="Technology" />
+            android:title="@string/technology_nav" />
         <item
             android:id="@+id/nav_politics"
             android:icon="@drawable/ic_point"
-            android:title="Politics" />
+            android:title="@string/politics_nav" />
         <item
             android:id="@+id/nav_music"
             android:icon="@drawable/ic_point"
-            android:title="Music" />
+            android:title="@string/music_nav" />
         <item
             android:id="@+id/nav_science_and_nature"
             android:icon="@drawable/ic_point"
-            android:title="Science and Nature" />
+            android:title="@string/science_and_nature_nav" />
         <item
             android:id="@+id/nav_settings"
             android:icon="@drawable/ic_point"
-            android:title="Settings" />
+            android:title="@string/settings_nav" />
         <item
             android:id="@+id/nav_help"
             android:icon="@drawable/ic_point"
-            android:title="Help" />
+            android:title="@string/help_nav" />
     </group>
 
 

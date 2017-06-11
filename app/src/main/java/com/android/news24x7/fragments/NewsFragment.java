@@ -17,7 +17,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.AbsListView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -89,7 +88,6 @@ public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.Cl
     private Cursor cursor;
     private Unbinder unbinder;
     private boolean mAutoSelectView;
-    private int mChoiceMode;
 
     public NewsFragment() {
         // Required empty public constructor
@@ -167,7 +165,6 @@ public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.Cl
         super.onInflate(activity, attrs, savedInstanceState);
         TypedArray a = activity.obtainStyledAttributes(attrs, R.styleable.ForecastFragment,
                 0, 0);
-        mChoiceMode = a.getInt(R.styleable.ForecastFragment_android_choiceMode, AbsListView.CHOICE_MODE_NONE);
         mAutoSelectView = a.getBoolean(R.styleable.ForecastFragment_autoSelectView, false);
         mHoldForTransition = a.getBoolean(R.styleable.ForecastFragment_sharedElementTransitions, false);
         a.recycle();

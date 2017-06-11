@@ -35,8 +35,6 @@
     <string name="action_settings">Settings</string>
     <string name="action_share">Share</string>
     <string name="subtitle">%1$s by %2$s</string>
-    <string name="up">Up</string>
-    <string name="ok">Ok</string>
     <string name="fab_save">save article</string>
     <string name="title_activity_settings">Settings</string>
     <string name="action_sport">sport</string>
@@ -68,5 +66,16 @@
     <string name="no_internet_connection">No Internet Connection</string>
     <!-- For Shared Element Transitions -->
       <string name="detail_icon_transition_name" translatable="false">TN_DetailIcon</string>
+    <string name="home_nav">Home</string>
+    <string name="business_nav">Business</string>
+    <string name="entertainment_nav">Entertainment</string>
+    <string name="sport_nav">Sport</string>
+    <string name="technology_nav">Technology</string>
+    <string name="politics_nav">Politics</string>
+    <string name="music_nav">Music</string>
+    <string name="science_and_nature_nav">Science and Nature</string>
+    <string name="settings_nav">Settings</string>
+    <string name="help_nav">Help</string>
+    <string name="no_image_title">No Title</string>
 
 </resources>

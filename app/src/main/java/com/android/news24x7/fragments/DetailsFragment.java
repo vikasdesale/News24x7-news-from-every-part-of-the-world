@@ -75,7 +75,7 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initalizeInt();
+        initializeInt();
 
     }
 
@@ -127,7 +127,7 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
 
 
     //this is on direct call
-    private void initalizeInt() {
+    private void initializeInt() {
         mNewsUtil = new NewsUtil();
         Bundle arguments = getArguments();
         if (arguments != null) {

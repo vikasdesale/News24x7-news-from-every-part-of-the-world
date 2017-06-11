@@ -49,7 +49,7 @@ public class DetailsActivity extends AppCompatActivity {
 
     private void setUpWindowAnimations() {
         if (android.os.Build.VERSION.SDK_INT >= 21) {
-            Slide slide = new Slide(Gravity.LEFT);
+            Slide slide = new Slide(Gravity.START);
             slide.setDuration(3000);
             getWindow().setEnterTransition(slide);
         }
