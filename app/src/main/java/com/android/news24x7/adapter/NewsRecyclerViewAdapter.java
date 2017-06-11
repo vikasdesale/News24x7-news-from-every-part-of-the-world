@@ -59,7 +59,7 @@ public class NewsRecyclerViewAdapter extends CursorRecyclerViewAdapter<NewsRecyc
             viewHolder.imageView.setContentDescription(mContext.getString(R.string.article_image));
         } else {
             viewHolder.imageView.setImageDrawable(null);
-            viewHolder.textView.setText("No Title");
+            viewHolder.textView.setText(R.string.no_image_title);
             viewHolder.imageView.setImageResource(R.drawable.placeholder);
             // this enables better animations. even if we lose state due to a device rotation,
             // the animator can use this to re-find the original view

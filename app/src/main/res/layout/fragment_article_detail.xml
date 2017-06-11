@@ -94,6 +94,7 @@
                     android:textStyle="bold" />
 
                 <ImageView
+                    android:contentDescription="@string/action_save"
                     android:id="@+id/save"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

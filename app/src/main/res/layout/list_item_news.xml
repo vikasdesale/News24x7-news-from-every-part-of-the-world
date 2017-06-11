@@ -29,6 +29,8 @@
             android:paddingBottom="@dimen/padding_bottom"
             android:paddingLeft="@dimen/padding_left"
             android:paddingRight="@dimen/padding_right"
+            android:paddingEnd="@dimen/padding_left"
+            android:paddingStart="@dimen/padding_right"
             android:paddingTop="@dimen/padding_top"
             android:textColor="@color/primary_text"
             android:textSize="14sp" />
@@ -44,6 +46,8 @@
             android:paddingBottom="@dimen/padding_bottom_published"
             android:paddingLeft="@dimen/padding_left"
             android:paddingRight="@dimen/padding_right"
+            android:paddingStart="@dimen/padding_left"
+            android:paddingEnd="@dimen/padding_right"
             android:textColor="@color/secondary_text" />
     </LinearLayout>
 

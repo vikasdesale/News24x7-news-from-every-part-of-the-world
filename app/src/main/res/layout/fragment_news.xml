@@ -12,6 +12,7 @@
         android:visibility="gone">
 
         <ImageView
+            android:contentDescription="@string/no_internet_connection"
             android:id="@+id/errorcloud"
             style="@style/ErrorLayout"
             android:src="@drawable/error_view_cloud" />
