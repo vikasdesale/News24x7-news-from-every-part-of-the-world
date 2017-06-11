@@ -46,13 +46,16 @@ public class NewsRecyclerViewAdapter extends CursorRecyclerViewAdapter<NewsRecyc
 
         if (title != null || url != null) {
             viewHolder.textView.setText(title);
+            viewHolder.textView.setContentDescription(mContext.getString(R.string.content_desc_title)+title);
             viewHolder.dates.setText(publishedAt);
+            viewHolder.dates.setContentDescription(mContext.getString(R.string.content_description_dates)+publishedAt);
             //Got Advantages why to use Glide over picasso that's why replaced picasso.
             Glide.with(mContext).load(url)
                     .thumbnail(0.1f)
                     .error(placeholder)
                     .crossFade() //animation
                     .into(viewHolder.imageView);
+            viewHolder.imageView.setContentDescription(mContext.getString(R.string.article_image));
         } else {
             viewHolder.imageView.setImageDrawable(null);
             viewHolder.textView.setText("No Title");

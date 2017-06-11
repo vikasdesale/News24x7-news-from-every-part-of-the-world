@@ -5,6 +5,7 @@
 
     <LinearLayout
         android:id="@+id/error"
+        android:contentDescription="@string/empty_news_list_no_network"
         style="@style/MyLinearLayout2"
         android:layout_marginTop="@dimen/textSize"
         android:gravity="center"

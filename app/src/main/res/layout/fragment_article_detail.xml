@@ -158,6 +158,7 @@
         android:layout_centerHorizontal="true"
         android:layout_gravity="bottom|center"
         ads:adSize="BANNER"
+        android:contentDescription="@string/this_is_ad"
         ads:adUnitId="@string/banner_ad_unit_id"></com.google.android.gms.ads.AdView>
 
     <android.support.design.widget.FloatingActionButton
