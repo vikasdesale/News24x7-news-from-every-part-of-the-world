@@ -24,7 +24,7 @@
             android:id="@+id/backdrop"
             android:layout_width="match_parent"
             android:layout_height="@dimen/news_list_height"
-            android:contentDescription="@null"
+            android:contentDescription="@string/article_image"
             android:scaleType="centerCrop" />
 
 

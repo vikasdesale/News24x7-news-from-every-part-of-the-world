@@ -72,6 +72,8 @@
     <string name="read_more">Read More...</string>
     <string name="overview_text">Overview</string>
     <string name="powered_by_newsapi_org">Powered By NewsAPI.org</string>
+    <string name="article_image">Article Image is here</string>
+    <string name="this_is_ad">This is Ad</string>
 
 
 </resources>
