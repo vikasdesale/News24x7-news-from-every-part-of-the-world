@@ -27,6 +27,8 @@ public class Util {
     public static final String SCIENCE = "Science-and-nature";
     public static final String POLITICS = "Politics";
     public static final String TECHNOLOGY = "Technology";
+    public static final String HOME = "top";
+
 
     public static void setupDrawerContent(NavigationView navigationView, final DrawerLayout mDrawerLayout, final Context context) {
         navigationView.setNavigationItemSelectedListener(
@@ -39,6 +41,10 @@ public class Util {
                         Fragment fragment = null;
                         switch (menuItem.getItemId()) {
                             case R.id.nav_home: //do what you want to do;
+                                args = new Bundle();
+                                args.putString(TITLE, HOME);
+                                fragment = new NewsFragment();
+                                fragment.setArguments(args);
                                 break;
                             case R.id.nav_business: //do what you want to do;
                                 args = new Bundle();
