@@ -38,6 +38,7 @@ import butterknife.Unbinder;
 import static com.android.news24x7.util.NewsUtil.CacheDelete;
 import static com.android.news24x7.util.Util.BUSINESS;
 import static com.android.news24x7.util.Util.ENTERTAINMENT;
+import static com.android.news24x7.util.Util.HOME;
 import static com.android.news24x7.util.Util.MUSIC;
 import static com.android.news24x7.util.Util.POLITICS;
 import static com.android.news24x7.util.Util.SCIENCE;
@@ -60,14 +61,23 @@ public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.Cl
     private static int favflag = 0;
     String nav_menu = null;
     String source[] = null;
-    String sourceTopL[] = {"business-insider", "bbc-sport", "time"};
-    String sourceSport[] = {"espn-cric-info", "talksport"};
-    String sourceBusiness[] = {"business-insider", "bloomberg", "cnbc"};
-    String sourceEntertainment[] = {"business-insider", "bloomberg", "cnbc"};
-    String sourceMusic[] = {"business-insider", "bloomberg", "cnbc"};
-    String sourceScience[] = {"business-insider", "bloomberg", "cnbc"};
-    String sourceTechnology[] = {"business-insider", "bloomberg", "cnbc"};
-    String sourcePolitics[] = {"business-insider", "bloomberg", "cnbc"};
+    String sourceTopL[] = {"abc-news-au", "al-jazeera-english", "associated-press","bbc-news","bild",
+            "cnn","focus","google-news","metro","mirror","newsweek","new-york-magazine","reddit-r-all"
+    ,"reuters","spiegel-online","the-guardian-au","the-guardian-uk","the-hindu","the-huffington-post",
+    "the-new-york-times","the-telegraph","the-times-of-india","the-washington-post","usa-today"};
+    String sourceLatest[] = {"new-york-magazine","reddit-r-all"
+            ,"reuters","spiegel-online","the-guardian-au","the-guardian-uk","the-hindu","the-huffington-post",
+            "the-new-york-times","the-telegraph","the-times-of-india","the-washington-post","usa-today","abc-news-au", "al-jazeera-english", "associated-press","bbc-news","bild",
+            "cnn","focus","google-news","metro","mirror","newsweek"};
+    String sourceSport[] = {"bbc-sport","espn","espn-cric-info","football-italia","four-four-two","fox-sports","ign","nfl-news","polygon","the-sport-bible","talksport"};
+    String sourceBusiness[] = {"bloomberg", "business-insider", "business-insider-uk","cnbc","die-zeit","financial-times",
+    "fortune","handelsblatt","the-economist","the-wall-street-journal","wirtschafts-woche"};
+    String sourceTechnology[] = {"ars-technica", "engadget", "gruenderszene","hacker-news","recode",
+            "t3n","techcrunch","techradar","the-next-web","the-verge","wired-de"};
+    String sourceEntertainment[] = {"buzzfeed", "daily-mail", "entertainment-weekly","mashable","the-lad-bible"};
+    String sourceMusic[] = {"mtv-news", "mtv-news-uk"};
+    String sourceScience[] = {"national-geographic", "new-scientist"};
+    String sourcePolitics[] = {"breitbart-news"};
     @BindView(R.id.progressbar)
     ProgressBar progressBar;
     @BindView(R.id.progressbar2)
@@ -197,30 +207,35 @@ public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.Cl
         favflag = 0;
         i = 0;
         switch (nav_menu) {
+            case HOME:
+                CacheDelete(getContext());
+                source = sourceTopL;
+                check(i, sourceTopL, TOP);
+                break;
             case BUSINESS:
                 CacheDelete(getContext());
                 source = sourceBusiness;
-                check(i, sourceBusiness, LATEST);
+                check(i, sourceBusiness, TOP);
                 break;
             case TECHNOLOGY:
                 CacheDelete(getContext());
                 source = sourceTechnology;
-                check(i, sourceBusiness, LATEST);
+                check(i, sourceTechnology, TOP);
                 break;
             case SCIENCE:
                 CacheDelete(getContext());
                 source = sourceScience;
-                check(i, sourceScience, LATEST);
+                check(i, sourceScience, TOP);
                 break;
             case SPORT:
                 CacheDelete(getContext());
                 source = sourceSport;
-                check(i, sourceSport, LATEST);
+                check(i, sourceSport, TOP);
                 break;
             case POLITICS:
                 CacheDelete(getContext());
                 source = sourcePolitics;
-                check(i, sourcePolitics, LATEST);
+                check(i, sourcePolitics, TOP);
                 break;
             case MUSIC:
                 CacheDelete(getContext());
@@ -409,8 +424,8 @@ public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.Cl
         if (id == R.id.action_latest) {
             favflag = 0;
             CacheDelete(getContext());
-            source = sourceTopL;
-            check(i, sourceTopL, LATEST);
+            source = sourceLatest;
+            check(i, sourceLatest, LATEST);
             return true;
         }
         if (id == R.id.action_save) {

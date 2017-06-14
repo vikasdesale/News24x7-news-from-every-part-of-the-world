@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.android.news24x7.R;
 import com.android.news24x7.interfaces.ColumnsNews;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -55,6 +56,8 @@ public class NewsRecyclerViewAdapter extends CursorRecyclerViewAdapter<NewsRecyc
                     .thumbnail(0.1f)
                     .error(placeholder)
                     .crossFade() //animation
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .skipMemoryCache(true)
                     .into(viewHolder.imageView);
             viewHolder.imageView.setContentDescription(mContext.getString(R.string.article_image));
         } else {

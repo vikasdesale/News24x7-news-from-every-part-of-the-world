@@ -21,6 +21,7 @@ import com.android.news24x7.parcelable.Article;
 import com.android.news24x7.util.NewsUtil;
 import com.android.news24x7.widget.NewsWidgetProvider;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
@@ -162,7 +163,9 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
         Glide.with(this).load(mUrlToImage)
                 .thumbnail(0.1f)
                 .error(placeholder)
-                .crossFade() //animation
+                .crossFade()
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .skipMemoryCache(true)
                 .into(mToolbarImage);
         mTitleText.setText(mTitle);
         mByText.setText(mAuthor);
