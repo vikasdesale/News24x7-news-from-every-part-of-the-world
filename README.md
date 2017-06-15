@@ -15,14 +15,26 @@ List the main features of News 24x7 app.
 * Ability to choose from different type of sources of news.
 * Sort news by top, popular, latest news. 
 
+##  Google Play Services Uses.
+* Google Admobs for showing ads.
+* Firebase for storage, analytics and crash reporting. 
 
 ## Build and Make Pull Request
-*Get your News Api key from https://newsapi.org/ </br>
-*Then add your private api key in local **gradle.properties** file (NewsApiKey="YOUR_API_KEY")</br>
-*Run <b>gradle check</b> task on terminal(Android Studio) to check it follows or not coding guidelines.
-*make a pull request by creating new branch.
+
+* Get your News Api key from https://newsapi.org/ </br>
+* Then add your private api key in local **gradle.properties** file (NewsApiKey="YOUR_API_KEY")</br>
+* Run <b>gradle check</b> task on terminal(Android Studio) to check it follows or not coding guidelines.
+* make a pull request by creating new branch.
 
 ## Screenshots
+
+<img src="https://raw.githubusercontent.com/vikasdesale/News24x7-news-from-every-part-of-the-world/master/screenshots/screen_1.png" width="35%"></img> &emsp;
+&emsp;&emsp;&emsp;
+<img src="https://raw.githubusercontent.com/vikasdesale/News24x7-news-from-every-part-of-the-world/master/screenshots/screen_2.png" width="35%"></img><br><br>
+<img src="https://raw.githubusercontent.com/vikasdesale/News24x7-news-from-every-part-of-the-world/master/screenshots/screen_3.png" width="35%"></img>&emsp;
+&emsp;&emsp;&emsp;
+<img src="https://raw.githubusercontent.com/vikasdesale/News24x7-news-from-every-part-of-the-world/master/screenshots/screen_4.png" width="35%"></img>
+
 
 
 ## License
