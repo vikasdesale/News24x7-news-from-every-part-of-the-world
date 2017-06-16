@@ -22,7 +22,7 @@ List the main features of News 24x7 app.
 ## Build and Make Pull Request
 
 * Get your News Api key from https://newsapi.org/ </br>
-* Then add your private api key in local **gradle.properties** file (NewsApiKey="YOUR_API_KEY")</br>
+* Then add your private api key in local **build.gradle** file (NEWS_API_ORG_KEY="YOUR_API_KEY")</br>
 * Run <b>gradle check</b> task on terminal(Android Studio) to check it follows or not coding guidelines.
 * make a pull request by creating new branch.
 
