@@ -135,10 +135,12 @@ public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.Cl
                 public void onRetrofitCall(int article) {
                     // Send update broadcast to update the widget
                     getContext().sendBroadcast(new Intent(getString(R.string.widget_action)));
-                    allNewsWindow();
                     progressBar.setVisibility(View.GONE);
+                    progressBar2.setVisibility(View.GONE);
+                    allNewsWindow();
                     if (article == 1) {
                         progressBar.setVisibility(View.GONE);
+                        progressBar2.setVisibility(View.GONE);
                         Snackbar snackbar = Snackbar
                                 .make(contLayout, R.string.network_data_not_found, Snackbar.LENGTH_LONG);
 
