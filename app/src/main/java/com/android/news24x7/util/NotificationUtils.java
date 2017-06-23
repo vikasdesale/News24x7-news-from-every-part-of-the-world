@@ -15,19 +15,22 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.ContextCompat;
 
 import com.android.news24x7.R;
-import com.android.news24x7.activities.HomeActivity;
+import com.android.news24x7.activities.DetailsActivity;
 import com.android.news24x7.interfaces.ColumnsNews;
 import com.android.news24x7.prefs.NewsPreferences;
+import com.android.news24x7.widget.NewsWidgetProvider;
 import com.bumptech.glide.Glide;
 
 import java.util.concurrent.ExecutionException;
 
 import static com.android.news24x7.R.drawable.placeholder;
+import static com.android.news24x7.R.mipmap.ic_launcher;
 
 
 public class NotificationUtils {
@@ -100,7 +103,7 @@ public class NotificationUtils {
 //          COMPLETED (2) Use NotificationCompat.Builder to begin building the notification
                 NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context)
                         .setColor(ContextCompat.getColor(context, R.color.accent))
-                        .setSmallIcon(placeholder)
+                        .setSmallIcon(ic_launcher)
                         .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                         .setLargeIcon(largeIcon)
                         .setContentTitle(title)
@@ -109,8 +112,15 @@ public class NotificationUtils {
                         .setAutoCancel(true)
                         .setStyle(notiStyle);
 
-                Intent intent = new Intent(context, HomeActivity.class);
-
+                Intent intent = new Intent(context, DetailsActivity.class);
+                Bundle extras = new Bundle();
+                extras.putString(NewsWidgetProvider.EXTRA_TITLE, cursor.getString(cursor.getColumnIndex(ColumnsNews.TITLE)));
+                extras.putString(NewsWidgetProvider.EXTRA_AUTHOR, cursor.getString(cursor.getColumnIndex(ColumnsNews.AUTHOR)));
+                extras.putString(NewsWidgetProvider.EXTRA_DESCRIPTION, cursor.getString(cursor.getColumnIndex(ColumnsNews.DESCRIPTION)));
+                extras.putString(NewsWidgetProvider.EXTRA_IMAGE_URL, cursor.getString(cursor.getColumnIndex(ColumnsNews.URL_TO_IMAGE)));
+                extras.putString(NewsWidgetProvider.EXTRA_URL, cursor.getString(cursor.getColumnIndex(ColumnsNews.URL)));
+                extras.putString(NewsWidgetProvider.EXTRA_DATE, cursor.getString(cursor.getColumnIndex(ColumnsNews.PUBLISHED_AT)));
+                intent.putExtras(extras);
                 TaskStackBuilder taskStackBuilder = TaskStackBuilder.create(context);
                 taskStackBuilder.addNextIntentWithParentStack(intent);
                 PendingIntent resultPendingIntent = taskStackBuilder
