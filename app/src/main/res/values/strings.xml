@@ -77,5 +77,6 @@
     <string name="settings_nav">Settings</string>
     <string name="help_nav">Help</string>
     <string name="no_image_title">No Title</string>
+    <string name="action_speak">read article</string>
 
 </resources>
