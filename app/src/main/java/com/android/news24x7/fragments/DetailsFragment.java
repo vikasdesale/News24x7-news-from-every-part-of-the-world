@@ -1,13 +1,17 @@
 package com.android.news24x7.fragments;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.speech.tts.TextToSpeech;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.ShareCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -15,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.news24x7.R;
 import com.android.news24x7.parcelable.Article;
@@ -25,7 +30,10 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,7 +42,7 @@ import butterknife.Unbinder;
 import static com.android.news24x7.R.drawable.placeholder;
 import static com.android.news24x7.util.NewsUtil.FAVORITE;
 
-public class DetailsFragment extends Fragment implements View.OnClickListener {
+public class DetailsFragment extends Fragment implements View.OnClickListener,TextToSpeech.OnInitListener {
     String mTitle;
     String mAuthor;
     String mDescription;
@@ -58,6 +66,8 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
     TextView mArticleBody;
     @BindView(R.id.save)
     ImageView myFavoriteNews;
+    @BindView(R.id.speak)
+    ImageView Speech;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.fab_save)
@@ -68,10 +78,12 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
     private Unbinder unbinder;
     public static final String DETAIL_TRANSITION_ANIMATION = "DTA";
     private boolean mTransitionAnimation;
+    private TextToSpeech tts;
 
     public DetailsFragment() {
         setHasOptionsMenu(true);
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -86,6 +98,7 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_article_detail, container, false);
         unbinder = ButterKnife.bind(this, rootView);
+        tts = new TextToSpeech(getContext(), this);
 
         // Create an ad request. Check logcat output for the hashed device ID to
         // get test ads on a physical device. e.g.
@@ -99,10 +112,12 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(Intent.createChooser(ShareCompat.IntentBuilder.from(getActivity())
-                        .setType(getString(R.string.setType))
-                        .setText(getString(R.string.title_share) + mTitle + getString(R.string.by_share) + mAuthor + getString(R.string.description_share) + mDescription)
-                        .getIntent(), getString(R.string.action_share)));
+                ScreenDelete();
+                adView.setVisibility(View.GONE);
+                Bitmap bitmap=getScreenShot(rootView);
+                store(bitmap,"temp.png");
+                adView.setVisibility(View.VISIBLE);
+
             }
         });
         mArticleReadMore.setOnClickListener(new View.OnClickListener() {
@@ -122,11 +137,74 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
         });
         mArticleReadMore.setContentDescription(getString(R.string.cotent_desc_read_more));
         fab.setContentDescription(getString(R.string.content_desc_share_article));
+        Speech.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Speech.setImageResource(R.drawable.speak_on);
+                tts.setPitch((float) 0.6);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    mTitleText.setContentDescription(getString(R.string.content_desc_title) + mTitle);
+                    mByText.setContentDescription(getString(R.string.content_desc_author) + mAuthor);
+                    mArticleBody.setContentDescription(getString(R.string.content_desc_article) + mDescription);
+                    tts.speak(getString(R.string.content_desc_title) + "  " + mTitle + "  " +
+                            getString(R.string.content_desc_author) + "  " + mAuthor + "  " +
+                            getString(R.string.content_desc_article) + "  " + mDescription, TextToSpeech.QUEUE_FLUSH, null, null);
+                } else {
+                    tts.speak(getString(R.string.content_desc_title) + "  " + mTitle + "  " +
+                            getString(R.string.content_desc_author) + "  " + mAuthor + "  " +
+                            getString(R.string.content_desc_article) + "  " + mDescription, TextToSpeech.QUEUE_FLUSH, null);
+                }
+            }
+        });
         return rootView;
+    }
+
+    public void ScreenDelete(){
+        final String dirPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/com.android.news24x7/Screenshots/";
+        File file = new File(dirPath);
+       file.delete();
 
     }
 
+    public static Bitmap getScreenShot(View view) {
+        View screenView = view.getRootView();
+        screenView.setDrawingCacheEnabled(true);
+        Bitmap bitmap = Bitmap.createBitmap(screenView.getDrawingCache());
+        screenView.setDrawingCacheEnabled(false);
+        return bitmap;
+    }
+    public void store(Bitmap bm, String fileName){
+        final String dirPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/com.android.news24x7/Screenshots/";
+        File dir = new File(dirPath);
+        if(!dir.exists())
+            dir.mkdirs();
+        File file = new File(dirPath, fileName);
+        try {
+            FileOutputStream fOut = new FileOutputStream(file);
+            bm.compress(Bitmap.CompressFormat.PNG, 85, fOut);
+             shareImage(file);
+            fOut.flush();
+            fOut.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    private void shareImage(File file){
+        Uri uri = Uri.fromFile(file);
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_SEND);
+        intent.setType("image/*");
 
+        intent.putExtra(android.content.Intent.EXTRA_TEXT, "\n*NEWS 24X7*\nTo get News from 70+ sources." +
+                "Every News Article is at News 24X7." +
+                "\nDownload News 24X7\n"+ "https://goo.gl/HvYuHt");
+        intent.putExtra(Intent.EXTRA_STREAM, uri);
+        try {
+            startActivity(Intent.createChooser(intent, "Share News Article"));
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(getContext(), "Not App Available", Toast.LENGTH_SHORT).show();
+        }
+    }
     //this is on direct call
     private void initializeInt() {
         mNewsUtil = new NewsUtil();
@@ -144,6 +222,11 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onDestroyView() {
+        // Don't forget to shutdown tts!
+        if (tts != null) {
+            tts.stop();
+            tts.shutdown();
+        }
         super.onDestroyView();
         unbinder.unbind();
     }
@@ -152,10 +235,10 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
         n = NewsUtil.CheckisFavourite(getActivity(), mTitle);
         if (n == 1) {
             n = 0;
-            myFavoriteNews.setImageResource(android.R.drawable.btn_star_big_on);
+            myFavoriteNews.setImageResource(R.drawable.star);
         } else {
             n = 1;
-            myFavoriteNews.setImageResource(android.R.drawable.btn_star_big_off);
+            myFavoriteNews.setImageResource(R.drawable.star_off);
 
         }
 
@@ -202,7 +285,7 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
                 ArrayList<Article> m = new ArrayList<Article>();
                 m.add(0, article);
                 mNewsUtil.insertData(getActivity(), m, FAVORITE);
-                myFavoriteNews.setImageResource(android.R.drawable.btn_star_big_on);
+                myFavoriteNews.setImageResource(R.drawable.star);
                 Snackbar snackbar = Snackbar
                         .make(contLayout, R.string.article_saved, Snackbar.LENGTH_LONG);
                 snackbar.show();
@@ -211,7 +294,7 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
             }
         } else {
             n = 1;
-            myFavoriteNews.setImageResource(android.R.drawable.btn_star_big_off);
+            myFavoriteNews.setImageResource(R.drawable.star_off);
             NewsUtil.FavouriteDelete(getActivity(), mTitle);
             Snackbar snackbar = Snackbar
                     .make(contLayout, R.string.article_deleted, Snackbar.LENGTH_LONG);
@@ -220,4 +303,15 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
     }
 
 
+    @Override
+    public void onInit(int initStatus) {
+        //check for successful instantiation
+        if (initStatus == TextToSpeech.SUCCESS) {
+            if(tts.isLanguageAvailable(Locale.US)==TextToSpeech.LANG_AVAILABLE)
+                tts.setLanguage(Locale.US);
+        }
+        else if (initStatus == TextToSpeech.ERROR) {
+            Toast.makeText(getActivity(), "Sorry! Text To Speech failed...", Toast.LENGTH_LONG).show();
+        }
+    }
 }
