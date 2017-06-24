@@ -32,6 +32,24 @@
 
     <string name="condition_unknown">Unknown (<xliff:g id="low">%1$s</xliff:g>)</string>
 
+
+    <string name="app_intro">Introduction</string>
+
+    <!-- Intro slides headings-->
+
+    <string name="first_screen">Welcome to WeSport</string>
+    <string name="second_screen">Select existing places or search places by address</string>
+    <string name="third_screen">Store Game information</string>
+    <string name="fourth_screen">Game details and information</string>
+    <string name="fifth_screen">Chat room</string>
+
+    <!-- Intro slides descriptions-->
+    <string name="scr1_desc">WeSport allows people to connect with each other to play games and stay active</string>
+    <string name="scr2_desc">Recommends play places around user\'s location</string>
+    <string name="scr3_desc">Add game details for every games and access the same from widget</string>
+    <string name="scr4_desc">View all game information and access chat room</string>
+    <string name="scr5_desc">Help coordinate and communicate with each other</string>
+
     <string name="action_settings">Settings</string>
     <string name="action_share">Share</string>
     <string name="subtitle">%1$s by %2$s</string>
@@ -79,5 +97,10 @@
     <string name="no_image_title">No Title</string>
     <string name="action_speak">read article</string>
     <string name="news_title_tag">News from Every Part of the World</string>
+    <string name="nav_power">Powered by NewsAPI.org</string>
+    <string name="invitation_title">News 24X7 is great source of news</string>
+    <string name="detail_share">\n*NEWS 24X7*\nNews from more than 70 sources.\nDownload News 24X7. Review and rate the app.</string>
+    <string name="invitation_cta">Install!</string>
+    <string name="invite_friends">Invite friends</string>
 
 </resources>

@@ -17,7 +17,7 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header"
         app:itemIconTint="@color/tintNav"
-        app:itemTextColor="@color/accent"
+        app:itemTextColor="@drawable/nav_drawer_state"
         app:menu="@menu/drawer_view" />
 
 

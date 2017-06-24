@@ -6,6 +6,7 @@
         <item name="colorAccent">@color/accent</item>
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="android:listDivider">@color/primary</item>
     </style>
     <style name="AppTheme.Main" parent="@style/AppTheme">
         <item name="android:windowContentTransitions">true</item>

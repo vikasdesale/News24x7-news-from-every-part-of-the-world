@@ -1,8 +1,10 @@
 package com.android.news24x7.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -45,6 +47,45 @@ public class HomeActivity extends AppCompatActivity implements NewsFragment.Call
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //  Declare a new thread to do a preference check. Library to invoke Intro slides
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //  Initialize SharedPreferences
+                SharedPreferences getPrefs = PreferenceManager
+                        .getDefaultSharedPreferences(getBaseContext());
+
+                //  Create a new boolean and preference and set it to true
+                boolean isFirstStart = getPrefs.getBoolean("firstStart", true);
+
+                //  If the activity has never started before...
+                if (isFirstStart) {
+
+                    //  Launch app intro
+                    Intent i = new Intent(HomeActivity.this, IntroActivity.class);
+                    startActivity(i);
+
+                    //  Make a new preferences editor
+                    SharedPreferences.Editor e = getPrefs.edit();
+
+                    //  Edit preference to make it false because we don't want this to run again
+                    e.putBoolean("firstStart", false);
+
+                    //  Apply changes
+                    e.apply();
+                }
+                else {
+                    //  Launch Mainactivity
+                //    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                  //  intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                   // startActivity(intent);
+                    // mActivity=true;
+
+                }
+            }
+        });
+        // Start the thread
+        t.start();
         if (Build.VERSION.SDK_INT >= 21) {
 
             TransitionInflater inflater = TransitionInflater.from(this);
