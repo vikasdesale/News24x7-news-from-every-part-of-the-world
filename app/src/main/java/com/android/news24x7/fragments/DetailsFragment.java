@@ -195,9 +195,8 @@ public class DetailsFragment extends Fragment implements View.OnClickListener,Te
         intent.setAction(Intent.ACTION_SEND);
         intent.setType("image/*");
 
-        intent.putExtra(android.content.Intent.EXTRA_TEXT, "\n*NEWS 24X7*\nTo get News from 70+ sources." +
-                "Every News Article is at News 24X7." +
-                "\nDownload News 24X7\n"+ "https://goo.gl/HvYuHt");
+        intent.putExtra(android.content.Intent.EXTRA_TEXT, getString(R.string.detail_share)
+                +"\nhttps://w524x.app.goo.gl/PeSx");
         intent.putExtra(Intent.EXTRA_STREAM, uri);
         try {
             startActivity(Intent.createChooser(intent, "Share News Article"));

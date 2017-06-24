@@ -17,7 +17,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     >
 
-    <group android:checkableBehavior="single">
+    <group android:id="@+id/grp1" android:checkableBehavior="single" >
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_point"
@@ -56,11 +56,16 @@
             android:icon="@drawable/ic_point"
             android:title="@string/settings_nav" />
         <item
-            android:id="@+id/nav_help"
+            android:id="@+id/invite_friends"
             android:icon="@drawable/ic_point"
-            android:title="@string/help_nav" />
+            android:title="@string/invite_friends" />
     </group>
 
+    <group android:id="@+id/grp2" android:checkableBehavior="single" >
 
+        <item
+            android:id="@+id/power_by"
+            android:title="@string/nav_power" />
+    </group>
 
 </menu>

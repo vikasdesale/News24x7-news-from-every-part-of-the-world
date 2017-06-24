@@ -189,6 +189,8 @@ public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.Cl
                 getContext().sendBroadcast(new Intent(getString(R.string.widget_action)));
                 allNewsWindow();
                 progressBar.setVisibility(View.GONE);
+                i = 0;
+                source = sourceTopL;
 
             } else {
                 i = 0;

@@ -1,7 +1,9 @@
 package com.android.news24x7.util;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -13,6 +15,7 @@ import android.view.MenuItem;
 import com.android.news24x7.R;
 import com.android.news24x7.activities.SettingsActivity;
 import com.android.news24x7.fragments.NewsFragment;
+import com.google.android.gms.appinvite.AppInviteInvitation;
 
 /**
  * Created by Dell on 6/2/2017.
@@ -28,6 +31,7 @@ public class Util {
     public static final String POLITICS = "Politics";
     public static final String TECHNOLOGY = "Technology";
     public static final String HOME = "top";
+    private static final int REQUEST_INVITE = 23;
 
 
     public static void setupDrawerContent(NavigationView navigationView, final DrawerLayout mDrawerLayout, final Context context) {
@@ -91,7 +95,9 @@ public class Util {
                             case R.id.nav_settings: //do what you want to do;
                                 context.startActivity(new Intent(context, SettingsActivity.class));
                                 break;
-                            case R.id.nav_help: // etc,
+                            case R.id.invite_friends: // etc,
+                                inviteFriends(((AppCompatActivity) context), REQUEST_INVITE);
+
                                 break;
                         }
                         //replacing the fragment
@@ -105,6 +111,15 @@ public class Util {
                         return true;
                     }
                 });
+    }
+    public static void inviteFriends(Activity activity, int requestCode) {
+        Intent intent = new AppInviteInvitation.IntentBuilder(activity.getString(R.string.invitation_title))
+                .setMessage(activity.getString(R.string.detail_share))
+                .setDeepLink(Uri.parse("https://w524x.app.goo.gl/PeSx"))
+                .setCustomImage(Uri.parse("android.resource://" + activity.getPackageName() + "/mipmap/ic_launcher"))
+                .setCallToActionText(activity.getString(R.string.invitation_cta))
+                .build();
+        activity.startActivityForResult(intent, requestCode);
     }
 
 
