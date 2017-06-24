@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="@dimen/layout_nav_header"
     android:background="?attr/colorPrimaryDark"
@@ -8,44 +9,23 @@
     android:orientation="vertical"
     android:gravity="bottom">
 
-    <LinearLayout
+
+    <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal">
+        app:srcCompat="@drawable/ic_header"
+        android:id="@+id/imageView" />
+
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         android:contentDescription="@string/app_name"
-        android:text="@string/news_app_title"
+        android:text="@string/news_title_tag"
         android:gravity="center"
-        android:textSize="@dimen/text_news_title"
-        android:textStyle="bold"
-        android:textColor="@color/background"
-        android:fontFamily="sans-serif-monospace"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="?actionBarSize"
-        android:contentDescription="@string/app_name"
-        android:text="@string/news_title_x"
-        android:gravity="center"
-        android:textSize="@dimen/text_news_title"
+        android:textSize="@dimen/textSizeError"
+        android:maxLines="2"
         android:textStyle="bold"
         android:textColor="@color/background"
         android:fontFamily="cursive"/>
-        </LinearLayout>
-
-    <TextView
-        android:text="@string/powered_by_newsapi_org"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:textStyle="italic"
-        android:maxLines="3"
-        android:textColor="@android:color/holo_red_dark"
-        android:textSize="@dimen/fab_margin"
-        android:id="@+id/textView" />
-
-
 
 </LinearLayout>

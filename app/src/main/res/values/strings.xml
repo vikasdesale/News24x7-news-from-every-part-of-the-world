@@ -78,5 +78,6 @@
     <string name="help_nav">Help</string>
     <string name="no_image_title">No Title</string>
     <string name="action_speak">read article</string>
+    <string name="news_title_tag">News from Every Part of the World</string>
 
 </resources>
