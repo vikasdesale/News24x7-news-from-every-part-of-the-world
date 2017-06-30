@@ -46,7 +46,7 @@
         android:id="@+id/scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="com.android.news24x7.interfaces.FABAwareScrollingViewBehavior">
+        app:layout_behavior="com.news.news24x7.interfaces.FABAwareScrollingViewBehavior">
 
         <LinearLayout
             android:id="@+id/detail_pane"

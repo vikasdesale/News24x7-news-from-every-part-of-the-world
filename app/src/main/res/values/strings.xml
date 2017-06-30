@@ -1,8 +1,7 @@
 <resources xmlns:xliff="http://schemas.android.com/tools">
     <string name="app_name">News24x7</string>
     <string name="deviceId" translatable="false">01234567890ABCDEF</string>
-    <string name="banner_ad_unit_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="interstitial_ad_unit_id" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="banner_ad_unit_id" translatable="false">ca-app-pub-2010521511558737/2908507203</string>
     <string name="action_latest">Latest Articles</string>
     <string name="action_top">Top Articles</string>
     <string name="action_save">Favorite Articles</string>
@@ -20,8 +19,8 @@
 
 
     <!-- SyncAdapter related -->
-    <string name="sync_account_type" translatable="false">news24x7.android.com</string>
-    <string name="content_authority" translatable="false">com.android.news24x7</string>
+    <string name="sync_account_type" translatable="false">news24x7.news.com</string>
+    <string name="content_authority" translatable="false">com.news.news24x7</string>
 
     <!-- Notification Format -->
     <string name="format_notification">News: <xliff:g id="title">%1$s</xliff:g></string>
@@ -37,18 +36,18 @@
 
     <!-- Intro slides headings-->
 
-    <string name="first_screen">Welcome to WeSport</string>
-    <string name="second_screen">Select existing places or search places by address</string>
-    <string name="third_screen">Store Game information</string>
-    <string name="fourth_screen">Game details and information</string>
-    <string name="fifth_screen">Chat room</string>
+    <string name="first_screen">Welcome to News24x7</string>
+    <string name="second_screen">Type of News</string>
+    <string name="third_screen">Types of News articles</string>
+    <string name="fourth_screen">Details of News Article</string>
+    <string name="fifth_screen">Notifications and Share</string>
 
     <!-- Intro slides descriptions-->
-    <string name="scr1_desc">WeSport allows people to connect with each other to play games and stay active</string>
-    <string name="scr2_desc">Recommends play places around user\'s location</string>
-    <string name="scr3_desc">Add game details for every games and access the same from widget</string>
-    <string name="scr4_desc">View all game information and access chat room</string>
-    <string name="scr5_desc">Help coordinate and communicate with each other</string>
+    <string name="scr1_desc">News24x7 allows the user to read, listen to a news article which comes from 70+ sources.</string>
+    <string name="scr2_desc">Select the category you would like to get news articles.</string>
+    <string name="scr3_desc">Select type of Articles you want from Latest, Top, and Favorite.</string>
+    <string name="scr4_desc">Listen, read news article, Save your favorite news article for offline reading</string>
+    <string name="scr5_desc">Share Article with friends, Notifications of latest news articles</string>
 
     <string name="action_settings">Settings</string>
     <string name="action_share">Share</string>
@@ -68,7 +67,7 @@
     <string name="article_saved">Article Saved</string>
     <string name="article_deleted">Article deleted</string>
     <string name="news_app_title">News</string>
-    <string name="news_title_x">24X7</string>
+    <string name="news_title_x">24x7</string>
     <string name="read_more">Read More...</string>
     <string name="overview_text">Overview</string>
     <string name="powered_by_newsapi_org">Powered By NewsAPI.org</string>
@@ -98,9 +97,11 @@
     <string name="action_speak">read article</string>
     <string name="news_title_tag">News from Every Part of the World</string>
     <string name="nav_power">Powered by NewsAPI.org</string>
-    <string name="invitation_title">News 24X7 is great source of news</string>
-    <string name="detail_share">\n*NEWS 24X7*\nNews from more than 70 sources.\nDownload News 24X7. Review and rate the app.</string>
+    <string name="invitation_title">News24x7 is great source of news</string>
+    <string name="detail_share">\n*NEWS24x7*\nNews from more than 70 sources.\nDownload News24x7. Review and rate the app.</string>
     <string name="invitation_cta">Install!</string>
     <string name="invite_friends">Invite friends</string>
+    <string name="six_screen">Load more news articles</string>
+    <string name="scr6_desc">To Load more new articles scroll the list of articles till end</string>
 
 </resources>
