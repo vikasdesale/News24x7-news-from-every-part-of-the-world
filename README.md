@@ -1,6 +1,7 @@
 # News24x7-news-from-every-part-of-the-world
 💻 📰  Capstone Project (News24x7-news-from-every-part-of-the-world)
 
+<a href='https://play.google.com/store/apps/details?id=com.news.news24x7'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' width="200"/></a>
 
 # News 24x7 - news from every part of the world
 News 24x7 is an Android app allows user to read or listen news which comes from every part of
