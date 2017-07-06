@@ -74,7 +74,6 @@ public class DetailsFragment extends Fragment implements View.OnClickListener,Te
     FloatingActionButton fab;
     @BindView(R.id.main_content)
     CoordinatorLayout contLayout;
-    private Intent intent;
     private Unbinder unbinder;
     public static final String DETAIL_TRANSITION_ANIMATION = "DTA";
     private boolean mTransitionAnimation;
@@ -109,51 +108,37 @@ public class DetailsFragment extends Fragment implements View.OnClickListener,Te
                 .build();
         adView.loadAd(adRequest);
         myFavoriteNews.setOnClickListener(this);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ScreenDelete();
-                adView.setVisibility(View.GONE);
-                Bitmap bitmap=getScreenShot(rootView);
-                store(bitmap,"temp.png");
-                adView.setVisibility(View.VISIBLE);
+        fab.setOnClickListener(view -> {
+            ScreenDelete();
+            adView.setVisibility(View.GONE);
+            Bitmap bitmap=getScreenShot(rootView);
+            store(bitmap,"temp.png");
+            adView.setVisibility(View.VISIBLE);
 
-            }
         });
-        mArticleReadMore.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent webIntent = new Intent(Intent.ACTION_VIEW,
-                        Uri.parse(mUrl));
-                startActivity(webIntent);
-            }
+        mArticleReadMore.setOnClickListener(view -> {
+            Intent webIntent = new Intent(Intent.ACTION_VIEW,
+                    Uri.parse(mUrl));
+            startActivity(webIntent);
         });
         setData();
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().finish();
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> getActivity().finish());
         mArticleReadMore.setContentDescription(getString(R.string.cotent_desc_read_more));
         fab.setContentDescription(getString(R.string.content_desc_share_article));
-        Speech.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Speech.setImageResource(R.drawable.speak_on);
-                tts.setPitch((float) 0.6);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    mTitleText.setContentDescription(getString(R.string.content_desc_title) + mTitle);
-                    mByText.setContentDescription(getString(R.string.content_desc_author) + mAuthor);
-                    mArticleBody.setContentDescription(getString(R.string.content_desc_article) + mDescription);
-                    tts.speak(getString(R.string.content_desc_title) + "  " + mTitle + "  " +
-                            getString(R.string.content_desc_author) + "  " + mAuthor + "  " +
-                            getString(R.string.content_desc_article) + "  " + mDescription, TextToSpeech.QUEUE_FLUSH, null, null);
-                } else {
-                    tts.speak(getString(R.string.content_desc_title) + "  " + mTitle + "  " +
-                            getString(R.string.content_desc_author) + "  " + mAuthor + "  " +
-                            getString(R.string.content_desc_article) + "  " + mDescription, TextToSpeech.QUEUE_FLUSH, null);
-                }
+        Speech.setOnClickListener(view -> {
+            Speech.setImageResource(R.drawable.speak_on);
+            tts.setPitch((float) 0.6);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                mTitleText.setContentDescription(getString(R.string.content_desc_title) + mTitle);
+                mByText.setContentDescription(getString(R.string.content_desc_author) + mAuthor);
+                mArticleBody.setContentDescription(getString(R.string.content_desc_article) + mDescription);
+                tts.speak(getString(R.string.content_desc_title) + "  " + mTitle + "  " +
+                        getString(R.string.content_desc_author) + "  " + mAuthor + "  " +
+                        getString(R.string.content_desc_article) + "  " + mDescription, TextToSpeech.QUEUE_FLUSH, null, null);
+            } else {
+                tts.speak(getString(R.string.content_desc_title) + "  " + mTitle + "  " +
+                        getString(R.string.content_desc_author) + "  " + mAuthor + "  " +
+                        getString(R.string.content_desc_article) + "  " + mDescription, TextToSpeech.QUEUE_FLUSH, null);
             }
         });
         return rootView;

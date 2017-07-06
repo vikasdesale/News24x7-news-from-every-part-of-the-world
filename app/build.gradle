@@ -1,5 +1,8 @@
 apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
+
 apply from: '../config/quality/quality.gradle'
+
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
@@ -31,6 +34,13 @@ android {
         }
         buildTypes.each {
             it.buildConfigField 'String', 'NEWS_API_ORG_KEY', '"5b30cbcbaa8c4d2981e001fadce538ca"'
+        }
+        dataBinding{
+            enabled true
+        }
+        compileOptions {
+            sourceCompatibility JavaVersion.VERSION_1_8
+            targetCompatibility JavaVersion.VERSION_1_8
         }
     }
     compileOptions.incremental = false
@@ -81,6 +91,12 @@ dependencies {
 //app intro
     compile 'com.github.apl-devs:appintro:v4.2.0'
     compile 'com.google.firebase:firebase-invites:10.2.6'
+
+    //rxjava
+    compile 'io.reactivex.rxjava2:rxjava:2.0.6'
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+
+
 
 }
 apply plugin: 'com.google.gms.google-services'
