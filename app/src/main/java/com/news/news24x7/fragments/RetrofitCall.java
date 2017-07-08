@@ -1,7 +1,6 @@
 package com.news.news24x7.fragments;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.news.news24x7.BuildConfig;
 import com.news.news24x7.parcelable.Article;
@@ -13,11 +12,11 @@ import com.news.news24x7.util.NewsUtil;
 import java.util.ArrayList;
 import java.util.Map;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-import static android.content.ContentValues.TAG;
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by Dell on 6/9/2017.
@@ -34,7 +33,7 @@ public class RetrofitCall {
         callBack = call;
     }
 
-    public void fetchNews(final Context context, Map<String, String> data) {
+ /*   public void fetchNewsds(final Context context, Map<String, String> data) {
         final NewsUtil mNewsUtil = new NewsUtil();
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
@@ -61,6 +60,47 @@ public class RetrofitCall {
                 callBack.onRetrofitCall(i);
             }
         });
+    }
+*/
+    public void fetchNews2(final Context context, Map<String, String> data) {
+        final NewsUtil mNewsUtil = new NewsUtil();
+        ApiInterface apiService =
+                ApiClient.getClient2().create(ApiInterface.class);
+
+        data.put(APIKEY, BuildConfig.NEWS_API_ORG_KEY);
+       Observable<NewsResponse> news= apiService.getNews2(data);
+
+        news.subscribeOn(Schedulers.io())
+           .observeOn(AndroidSchedulers.mainThread())
+           .subscribe(new Observer<NewsResponse>(){
+
+            @Override
+            public void onSubscribe(Disposable disposable) {
+
+            }
+
+            @Override
+            public void onNext(NewsResponse newsResponse) {
+                articlesList = (ArrayList<Article>) newsResponse.getArticles();
+                mNewsUtil.insertData(context, articlesList, NO_SAVE);
+                callBack.onRetrofitCall(0);
+
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                int i = 1;
+                callBack.onRetrofitCall(i);
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
+
+
+
     }
 
     public interface RetrofitCallback {

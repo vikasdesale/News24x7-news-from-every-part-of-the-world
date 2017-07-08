@@ -5,7 +5,6 @@ package com.news.news24x7.sync;
  */
 
 import android.content.Context;
-import android.util.Log;
 
 import com.news.news24x7.BuildConfig;
 import com.news.news24x7.parcelable.Article;
@@ -20,11 +19,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
-import static android.content.ContentValues.TAG;
 import static com.news.news24x7.fragments.NewsFragment.LATEST;
 import static com.news.news24x7.fragments.NewsFragment.SORTBY;
 import static com.news.news24x7.fragments.NewsFragment.SOURCE;
@@ -41,7 +41,7 @@ public class NewsSyncTask {
         Map<String, String> data = new HashMap<>();
         data.put(SOURCE, "the-hindu");
         data.put(SORTBY, LATEST);
-        fetchData(context, data);
+        fetchNews2(context, data);
 
         boolean notificationsEnabled = NewsPreferences.areNotificationsEnabled(context);
 
@@ -50,33 +50,44 @@ public class NewsSyncTask {
         }
 
     }
-
-    public static void fetchData(final Context context, Map<String, String> data) {
+    public static void fetchNews2(final Context context, Map<String, String> data) {
+        final NewsUtil mNewsUtil = new NewsUtil();
         ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
+                ApiClient.getClient2().create(ApiInterface.class);
 
         data.put(APIKEY, BuildConfig.NEWS_API_ORG_KEY);
-        Call<NewsResponse> call = null;
-        call = apiService.getNews(data);
-        call.enqueue(new Callback<NewsResponse>() {
-            @Override
-            public void onResponse(Call<NewsResponse> call, Response<NewsResponse> response) {
-                if (response.isSuccessful()) {
-                    articlesList = (ArrayList<Article>) response.body().getArticles();
-                }
+        Observable<NewsResponse> news= apiService.getNews2(data);
 
-                mNewsUtil.insertData(context, articlesList, NO_SAVE);
+        news.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<NewsResponse>(){
 
-            }
+                    @Override
+                    public void onSubscribe(Disposable disposable) {
 
-            @Override
-            public void onFailure(Call<NewsResponse> call, Throwable t) {
-                Log.e(TAG, t.toString());
+                    }
 
-            }
-        });
+                    @Override
+                    public void onNext(NewsResponse newsResponse) {
+                        articlesList = (ArrayList<Article>) newsResponse.getArticles();
+                        mNewsUtil.insertData(context, articlesList, NO_SAVE);
+
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+
 
 
     }
+
+
 
 }
