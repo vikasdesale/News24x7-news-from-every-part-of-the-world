@@ -201,7 +201,7 @@ public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.Cl
                 data.put(SOURCE, "" + source[i++]);
                 data.put(SORTBY, TOP);
                 RetrofitCall r = new RetrofitCall();
-                r.fetchNews(getContext(), data);
+                r.fetchNews2(getContext(), data);
             }
 
         } else {
@@ -328,7 +328,7 @@ public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.Cl
                                 data.remove("source");
                                 data.put("source", source[i++]);
                                 RetrofitCall r = new RetrofitCall();
-                                r.fetchNews(getContext(), data);
+                                r.fetchNews2(getContext(), data);
                             } else {
                                 progressBar2.setVisibility(View.GONE);
                                 Snackbar snackbar = Snackbar
@@ -411,7 +411,7 @@ public class NewsFragment extends Fragment implements NewsRecyclerViewAdapter.Cl
             progressBar2.setVisibility(View.GONE);
             progressBar.setVisibility(View.VISIBLE);
             RetrofitCall r = new RetrofitCall();
-            r.fetchNews(getContext(), data);
+            r.fetchNews2(getContext(), data);
         }
 
     }
